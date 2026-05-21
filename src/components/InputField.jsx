@@ -3,9 +3,12 @@ function InputField({
   name,
   value,
   onChange,
-  type = "text"
+  type = "text",
+  error = ""
 }) {
+
   return (
+
     <div className="grupo">
 
       <label>{label}</label>
@@ -15,7 +18,14 @@ function InputField({
         name={name}
         value={value}
         onChange={onChange}
+        className={error ? "input-error" : ""}
       />
+
+      {error && (
+        <span className="error-text">
+          {error}
+        </span>
+      )}
 
     </div>
   );
