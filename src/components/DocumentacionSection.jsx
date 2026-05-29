@@ -1,41 +1,120 @@
-import CheckItem from "./CheckItem";
 import CardSection from "./CardSection";
+import StatusButton from "./StatusButton.jsx";
 
 function DocumentacionSection({
   formData,
   handleChange
 }) {
+
   return (
 
     <CardSection title="DOCUMENTACIÓN">
 
-      <CheckItem
-        label="Placas"
-        name="placas"
-        checked={formData.placas}
-        onChange={handleChange}
-      />
+      <table className="check-table">
 
-      <CheckItem
-        label="Tarjeta de circulación"
-        name="tarjetaCirculacion"
-        checked={formData.tarjetaCirculacion}
-        onChange={handleChange}
-      />
+        <thead>
 
-      <CheckItem
-        label="Coinciden con documentación"
-        name="coincidenDocumentacion"
-        checked={formData.coincidenDocumentacion}
-        onChange={handleChange}
-      />
+          <tr>
 
-      <CheckItem
-        label="Carta porte debidamente llenada"
-        name="cartaPorte"
-        checked={formData.cartaPorte}
-        onChange={handleChange}
-      />
+            <th></th>
+
+            <th>Rem 1</th>
+
+            <th>Rem 2</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+
+            <td>Placas</td>
+
+            <td>
+
+              <StatusButton
+                active={formData.placasRem1}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "placasRem1",
+                      type: "checkbox",
+                      checked:
+                        !formData.placasRem1
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <StatusButton
+                active={formData.placasRem2}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "placasRem2",
+                      type: "checkbox",
+                      checked:
+                        !formData.placasRem2
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td>Tarjeta circulación</td>
+
+            <td>
+
+              <StatusButton
+                active={formData.tarjetaRem1}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "tarjetaRem1",
+                      type: "checkbox",
+                      checked:
+                        !formData.tarjetaRem1
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <StatusButton
+                active={formData.tarjetaRem2}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "tarjetaRem2",
+                      type: "checkbox",
+                      checked:
+                        !formData.tarjetaRem2
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
 
     </CardSection>
   );

@@ -1,67 +1,170 @@
-import CheckItem from "./CheckItem";
 import CardSection from "./CardSection";
 import InputField from "./InputField";
+import StatusButton from "./StatusButton";
 
 function RemolqueSection({
   formData,
   handleChange
 }) {
+
   return (
 
     <CardSection title="REMOLQUE">
 
-      <CheckItem
-        label="Llantas en buen estado"
-        name="llantas"
-        checked={formData.llantas}
-        onChange={handleChange}
-      />
+      <table className="check-table">
 
-      <CheckItem
-        label="Profundidad mínima 3.2 mm"
-        name="profundidad"
-        checked={formData.profundidad}
-        onChange={handleChange}
-      />
+        <thead>
+
+          <tr>
+
+            <th></th>
+
+            <th>Rem 1</th>
+
+            <th>Rem 2</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+
+            <td>Llantas buen estado</td>
+
+            <td>
+
+              <StatusButton
+                active={formData.llantasRem1}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "llantasRem1",
+                      type: "checkbox",
+                      checked:
+                        !formData.llantasRem1
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <StatusButton
+                active={formData.llantasRem2}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "llantasRem2",
+                      type: "checkbox",
+                      checked:
+                        !formData.llantasRem2
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td>Profundidad mínima</td>
+
+            <td>
+
+              <StatusButton
+                active={formData.profundidadRem1}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "profundidadRem1",
+                      type: "checkbox",
+                      checked:
+                        !formData.profundidadRem1
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <StatusButton
+                active={formData.profundidadRem2}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "profundidadRem2",
+                      type: "checkbox",
+                      checked:
+                        !formData.profundidadRem2
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td>Frenos</td>
+
+            <td>
+
+              <StatusButton
+                active={formData.frenosRem1}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "frenosRem1",
+                      type: "checkbox",
+                      checked:
+                        !formData.frenosRem1
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <StatusButton
+                active={formData.frenosRem2}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "frenosRem2",
+                      type: "checkbox",
+                      checked:
+                        !formData.frenosRem2
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
 
       <InputField
-        label="Tipo de suspensión"
+        label="Tipo suspensión"
         name="suspension"
         value={formData.suspension}
         onChange={handleChange}
       />
-
-      <CheckItem
-        label="Frenos"
-        name="frenos"
-        checked={formData.frenos}
-        onChange={handleChange}
-      />
-
-      <CheckItem
-        label="Logo en tracto"
-        name="logo"
-        checked={formData.logo}
-        onChange={handleChange}
-      />
-
-      <CheckItem
-        label="¿Existe fuga de aditivo?"
-        name="fugaAditivo"
-        checked={formData.fugaAditivo}
-        onChange={handleChange}
-      />
-
-      {formData.fugaAditivo && (
-
-        <InputField
-          label="Especifique fuga"
-          name="especificacionFuga"
-          value={formData.especificacionFuga}
-          onChange={handleChange}
-        />
-
-      )}
 
     </CardSection>
   );

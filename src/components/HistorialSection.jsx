@@ -5,7 +5,8 @@ import CardSection from "./CardSection";
 function HistorialSection({
   historial,
   editarChecklist,
-  eliminarChecklist
+  eliminarChecklist,
+  verDetalle
 }) {
 
   const [busqueda, setBusqueda] = useState("");
@@ -89,6 +90,13 @@ function HistorialSection({
                 onClick={() => eliminarChecklist(index)}
               >
                 Eliminar
+              </button>
+
+              <button
+                className="btn-editar"
+                onClick={() => verDetalle(item)}
+              >
+                Ver detalle
               </button>
 
             </div>

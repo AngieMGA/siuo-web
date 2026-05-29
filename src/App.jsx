@@ -1,11 +1,8 @@
 import RegistroInicial from "./pages/RegistroInicial";
 
 function App() {
-  return (
-    <div>
-      <RegistroInicial />
-    </div>
-  );
+
+  return <RegistroInicial />;
 }
 
 export default App;
