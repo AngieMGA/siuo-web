@@ -59,6 +59,7 @@ function RegistroInicial() {
     remolqueFisico1: false,
     remolqueFisico2: false,
 
+    inspector: "",
     fecha:
       new Date().toLocaleDateString(),
 
@@ -71,6 +72,7 @@ function RegistroInicial() {
     lineaTransporte: "",
     placasTracto: "",
     telefonoOperador: "",
+    inspector:"",
     remolque1: "",
     remolque2: "",
 
@@ -350,6 +352,13 @@ function RegistroInicial() {
           </CardSection>
 
           <CardSection title="DATOS GENERALES">
+
+            <InputField
+            label="Inspector"
+            name="inspector"
+            value={formData.inspector}
+            onChange={handleChange}
+          />
 
             <InputField
               label="Nombre del operador"
