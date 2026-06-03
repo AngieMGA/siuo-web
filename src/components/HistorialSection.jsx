@@ -71,7 +71,19 @@ function HistorialSection({
             <p>
               Línea: {item.lineaTransporte}
             </p>
+            
+            <p>
+              Inspector: {item.inspector}
+            </p>
 
+            <p>
+              Status: {item.status}
+            </p>
+
+            <p>
+              Folio: {item.folio}
+            </p>
+            
             <p>
               Placas: {item.placasTracto}
             </p>

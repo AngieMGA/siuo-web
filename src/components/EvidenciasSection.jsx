@@ -25,6 +25,7 @@ function EvidenciasSection() {
         <input
           type="file"
           accept="image/*"
+          capture="environment"
           onChange={handleImagen}
         />
 
