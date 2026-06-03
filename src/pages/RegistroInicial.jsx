@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-
 import "../styles/RegistroInicial.css";
-
+import logo from "../assets/logoIeqsa.png";
 import InputField from "../components/InputField";
 import CardSection from "../components/CardSection";
 
@@ -14,6 +13,8 @@ import DashboardSection from "../components/DashboardSection";
 import TruckInspection from "../components/TruckInspection";
 import TireInspection from "../components/TireInspection";
 import ModalDetalle from "../components/ModalDetalle";
+import SupervisorSection from "../components/SupervisorSection";
+
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -59,7 +60,6 @@ function RegistroInicial() {
     remolqueFisico1: false,
     remolqueFisico2: false,
 
-    inspector: "",
     fecha:
       new Date().toLocaleDateString(),
 
@@ -73,6 +73,7 @@ function RegistroInicial() {
     placasTracto: "",
     telefonoOperador: "",
     inspector:"",
+    folio: "",
     remolque1: "",
     remolque2: "",
 
@@ -151,7 +152,7 @@ function RegistroInicial() {
 
     doc.setFontSize(20);
 
-    doc.text("SIUO CHECKLIST", 20, 20);
+    doc.text("Checklist de Verificación de Unidad", 20, 20);
 
     doc.setFontSize(12);
 
@@ -209,7 +210,7 @@ function RegistroInicial() {
       120
     );
 
-    doc.save("SIUO_Checklist.pdf");
+    doc.save("Checklist_de_verificación_de_unidad.pdf");
 
     toast.success("PDF generado");
   };
@@ -269,9 +270,13 @@ function RegistroInicial() {
       );
 
       setHistorial([
-        formData,
-        ...historial
-      ]);
+  {
+    ...formData,
+    fechaCaptura:
+      new Date().toLocaleString()
+  },
+  ...historial
+]);
 
       setFormData(formularioInicial);
 
@@ -295,9 +300,46 @@ function RegistroInicial() {
 
       <ToastContainer />
 
-      <h1 className="titulo">
-        SIUO CHECKLIST
-      </h1>
+      <div className="header-app">
+
+  <img
+    src={logo}
+    alt="Logo IECSA"
+    className="logo-iecsa"
+  />
+
+  <div className="titulo-container">
+
+    <h1 className="titulo">
+
+      <span className="titulo-principal">
+        REVISION DE TRANSPORTE
+      </span>
+
+      <br />
+
+      <span className="titulo-secundario">
+        Check List de Verificación de Unidad
+      </span>
+
+    </h1>
+
+  </div>
+
+  <div className="folio-box">
+
+    <label>FOLIO</label>
+
+    <input
+      type="text"
+      name="folio"
+      value={formData.folio}
+      onChange={handleChange}
+    />
+
+  </div>
+
+</div>
 
       <div className="layout-operativo">
 
@@ -353,6 +395,12 @@ function RegistroInicial() {
 
           <CardSection title="DATOS GENERALES">
 
+            <InputField
+            label="Folio"
+            name="folio"
+            value={formData.folio}
+            onChange={handleChange}
+          />
             <InputField
             label="Inspector"
             name="inspector"
@@ -460,6 +508,11 @@ function RegistroInicial() {
             eliminarChecklist={eliminarChecklist}
             verDetalle={verDetalle}
           />
+
+          <SupervisorSection
+          historial={historial}
+          verDetalle={verDetalle}
+        />
 
         </div>
 
