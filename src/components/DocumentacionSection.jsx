@@ -111,6 +111,89 @@ function DocumentacionSection({
             </td>
 
           </tr>
+          <tr>
+
+  <td>Coinciden con documentación</td>
+
+  <td>
+
+    <StatusButton
+      active={formData.coincidenDocumentacion}
+      onClick={() =>
+        handleChange({
+          target: {
+            name: "coincidenDocumentacion",
+            type: "checkbox",
+            checked:
+              !formData.coincidenDocumentacion
+          }
+        })
+      }
+    />
+
+  </td>
+
+  <td>
+
+    <StatusButton
+      active={formData.coincidenDocumentacion}
+      onClick={() =>
+        handleChange({
+          target: {
+            name: "coincidenDocumentacion",
+            type: "checkbox",
+            checked:
+              !formData.coincidenDocumentacion
+          }
+        })
+      }
+    />
+
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>Carta Porte debidamente llenada</td>
+
+  <td>
+
+    <StatusButton
+      active={formData.cartaPorte}
+      onClick={() =>
+        handleChange({
+          target: {
+            name: "cartaPorte",
+            type: "checkbox",
+            checked:
+              !formData.cartaPorte
+          }
+        })
+      }
+    />
+
+  </td>
+
+  <td>
+
+    <StatusButton
+      active={formData.cartaPorte}
+      onClick={() =>
+        handleChange({
+          target: {
+            name: "cartaPorte",
+            type: "checkbox",
+            checked:
+              !formData.cartaPorte
+          }
+        })
+      }
+    />
+
+  </td>
+
+</tr>
 
         </tbody>
 

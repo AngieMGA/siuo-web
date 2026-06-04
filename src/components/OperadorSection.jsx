@@ -154,6 +154,48 @@ function OperadorSection({
 
           </tr>
 
+          <tr>
+
+            <td>Presentación del Operador</td>
+
+            <td>
+
+              <StatusButton
+                active={formData.presentacion}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "presentacion",
+                      type: "checkbox",
+                      checked:
+                        !formData.presentacion
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+            <td>
+
+              <StatusButton
+                active={formData.presentacion}
+                onClick={() =>
+                  handleChange({
+                    target: {
+                      name: "presentacion",
+                      type: "checkbox",
+                      checked:
+                        !formData.presentacion
+                    }
+                  })
+                }
+              />
+
+            </td>
+
+          </tr>
+
         </tbody>
 
       </table>

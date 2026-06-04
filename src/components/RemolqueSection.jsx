@@ -155,6 +155,49 @@ function RemolqueSection({
 
           </tr>
 
+          <tr>
+
+  <td>Logo Tractor</td>
+
+  <td>
+
+    <StatusButton
+      active={formData.logoTractor1}
+      onClick={() =>
+        handleChange({
+          target: {
+            name: "logoTractor",
+            type: "checkbox",
+            checked:
+              !formData.logoTractor
+          }
+        })
+      }
+    />
+
+  </td>
+
+  <td>
+
+    <StatusButton
+      active={formData.logoTractor2}
+      onClick={() =>
+        handleChange({
+          target: {
+            name: "logoTractor",
+            type: "checkbox",
+            checked:
+              !formData.logoTractor
+          }
+        })
+      }
+    />
+
+  </td>
+
+
+</tr>
+
         </tbody>
 
       </table>

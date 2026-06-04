@@ -1396,7 +1396,7 @@ input[type="checkbox"] {
 }
 
 .folio-box input {
-  width: 100%;
+  width: 180%;
   padding: 10px;
   text-align: center;
   font-weight: bold;

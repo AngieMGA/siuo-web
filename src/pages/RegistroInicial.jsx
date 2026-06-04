@@ -69,10 +69,10 @@ function RegistroInicial() {
     status: "Pendiente",
 
     nombreOperador: "",
+    telefonoOperador: "",
     lineaTransporte: "",
     placasTracto: "",
-    telefonoOperador: "",
-    inspector:"",
+    nombreInspector: "",
     folio: "",
     remolque1: "",
     remolque2: "",
@@ -91,15 +91,39 @@ function RegistroInicial() {
     profundidad: false,
     suspension: "",
     frenos: false,
-    logo: false,
+    logoRem1: false,
+    logoRem2: false,
 
     fugaAditivo: false,
     especificacionFuga: ""
 
   };
 
+  const generarFolio = () => {
+
+  const hoy = new Date();
+
+  const fecha =
+    hoy.getFullYear().toString() +
+    String(hoy.getMonth() + 1).padStart(2, "0") +
+    String(hoy.getDate()).padStart(2, "0");
+
+  const ultimoConsecutivo =
+    Number(localStorage.getItem(`folio-${fecha}`) || 0) + 1;
+
+  localStorage.setItem(
+    `folio-${fecha}`,
+    ultimoConsecutivo
+  );
+
+  return `IEQSA-RT-${fecha}-${String(ultimoConsecutivo).padStart(3, "0")}`;
+};
+
   const [formData, setFormData] =
-    useState(formularioInicial);
+  useState({
+    ...formularioInicial,
+    folio: generarFolio()
+  });
 
   const handleChange = (e) => {
 
@@ -304,8 +328,8 @@ function RegistroInicial() {
 
   <img
     src={logo}
-    alt="Logo IECSA"
-    className="logo-iecsa"
+    alt="Logo IEQSA"
+    className="logo-ieqsa"
   />
 
   <div className="titulo-container">

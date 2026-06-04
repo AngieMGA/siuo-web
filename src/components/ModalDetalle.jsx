@@ -12,46 +12,26 @@ function ModalDetalle({
       <div className="modal-content">
 
         <h2>
-          Detalle Checklist
-        </h2>
+  Detalle Checklist
+</h2>
 
-        <p>
-          <strong>Folio:</strong>{" "}
-          {checklist.folio}
-        </p>
+<p>
+  <strong>Folio:</strong>
+  {" "}
+  {checklist.folio}
+</p>
 
-        <p>
-          <strong>Inspector:</strong>{" "}
-          {checklist.inspector}
-        </p>
+<p>
+  <strong>Operador:</strong>
+  {" "}
+  {checklist.nombreOperador}
+</p>
 
-        <p>
-          <strong>Fecha:</strong>{" "}
-          {checklist.fecha}
-        </p>
-
-        <p>
-          <strong>Hora:</strong>{" "}
-          {checklist.hora}
-        </p>
-
-        <p>
-          <strong>Status:</strong>{" "}
-          {checklist.status}
-        </p>
-
-        <hr />
-
-        <p>
-          <strong>Operador:</strong>{" "}
-          {checklist.nombreOperador}
-        </p>
-
-        <p>
-          <strong>Línea:</strong>{" "}
-          {checklist.lineaTransporte}
-        </p>
-
+<p>
+  <strong>Línea:</strong>
+  {" "}
+  {checklist.lineaTransporte}
+</p>
         <p>
           <strong>Placas:</strong>{" "}
           {checklist.placasTracto}
