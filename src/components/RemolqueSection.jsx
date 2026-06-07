@@ -1,11 +1,16 @@
 import CardSection from "./CardSection";
 import InputField from "./InputField";
 import StatusButton from "./StatusButton";
+import { checklistTransporte } from "../data/checklistTransporte";
 
 function RemolqueSection({
   formData,
   handleChange
 }) {
+const preguntasRemolque =
+  checklistTransporte.secciones.find(
+    (s) => s.id === "REM"
+  ).preguntas;
 
   return (
 
@@ -29,176 +34,55 @@ function RemolqueSection({
 
         <tbody>
 
-          <tr>
+  {preguntasRemolque.map((pregunta) => (
 
-            <td>Llantas buen estado</td>
+    <tr key={pregunta.id}>
 
-            <td>
+      <td>
+        <strong>{pregunta.texto}</strong>
+      </td>
 
-              <StatusButton
-                active={formData.llantasRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "llantasRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.llantasRem1
-                    }
-                  })
-                }
-              />
+      <td>
 
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.llantasRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "llantasRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.llantasRem2
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td>Profundidad mínima</td>
-
-            <td>
-
-              <StatusButton
-                active={formData.profundidadRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "profundidadRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.profundidadRem1
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.profundidadRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "profundidadRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.profundidadRem2
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td>Frenos</td>
-
-            <td>
-
-              <StatusButton
-                active={formData.frenosRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "frenosRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.frenosRem1
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.frenosRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "frenosRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.frenosRem2
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-          <tr>
-
-  <td>Logo Tractor</td>
-
-  <td>
-
-    <StatusButton
-      active={formData.logoTractor1}
-      onClick={() =>
-        handleChange({
-          target: {
-            name: "logoTractor",
-            type: "checkbox",
-            checked:
-              !formData.logoTractor
+        <StatusButton
+          active={formData[`${pregunta.id}-REM1`] || false}
+          onClick={() =>
+            handleChange({
+              target: {
+                name: `${pregunta.id}-REM1`,
+                type: "checkbox",
+                checked:
+                  !formData[`${pregunta.id}-REM1`]
+              }
+            })
           }
-        })
-      }
-    />
+        />
 
-  </td>
+      </td>
 
-  <td>
+      <td>
 
-    <StatusButton
-      active={formData.logoTractor2}
-      onClick={() =>
-        handleChange({
-          target: {
-            name: "logoTractor",
-            type: "checkbox",
-            checked:
-              !formData.logoTractor
+        <StatusButton
+          active={formData[`${pregunta.id}-REM2`] || false}
+          onClick={() =>
+            handleChange({
+              target: {
+                name: `${pregunta.id}-REM2`,
+                type: "checkbox",
+                checked:
+                  !formData[`${pregunta.id}-REM2`]
+              }
+            })
           }
-        })
-      }
-    />
+        />
 
-  </td>
+      </td>
 
+    </tr>
 
-</tr>
+  ))}
 
-        </tbody>
+</tbody>
 
       </table>
 

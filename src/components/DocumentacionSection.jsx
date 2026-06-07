@@ -1,10 +1,16 @@
 import CardSection from "./CardSection";
 import StatusButton from "./StatusButton.jsx";
+import { checklistTransporte } from "../data/checklistTransporte";
 
 function DocumentacionSection({
   formData,
   handleChange
 }) {
+
+  const preguntasDocumentacion =
+  checklistTransporte.secciones.find(
+    (s) => s.id === "DOC"
+  ).preguntas;
 
   return (
 
@@ -28,104 +34,25 @@ function DocumentacionSection({
 
         <tbody>
 
-          <tr>
+  {preguntasDocumentacion.map((pregunta) => (
 
-            <td>Placas</td>
+    <tr key={pregunta.id}>
 
-            <td>
-
-              <StatusButton
-                active={formData.placasRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "placasRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.placasRem1
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.placasRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "placasRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.placasRem2
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td>Tarjeta circulación</td>
-
-            <td>
-
-              <StatusButton
-                active={formData.tarjetaRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "tarjetaRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.tarjetaRem1
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.tarjetaRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "tarjetaRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.tarjetaRem2
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-          <tr>
-
-  <td>Coinciden con documentación</td>
+  <td>
+    <strong>{pregunta.texto}</strong>
+  </td>
 
   <td>
 
     <StatusButton
-      active={formData.coincidenDocumentacion}
+      active={formData[`${pregunta.id}-REM1`] || false}
       onClick={() =>
         handleChange({
           target: {
-            name: "coincidenDocumentacion",
+            name: `${pregunta.id}-REM1`,
             type: "checkbox",
             checked:
-              !formData.coincidenDocumentacion
+              !formData[`${pregunta.id}-REM1`]
           }
         })
       }
@@ -136,14 +63,14 @@ function DocumentacionSection({
   <td>
 
     <StatusButton
-      active={formData.coincidenDocumentacion}
+      active={formData[`${pregunta.id}-REM2`] || false}
       onClick={() =>
         handleChange({
           target: {
-            name: "coincidenDocumentacion",
+            name: `${pregunta.id}-REM2`,
             type: "checkbox",
             checked:
-              !formData.coincidenDocumentacion
+              !formData[`${pregunta.id}-REM2`]
           }
         })
       }
@@ -153,49 +80,9 @@ function DocumentacionSection({
 
 </tr>
 
-<tr>
+  ))}
 
-  <td>Carta Porte debidamente llenada</td>
-
-  <td>
-
-    <StatusButton
-      active={formData.cartaPorte}
-      onClick={() =>
-        handleChange({
-          target: {
-            name: "cartaPorte",
-            type: "checkbox",
-            checked:
-              !formData.cartaPorte
-          }
-        })
-      }
-    />
-
-  </td>
-
-  <td>
-
-    <StatusButton
-      active={formData.cartaPorte}
-      onClick={() =>
-        handleChange({
-          target: {
-            name: "cartaPorte",
-            type: "checkbox",
-            checked:
-              !formData.cartaPorte
-          }
-        })
-      }
-    />
-
-  </td>
-
-</tr>
-
-        </tbody>
+</tbody>
 
       </table>
 

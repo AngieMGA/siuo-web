@@ -20,6 +20,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import jsPDF from "jspdf";
+import { checklistTransporte } from "../data/checklistTransporte";
 
 function RegistroInicial() {
 
@@ -49,8 +50,18 @@ function RegistroInicial() {
 
   }, [historial]);
 
+  const respuestasIniciales = {};
+
+  checklistTransporte.secciones.forEach((seccion) => {
+    seccion.preguntas.forEach((pregunta) => {
+    respuestasIniciales[pregunta.id] = false;
+  });
+});
+
   const formularioInicial = {
     
+    ...respuestasIniciales,
+
     documentacionRem1: false,
     documentacionRem2: false,
 

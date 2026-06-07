@@ -1,10 +1,16 @@
 import CardSection from "./CardSection";
 import StatusButton from "./StatusButton";
+import { checklistTransporte } from "../data/checklistTransporte";
 
 function OperadorSection({
   formData,
   handleChange
 }) {
+
+  const preguntasOperador =
+  checklistTransporte.secciones.find(
+    (s) => s.id === "OPE"
+  ).preguntas;
 
   return (
 
@@ -28,175 +34,55 @@ function OperadorSection({
 
         <tbody>
 
-          <tr>
+  {preguntasOperador.map((pregunta) => (
 
-            <td>Alta IMSS</td>
+    <tr key={pregunta.id}>
 
-            <td>
+      <td>
+        <strong>{pregunta.texto}</strong>
+      </td>
 
-              <StatusButton
-                active={formData.imssRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "imssRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.imssRem1
-                    }
-                  })
-                }
-              />
+      <td>
 
-            </td>
+        <StatusButton
+          active={formData[`${pregunta.id}-REM1`] || false}
+          onClick={() =>
+            handleChange({
+              target: {
+                name: `${pregunta.id}-REM1`,
+                type: "checkbox",
+                checked:
+                  !formData[`${pregunta.id}-REM1`]
+              }
+            })
+          }
+        />
 
-            <td>
+      </td>
 
-              <StatusButton
-                active={formData.imssRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "imssRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.imssRem2
-                    }
-                  })
-                }
-              />
+      <td>
 
-            </td>
+        <StatusButton
+          active={formData[`${pregunta.id}-REM2`] || false}
+          onClick={() =>
+            handleChange({
+              target: {
+                name: `${pregunta.id}-REM2`,
+                type: "checkbox",
+                checked:
+                  !formData[`${pregunta.id}-REM2`]
+              }
+            })
+          }
+        />
 
-          </tr>
+      </td>
 
-          <tr>
+    </tr>
 
-            <td>Identificación</td>
+  ))}
 
-            <td>
-
-              <StatusButton
-                active={formData.identificacionRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "identificacionRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.identificacionRem1
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.identificacionRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "identificacionRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.identificacionRem2
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td>Uniforme</td>
-
-            <td>
-
-              <StatusButton
-                active={formData.uniformeRem1}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "uniformeRem1",
-                      type: "checkbox",
-                      checked:
-                        !formData.uniformeRem1
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.uniformeRem2}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "uniformeRem2",
-                      type: "checkbox",
-                      checked:
-                        !formData.uniformeRem2
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td>Presentación del Operador</td>
-
-            <td>
-
-              <StatusButton
-                active={formData.presentacion}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "presentacion",
-                      type: "checkbox",
-                      checked:
-                        !formData.presentacion
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-            <td>
-
-              <StatusButton
-                active={formData.presentacion}
-                onClick={() =>
-                  handleChange({
-                    target: {
-                      name: "presentacion",
-                      type: "checkbox",
-                      checked:
-                        !formData.presentacion
-                    }
-                  })
-                }
-              />
-
-            </td>
-
-          </tr>
-
-        </tbody>
+</tbody>
 
       </table>
 
