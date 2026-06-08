@@ -1401,3 +1401,31 @@ input[type="checkbox"] {
   text-align: center;
   font-weight: bold;
 }
+
+.sgf-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.sgf-table th {
+  background: #f4f4f4;
+  padding: 12px;
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+}
+
+.sgf-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.sgf-table .pregunta {
+  width: 70%;
+  text-align: left;
+}
+
+.sgf-table .radio-cell {
+  width: 15%;
+  text-align: center;
+}

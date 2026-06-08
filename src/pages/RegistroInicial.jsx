@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
+import { catalogoChecklists } from "../data/catalogoChecklists";
 import "../styles/RegistroInicial.css";
 import logo from "../assets/logoIeqsa.png";
-import InputField from "../components/InputField";
-import CardSection from "../components/CardSection";
 
 import DocumentacionSection from "../components/DocumentacionSection";
 import OperadorSection from "../components/OperadorSection";
@@ -14,6 +13,10 @@ import TruckInspection from "../components/TruckInspection";
 import TireInspection from "../components/TireInspection";
 import ModalDetalle from "../components/ModalDetalle";
 import SupervisorSection from "../components/SupervisorSection";
+import InputField from "../components/InputField";
+import CardSection from "../components/CardSection";
+import SGF2401Section from "../components/SGF2401Section";
+
 
 
 import { ToastContainer, toast } from "react-toastify";
@@ -27,6 +30,11 @@ function RegistroInicial() {
   const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState({});
+
+  const [checklistSeleccionado, setChecklistSeleccionado] =
+    useState("CHK-TRANSPORTE");
+
+  console.log("Checklist:", checklistSeleccionado);
 
   const [historial, setHistorial] = useState(() => {
 
@@ -430,6 +438,33 @@ function RegistroInicial() {
 
           <CardSection title="DATOS GENERALES">
 
+          <div className="input-group">
+
+            <label>Tipo de Checklist</label>
+
+            <select
+              value={checklistSeleccionado}
+              onChange={(e) => {
+                console.log("Seleccionado:", e.target.value);
+                setChecklistSeleccionado(e.target.value);
+              }}
+            >
+
+    {catalogoChecklists.map((checklist) => (
+
+      <option
+        key={checklist.id}
+        value={checklist.id}
+      >
+        {checklist.nombre}
+      </option>
+
+    ))}
+
+  </select>
+
+</div>
+
             <InputField
             label="Folio"
             name="folio"
@@ -490,6 +525,8 @@ function RegistroInicial() {
 
           </CardSection>
 
+          {checklistSeleccionado === "CHK-TRANSPORTE" && (
+            <>
           <DocumentacionSection
             formData={formData}
             handleChange={handleChange}
@@ -504,6 +541,15 @@ function RegistroInicial() {
             formData={formData}
             handleChange={handleChange}
           />
+  </>
+)}
+
+          {checklistSeleccionado === "SG-F-24-01" && (
+            <SGF2401Section
+            formData={formData}
+            handleChange={handleChange}
+          />
+          )}
 
           <EvidenciasSection />
 
