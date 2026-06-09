@@ -91,7 +91,51 @@ export const checklistTransporte = {
         }
 
       ]
+    },
+
+    {
+  id: "EST",
+  nombre: "Estado del Remolque",
+
+  preguntas: [
+
+    {
+      id: "EST-001",
+      texto: "Piso"
+    },
+
+    {
+      id: "EST-002",
+      texto: "Techo"
+    },
+
+    {
+      id: "EST-003",
+      texto: "Paredes"
+    },
+
+    {
+      id: "EST-004",
+      texto: "Olor en caja"
+    },
+
+    {
+      id: "EST-005",
+      texto: "Limpieza"
+    },
+
+    {
+      id: "EST-006",
+      texto: "Plagas"
+    },
+
+    {
+      id: "EST-007",
+      texto: "Devuelve producto terminado o tarimas"
     }
+
+  ]
+}
 
   ]
 };

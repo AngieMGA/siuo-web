@@ -3,9 +3,13 @@ import { catalogoChecklists } from "../data/catalogoChecklists";
 import "../styles/RegistroInicial.css";
 import logo from "../assets/logoIeqsa.png";
 
+import DatosGeneralesTransporte from "../components/DatosGeneralesTransporte";
+import DatosGeneralesSGF2401 from "../components/DatosGeneralesSGF2401";
 import DocumentacionSection from "../components/DocumentacionSection";
 import OperadorSection from "../components/OperadorSection";
 import RemolqueSection from "../components/RemolqueSection";
+import EstadoRemolqueSection from "../components/EstadoRemolqueSection";
+import EnrampadoSection from "../components/EnrampadoSection";
 import EvidenciasSection from "../components/EvidenciasSection";
 import HistorialSection from "../components/HistorialSection";
 import DashboardSection from "../components/DashboardSection";
@@ -16,7 +20,6 @@ import SupervisorSection from "../components/SupervisorSection";
 import InputField from "../components/InputField";
 import CardSection from "../components/CardSection";
 import SGF2401Section from "../components/SGF2401Section";
-
 
 
 import { ToastContainer, toast } from "react-toastify";
@@ -67,6 +70,8 @@ function RegistroInicial() {
 });
 
   const formularioInicial = {
+
+    tipoChecklist: "CHK-TRANSPORTE",
     
     ...respuestasIniciales,
 
@@ -114,7 +119,25 @@ function RegistroInicial() {
     logoRem2: false,
 
     fugaAditivo: false,
-    especificacionFuga: ""
+    especificacionFuga: "",
+
+    // SG-F-24-01
+
+    proveedor: "",
+    material: "",
+    operador: "",
+    lote: "",
+    turno: "",
+
+    diseno: "",
+    tripulacion: "",
+
+    placasNumero: "",
+
+    alergeno: "",
+
+    ordenCompra: "",
+    facturaRemision: ""
 
   };
 
@@ -436,94 +459,50 @@ function RegistroInicial() {
 
           </CardSection>
 
-          <CardSection title="DATOS GENERALES">
+          <CardSection title="Tipos de checklist">
 
-          <div className="input-group">
+  <div className="input-group">
 
-            <label>Tipo de Checklist</label>
+    <label>Selecciona el check list correspondiente</label>
 
-            <select
-              value={checklistSeleccionado}
-              onChange={(e) => {
-                console.log("Seleccionado:", e.target.value);
-                setChecklistSeleccionado(e.target.value);
-              }}
-            >
+    <select
+      value={checklistSeleccionado}
+      onChange={(e) => {
 
-    {catalogoChecklists.map((checklist) => (
+        setChecklistSeleccionado(e.target.value);
 
-      <option
-        key={checklist.id}
-        value={checklist.id}
-      >
-        {checklist.nombre}
-      </option>
+        setFormData({
+          ...formData,
+          tipoChecklist: e.target.value
+        });
 
-    ))}
+      }}
+    >
 
-  </select>
+      {catalogoChecklists.map((checklist) => (
 
-</div>
+        <option
+          key={checklist.id}
+          value={checklist.id}
+        >
+          {checklist.nombre}
+        </option>
 
-            <InputField
-            label="Folio"
-            name="folio"
-            value={formData.folio}
-            onChange={handleChange}
-          />
-            <InputField
-            label="Inspector"
-            name="inspector"
-            value={formData.inspector}
-            onChange={handleChange}
-          />
+      ))}
 
-            <InputField
-              label="Nombre del operador"
-              name="nombreOperador"
-              value={formData.nombreOperador}
-              onChange={handleChange}
-              error={errors.nombreOperador}
+    </select>
+
+  </div>
+
+</CardSection>
+
+          {checklistSeleccionado === "CHK-TRANSPORTE" && (
+            <DatosGeneralesTransporte
+              formData={formData}
+              handleChange={handleChange}
+              errors={errors}
             />
-
-            <InputField
-              label="Línea de transporte"
-              name="lineaTransporte"
-              value={formData.lineaTransporte}
-              onChange={handleChange}
-              error={errors.lineaTransporte}
-            />
-
-            <InputField
-              label="Placas del tracto"
-              name="placasTracto"
-              value={formData.placasTracto}
-              onChange={handleChange}
-              error={errors.placasTracto}
-            />
-
-            <InputField
-              label="Teléfono del operador"
-              name="telefonoOperador"
-              value={formData.telefonoOperador}
-              onChange={handleChange}
-            />
-
-            <InputField
-              label="Remolque 1"
-              name="remolque1"
-              value={formData.remolque1}
-              onChange={handleChange}
-            />
-
-            <InputField
-              label="Remolque 2"
-              name="remolque2"
-              value={formData.remolque2}
-              onChange={handleChange}
-            />
-
-          </CardSection>
+)}
 
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
             <>
@@ -538,6 +517,16 @@ function RegistroInicial() {
           />
 
           <RemolqueSection
+            formData={formData}
+            handleChange={handleChange}
+          />
+
+          <EnrampadoSection
+            formData={formData}
+            handleChange={handleChange}
+          />
+
+          <EstadoRemolqueSection
             formData={formData}
             handleChange={handleChange}
           />
@@ -574,28 +563,32 @@ function RegistroInicial() {
 
         <div className="main-operativo">
 
-          <TireInspection
-            remolque1={formData.remolque1}
-            remolque2={formData.remolque2}
-          />
+  {checklistSeleccionado === "CHK-TRANSPORTE" && (
+    <>
+      <TireInspection
+        remolque1={formData.remolque1}
+        remolque2={formData.remolque2}
+      />
 
-          <DashboardSection
-            historial={historial}
-          />
+      <DashboardSection
+        historial={historial}
+      />
 
-          <HistorialSection
-            historial={historial}
-            editarChecklist={editarChecklist}
-            eliminarChecklist={eliminarChecklist}
-            verDetalle={verDetalle}
-          />
+      <HistorialSection
+        historial={historial}
+        editarChecklist={editarChecklist}
+        eliminarChecklist={eliminarChecklist}
+        verDetalle={verDetalle}
+      />
 
-          <SupervisorSection
-          historial={historial}
-          verDetalle={verDetalle}
-        />
+      <SupervisorSection
+        historial={historial}
+        verDetalle={verDetalle}
+      />
+    </>
+  )}
 
-        </div>
+</div>
 
       </div>
 

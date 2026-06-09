@@ -59,7 +59,7 @@ export const checklistSGF2401 = {
 
         {
           id: "TR-010",
-          texto: "Inspeccionar "
+          texto: "Inspeccionar contenedores de ingredientes asegurando que no haya daño que impacte en ingredientes "
         },
 
         {
