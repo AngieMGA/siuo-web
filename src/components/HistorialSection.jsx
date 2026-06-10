@@ -44,7 +44,7 @@ function HistorialSection({
 
         <input
           type="text"
-          placeholder="Buscar operador, línea o placas..."
+          placeholder="Buscar operador, placas o folio..."
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
         />

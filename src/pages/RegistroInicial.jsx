@@ -379,7 +379,7 @@ function RegistroInicial() {
     <h1 className="titulo">
 
       <span className="titulo-principal">
-        REVISION DE TRANSPORTE
+        AUDITORIA DE TRANSPORTE
       </span>
 
       <br />
@@ -534,11 +534,18 @@ function RegistroInicial() {
 )}
 
           {checklistSeleccionado === "SG-F-24-01" && (
-            <SGF2401Section
-            formData={formData}
-            handleChange={handleChange}
-          />
-          )}
+  <>
+              <DatosGeneralesSGF2401
+                formData={formData}
+                handleChange={handleChange}
+              />
+
+              <SGF2401Section
+                formData={formData}
+                handleChange={handleChange}
+              />
+  </>
+)}
 
           <EvidenciasSection />
 

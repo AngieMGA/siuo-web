@@ -1429,3 +1429,20 @@ input[type="checkbox"] {
   width: 15%;
   text-align: center;
 }
+
+.grid-sgf2401 {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 15px;
+
+}
+
+.grid-sgf2401 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
