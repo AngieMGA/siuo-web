@@ -20,7 +20,13 @@ import SupervisorSection from "../components/SupervisorSection";
 import InputField from "../components/InputField";
 import CardSection from "../components/CardSection";
 import SGF2401Section from "../components/SGF2401Section";
+import DatosPesajeSection from "../components/DatosPesajeSection";
+import MermaAzucarSection from "../components/MermaAzucarSection";
+import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
+import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 
+import RecepcionVerificacionSection
+from "../components/RecepcionVerificacionSection";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -137,7 +143,51 @@ function RegistroInicial() {
     alergeno: "",
 
     ordenCompra: "",
-    facturaRemision: ""
+    facturaRemision: "",
+
+    pesoInicial: "",
+    pesoFinal: "",
+    tara: "",
+
+    numeroCodigo: "",
+
+    tq1Inicial: "",
+    tq1Final: "",
+    psiTq1Inicial: "",
+    psiTq1Final: "",
+
+    tq2Inicial: "",
+    tq2Final: "",
+    psiTq2Inicial: "",
+    psiTq2Final: "",
+    observacionesSGF2401: "",
+    saco1: "",
+    saco2: "",
+    saco3: "",
+    saco4: "",
+    saco5: "",
+    saco6: "",
+    saco7: "",
+    saco8: "",
+
+    totalKg: "",
+    promedioKg: "",
+    diferenciaKg: "",
+    mermaKg: "",
+
+    supersaco1: "",
+    supersaco2: "",
+    supersaco3: "",
+    supersaco4: "",
+    supersaco5: "",
+    supersaco6: "",
+    supersaco7: "",
+    supersaco8: "",
+    supersaco9: "",
+
+    nombreRecibe: "",
+    nombreSupervisor: "",
+
 
   };
 
@@ -530,20 +580,69 @@ function RegistroInicial() {
             formData={formData}
             handleChange={handleChange}
           />
-  </>
+        </>
 )}
 
           {checklistSeleccionado === "SG-F-24-01" && (
   <>
-              <DatosGeneralesSGF2401
-                formData={formData}
-                handleChange={handleChange}
-              />
+    <DatosGeneralesSGF2401
+      formData={formData}
+      handleChange={handleChange}
+    />
 
-              <SGF2401Section
-                formData={formData}
-                handleChange={handleChange}
-              />
+    {formData["MAT-007"] === "cumple" && (
+
+    <DatosPesajeSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+)}
+
+    <SGF2401Section
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <SGF2401Section
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <RecepcionVerificacionSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <MermaAzucarSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <EstadoSupersacoSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <ObservacionesSGF2401
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <MermaAzucarSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <EstadoSupersacoSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <ObservacionesSGF2401
+      formData={formData}
+      handleChange={handleChange}
+    />
   </>
 )}
 
