@@ -21,57 +21,62 @@ function SGF2401Section({
 
           <table className="sgf-table">
 
-  <thead>
+            <thead>
 
-    <tr>
-      <th>Pregunta</th>
-      <th>Cumple</th>
-      <th>No Cumple</th>
-    </tr>
+              <tr>
+                <th>Pregunta</th>
+                <th>Cumple</th>
+                <th>No Cumple</th>
+              </tr>
 
-  </thead>
+            </thead>
 
-  <tbody>
+            <tbody>
 
-    {seccion.preguntas.map((pregunta) => (
+              {seccion.preguntas.map((pregunta) => (
 
-      <tr key={pregunta.id}>
+                <tr key={pregunta.id}>
 
-        <td className="pregunta">
-          {pregunta.texto}
-        </td>
+                  <td className="pregunta">
+                    {pregunta.texto}
+                  </td>
 
-        <td className="radio-cell">
-          <input
-            type="radio"
-            name={pregunta.id}
-            value="cumple"
-            checked={
-                formData[pregunta.id] === "cumple"
-            }
-            onChange={handleChange}
-            />
-        </td>
+                  <td className="radio-cell">
 
-        <td className="radio-cell">
-          <input
-            type="radio"
-            name={pregunta.id}
-            value="noCumple"
-            checked={
-                formData[pregunta.id] === "noCumple"
-            }
-            onChange={handleChange}
-        />
-        </td>
+                    <input
+                      type="radio"
+                      name={pregunta.id}
+                      value="cumple"
+                      checked={
+                        formData[pregunta.id] === "cumple"
+                      }
+                      onChange={handleChange}
+                    />
 
-      </tr>
+                  </td>
 
-    ))}
+                  <td className="radio-cell">
 
-  </tbody>
+                    <input
+                      type="radio"
+                      name={pregunta.id}
+                      value="noCumple"
+                      checked={
+                        formData[pregunta.id] === "noCumple"
+                      }
+                      onChange={handleChange}
+                    />
 
-</table>
+                  </td>
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
         </div>
 
       ))}

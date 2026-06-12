@@ -6,10 +6,11 @@ function DatosPesajeSection({
   handleChange
 }) {
 
+  console.log("Render DatosPesajeSection");
   return (
 
     <CardSection title="DATOS DE PESAJE Y TANQUES">
-
+      
       <div className="grid-sgf2401">
 
         <InputField

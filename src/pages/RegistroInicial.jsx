@@ -25,6 +25,7 @@ import MermaAzucarSection from "../components/MermaAzucarSection";
 import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 
+
 import RecepcionVerificacionSection
 from "../components/RecepcionVerificacionSection";
 
@@ -33,6 +34,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import jsPDF from "jspdf";
 import { checklistTransporte } from "../data/checklistTransporte";
+import { checklistSGF2401 } from "../data/checklistSGF2401";
 
 function RegistroInicial() {
 
@@ -40,8 +42,7 @@ function RegistroInicial() {
 
   const [errors, setErrors] = useState({});
 
-  const [checklistSeleccionado, setChecklistSeleccionado] =
-    useState("CHK-TRANSPORTE");
+  const [checklistSeleccionado, setChecklistSeleccionado] = useState("CHK-TRANSPORTE");
 
   console.log("Checklist:", checklistSeleccionado);
 
@@ -72,6 +73,12 @@ function RegistroInicial() {
   checklistTransporte.secciones.forEach((seccion) => {
     seccion.preguntas.forEach((pregunta) => {
     respuestasIniciales[pregunta.id] = false;
+  });
+});
+
+checklistSGF2401.secciones.forEach((seccion) => {
+  seccion.preguntas.forEach((pregunta) => {
+    respuestasIniciales[pregunta.id] = "";
   });
 });
 
@@ -108,7 +115,7 @@ function RegistroInicial() {
     remolque2: "",
 
     placas: false,
-    tarjetaCirculacion: false,
+    tarjetaCircuconst: false,
     coincidenDocumentacion: false,
     cartaPorte: false,
 
@@ -219,20 +226,27 @@ function RegistroInicial() {
 
   const handleChange = (e) => {
 
-    const { name, value, type, checked } = e.target;
+  const { name, value, type, checked } = e.target;
 
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox"
-        ? checked
-        : value
-    });
+  console.log(
+    "Nombre:",
+    name,
+    "Valor:",
+    value
+  );
 
-    setErrors({
-      ...errors,
-      [name]: ""
-    });
-  };
+  setFormData({
+    ...formData,
+    [name]: type === "checkbox"
+      ? checked
+      : value
+  });
+
+  setErrors({
+    ...errors,
+    [name]: ""
+  });
+};
 
   const editarChecklist = (item) => {
 
@@ -583,31 +597,21 @@ function RegistroInicial() {
         </>
 )}
 
-          {checklistSeleccionado === "SG-F-24-01" && (
+  {checklistSeleccionado === "SG-F-24-01" && (
   <>
-    <DatosGeneralesSGF2401
+  
+    <SGF2401Section
       formData={formData}
       handleChange={handleChange}
     />
 
     {formData["MAT-007"] === "cumple" && (
-
-    <DatosPesajeSection
-      formData={formData}
-      handleChange={handleChange}
-    />
-
-)}
-
-    <SGF2401Section
-      formData={formData}
-      handleChange={handleChange}
-    />
-
-    <SGF2401Section
-      formData={formData}
-      handleChange={handleChange}
-    />
+      <DatosPesajeSection
+        formData={formData}
+        handleChange={handleChange}
+      />
+    )}
+    
 
     <RecepcionVerificacionSection
       formData={formData}
@@ -628,24 +632,8 @@ function RegistroInicial() {
       formData={formData}
       handleChange={handleChange}
     />
-
-    <MermaAzucarSection
-      formData={formData}
-      handleChange={handleChange}
-    />
-
-    <EstadoSupersacoSection
-      formData={formData}
-      handleChange={handleChange}
-    />
-
-    <ObservacionesSGF2401
-      formData={formData}
-      handleChange={handleChange}
-    />
   </>
 )}
-
           <EvidenciasSection />
 
           <button
