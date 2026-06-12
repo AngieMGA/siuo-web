@@ -604,15 +604,7 @@ checklistSGF2401.secciones.forEach((seccion) => {
       formData={formData}
       handleChange={handleChange}
     />
-
-    {formData["MAT-007"] === "cumple" && (
-      <DatosPesajeSection
-        formData={formData}
-        handleChange={handleChange}
-      />
-    )}
-    
-
+  
     <RecepcionVerificacionSection
       formData={formData}
       handleChange={handleChange}

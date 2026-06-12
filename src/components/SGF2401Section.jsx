@@ -1,5 +1,7 @@
 import CardSection from "./CardSection";
 import { checklistSGF2401 } from "../data/checklistSGF2401";
+import InputField from "./InputField";
+import React from "react";
 
 function SGF2401Section({
   formData,
@@ -33,47 +35,156 @@ function SGF2401Section({
 
             <tbody>
 
-              {seccion.preguntas.map((pregunta) => (
+  {seccion.preguntas.map((pregunta) => (
 
-                <tr key={pregunta.id}>
+    <React.Fragment key={pregunta.id}>
 
-                  <td className="pregunta">
-                    {pregunta.texto}
-                  </td>
+      <tr>
 
-                  <td className="radio-cell">
+        <td className="pregunta">
+          {pregunta.texto}
+        </td>
 
-                    <input
-                      type="radio"
-                      name={pregunta.id}
-                      value="cumple"
-                      checked={
-                        formData[pregunta.id] === "cumple"
-                      }
-                      onChange={handleChange}
-                    />
+        <td className="radio-cell">
 
-                  </td>
+          <input
+            type="radio"
+            name={pregunta.id}
+            value="cumple"
+            checked={
+              formData[pregunta.id] === "cumple"
+            }
+            onChange={handleChange}
+          />
 
-                  <td className="radio-cell">
+        </td>
 
-                    <input
-                      type="radio"
-                      name={pregunta.id}
-                      value="noCumple"
-                      checked={
-                        formData[pregunta.id] === "noCumple"
-                      }
-                      onChange={handleChange}
-                    />
+        <td className="radio-cell">
 
-                  </td>
+          <input
+            type="radio"
+            name={pregunta.id}
+            value="noCumple"
+            checked={
+              formData[pregunta.id] === "noCumple"
+            }
+            onChange={handleChange}
+          />
 
-                </tr>
+        </td>
 
-              ))}
+      </tr>
 
-            </tbody>
+      {pregunta.id === "MAT-007" &&
+        formData["MAT-007"] === "cumple" && (
+
+        <tr>
+
+          <td colSpan="3">
+
+            <div
+              style={{
+                padding: "15px",
+                background: "#f5f5f5",
+                borderRadius: "8px",
+                marginTop: "10px"
+              }}
+            >
+
+              <h4>
+                DATOS DE PESAJE Y TANQUES
+              </h4>
+
+              <InputField
+                label="Peso Inicial"
+                name="pesoInicial"
+                value={formData.pesoInicial}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="Peso Final"
+                name="pesoFinal"
+                value={formData.pesoFinal}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="Tara"
+                name="tara"
+                value={formData.tara}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="TQ1 Inicial"
+                name="tq1Inicial"
+                value={formData.tq1Inicial}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="TQ1 Final"
+                name="tq1Final"
+                value={formData.tq1Final}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="PSI TQ1 Inicial"
+                name="psiTq1Inicial"
+                value={formData.psiTq1Inicial}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="PSI TQ1 Final"
+                name="psiTq1Final"
+                value={formData.psiTq1Final}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="TQ2 Inicial"
+                name="tq2Inicial"
+                value={formData.tq2Inicial}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="TQ2 Final"
+                name="tq2Final"
+                value={formData.tq2Final}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="PSI TQ2 Inicial"
+                name="psiTq2Inicial"
+                value={formData.psiTq2Inicial}
+                onChange={handleChange}
+              />
+
+              <InputField
+                label="PSI TQ2 Final"
+                name="psiTq2Final"
+                value={formData.psiTq2Final}
+                onChange={handleChange}
+              />
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      )}
+
+    </React.Fragment>
+
+  ))}
+
+</tbody>
 
           </table>
 
