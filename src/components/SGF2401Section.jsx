@@ -180,6 +180,37 @@ function SGF2401Section({
 
       )}
 
+      {pregunta.id === "MAT-008" &&
+  formData["MAT-008"] === "cumple" && (
+
+  <tr>
+
+    <td colSpan="3">
+
+      <div
+        style={{
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+          marginTop: "10px"
+        }}
+      >
+
+        <InputField
+          label="Número o Código"
+          name="numeroCodigo"
+          value={formData.numeroCodigo}
+          onChange={handleChange}
+        />
+
+      </div>
+
+    </td>
+
+  </tr>
+
+)}
+
     </React.Fragment>
 
   ))}
