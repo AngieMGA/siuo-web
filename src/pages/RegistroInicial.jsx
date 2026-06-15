@@ -25,10 +25,6 @@ import MermaAzucarSection from "../components/MermaAzucarSection";
 import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 
-
-import RecepcionVerificacionSection
-from "../components/RecepcionVerificacionSection";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -57,7 +53,7 @@ function RegistroInicial() {
   });
 
   const [detalleChecklist, setDetalleChecklist] =
-    useState(null);
+    useState(null); 
 
   useEffect(() => {
 
@@ -451,35 +447,93 @@ doc.text(
   const guardarChecklist = async () => {
 
     let nuevosErrores = {};
+    let primerError = null;
 
-    if (!formData.nombreOperador) {
+if (formData.tipoChecklist === "CHK-TRANSPORTE") {
 
-      nuevosErrores.nombreOperador =
-        "Ingrese el nombre del operador";
-    }
+  if (!formData.nombreOperador) {
+    nuevosErrores.nombreOperador =
+      "Ingrese el nombre del operador";
+  }
 
-    if (!formData.lineaTransporte) {
+  if (!formData.lineaTransporte) {
+    nuevosErrores.lineaTransporte =
+      "Ingrese la línea de transporte";
+  }
 
-      nuevosErrores.lineaTransporte =
-        "Ingrese la línea de transporte";
-    }
+  if (!formData.placasTracto) {
+    nuevosErrores.placasTracto =
+      "Ingrese las placas";
+  }
 
-    if (!formData.placasTracto) {
+}
 
-      nuevosErrores.placasTracto =
-        "Ingrese las placas";
-    }
+if (formData.tipoChecklist === "SG-F-24-01") {
 
-    setErrors(nuevosErrores);
+  if (!formData.proveedor) {
+  nuevosErrores.proveedor =
+    "Ingrese el proveedor";
 
-    if (Object.keys(nuevosErrores).length > 0) {
+  document
+    .querySelector('[name="proveedor"]')
+    ?.focus();
+  
+}
 
-      toast.error(
-        "Complete los campos obligatorios"
-      );
+  if (!formData.material) {
+  nuevosErrores.material =
+    "Ingrese el material";
 
-      return;
-    }
+  if (!primerError) {
+    primerError = "material";
+  }
+
+}
+  if (!formData.operador) {
+    nuevosErrores.operador =
+      "Ingrese el operador";
+  }
+
+  if (!formData.lote) {
+    nuevosErrores.lote =
+      "Ingrese el lote";
+  }
+
+  if (!formData.turno) {
+    nuevosErrores.turno =
+      "Ingrese el turno";
+  }
+
+}
+
+setErrors(nuevosErrores);
+
+if (primerError) {
+
+  document
+    .querySelector(
+      `[name="${primerError}"]`
+    )
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+  document
+    .querySelector(
+      `[name="${primerError}"]`
+    )
+    ?.focus();
+}
+
+if (Object.keys(nuevosErrores).length > 0) {
+
+  toast.error(
+    "Complete los campos obligatorios"
+  );
+
+  return;
+}
 
     try {
 
@@ -496,32 +550,26 @@ doc.text(
         }
       );
 
-      await response.json();
+      console.log("STATUS:", response.status);
+      console.log("RESPUESTA:", response);
+
+      const data = await response.json();
+
+      console.log("DATA:", data);
 
       toast.success(
         "Checklist enviado correctamente"
       );
+    } 
+    
+    catch (error) {
 
-      setHistorial([
-  {
-    ...formData,
-    fechaCaptura:
-      new Date().toLocaleString()
-  },
-  ...historial
-]);
+    console.error("ERROR API:", error);
 
-      setFormData(formularioInicial);
-
-    } catch (error) {
-
-      console.error(error);
-
-      toast.error(
-        "Error al enviar checklist"
-      );
-
-    } finally {
+    toast.error(
+      error.message || "Error al enviar checklist"
+    );
+} finally {
 
       setLoading(false);
     }
@@ -702,17 +750,18 @@ doc.text(
 
   {checklistSeleccionado === "SG-F-24-01" && (
   <>
-  
+
+    <DatosGeneralesSGF2401
+      formData={formData}
+      handleChange={handleChange}
+      errors={errors}
+    />
+
     <SGF2401Section
       formData={formData}
       handleChange={handleChange}
     />
   
-    <RecepcionVerificacionSection
-      formData={formData}
-      handleChange={handleChange}
-    />
-
     <MermaAzucarSection
       formData={formData}
       handleChange={handleChange}

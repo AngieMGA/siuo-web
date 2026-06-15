@@ -3,7 +3,8 @@ import InputField from "./InputField";
 
 function DatosGeneralesSGF2401({
   formData,
-  handleChange
+  handleChange,
+  errors
 }) {
 
   return (
@@ -61,12 +62,24 @@ function DatosGeneralesSGF2401({
       onChange={handleChange}
     />
 
+    {errors?.tripulacion && (
+      <p style={{ color: "red" }}>
+        {errors.tripulacion}
+      </p>
+    )}
+
     <InputField
       label="Placas / Número"
       name="placasNumero"
       value={formData.placasNumero}
       onChange={handleChange}
     />
+
+    {errors?.placasNumero && (
+      <p style={{ color: "red" }}>
+        {errors.placasNumero}
+      </p>
+    )}
 
       <InputField
         label="Factura / Remisión"
@@ -75,12 +88,24 @@ function DatosGeneralesSGF2401({
         onChange={handleChange}
       />
 
+      {errors?.facturaRemision && (
+      <p style={{ color: "red" }}>
+        {errors.facturaRemision}
+      </p>
+    )}
+
       <InputField
         label="Orden de Compra IEQSA"
         name="ordenCompra"
         value={formData.ordenCompra}
         onChange={handleChange}
       />
+
+      {errors?.ordenCompra && (
+      <p style={{ color: "red" }}>
+        {errors.ordenCompra}
+      </p>
+    )}
       
 
       <div className="grupo">

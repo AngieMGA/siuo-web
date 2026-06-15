@@ -1,4 +1,5 @@
 import CardSection from "./CardSection";
+import InputField from "./InputField";
 
 function ObservacionesSGF2401({
   formData,
@@ -21,6 +22,28 @@ function ObservacionesSGF2401({
           resize: "vertical"
         }}
       />
+
+      <div
+        style={{
+          marginTop: "20px"
+        }}
+      >
+
+        <InputField
+          label="Nombre quien recibe"
+          name="nombreRecibe"
+          value={formData.nombreRecibe}
+          onChange={handleChange}
+        />
+
+        <InputField
+          label="Nombre Supervisor / Verifico"
+          name="nombreSupervisor"
+          value={formData.nombreSupervisor}
+          onChange={handleChange}
+        />
+
+      </div>
 
     </CardSection>
 
