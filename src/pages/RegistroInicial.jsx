@@ -282,9 +282,35 @@ checklistSGF2401.secciones.forEach((seccion) => {
 
     doc.setFontSize(20);
 
-    doc.text("Checklist de Verificación de Unidad", 20, 20);
+    doc.text(
+      formData.tipoChecklist === "SG-F-24-01"
+        ? "SG-F-24-01 Recepción de Materia Prima"
+        : "Checklist de Verificación de Unidad",
+      20,
+      20
+    );
 
     doc.setFontSize(12);
+    
+    doc.setFontSize(12);
+
+doc.text(
+  `Fecha: ${formData.fecha}`,
+  20,
+  35
+);
+
+doc.text(
+  `Hora: ${formData.hora}`,
+  20,
+  45
+);
+
+doc.text(
+  `Status: ${formData.status}`,
+  20,
+  55
+);
 
     doc.text(
       `Fecha: ${formData.fecha}`,
@@ -303,44 +329,121 @@ checklistSGF2401.secciones.forEach((seccion) => {
       20,
       55
     );
+    if (formData.tipoChecklist === "CHK-TRANSPORTE") {
 
-    doc.text(
-      `Operador: ${formData.nombreOperador}`,
-      20,
-      70
+  doc.text(
+    `Operador: ${formData.nombreOperador}`,
+    20,
+    70
+  );
+
+  doc.text(
+    `Línea: ${formData.lineaTransporte}`,
+    20,
+    80
+  );
+
+  doc.text(
+    `Placas: ${formData.placasTracto}`,
+    20,
+    90
+  );
+
+  doc.text(
+    `Teléfono: ${formData.telefonoOperador}`,
+    20,
+    100
+  );
+
+  doc.text(
+    `Remolque 1: ${formData.remolque1}`,
+    20,
+    110
+  );
+
+  doc.text(
+    `Remolque 2: ${formData.remolque2}`,
+    20,
+    120
+  );
+
+}
+
+    if (formData.tipoChecklist === "SG-F-24-01") {
+
+  doc.text(
+    `Proveedor: ${formData.proveedor}`,
+    20,
+    140
+  );
+
+  doc.text(
+    `Material: ${formData.material}`,
+    20,
+    150
+  );
+
+  doc.text(
+    `Operador: ${formData.operador}`,
+    20,
+    160
+  );
+
+  doc.text(
+    `Lote: ${formData.lote}`,
+    20,
+    170
+  );
+
+  doc.text(
+    `Turno: ${formData.turno}`,
+    20,
+    180
+  );
+
+  doc.text(
+  `Diseño: ${formData.diseno}`,
+  20,
+  190
+);
+
+doc.text(
+  `Tripulación: ${formData.tripulacion}`,
+  20,
+  200
+);
+
+doc.text(
+  `Placas/Número: ${formData.placasNumero}`,
+  20,
+  210
+);
+
+doc.text(
+  `Alérgeno y/o Micro Sensitivo: ${formData.alergeno}`,
+  20,
+  220
+);
+
+doc.text(
+  `Orden de Compra IEQSA: ${formData.ordenCompra}`,
+  20,
+  230
+);
+
+doc.text(
+  `Factura / Remisión: ${formData.facturaRemision}`,
+  20,
+  240
+);
+
+}
+
+    doc.save(
+      formData.tipoChecklist === "SG-F-24-01"
+        ? "SG-F-24-01.pdf"
+        : "Checklist_de_verificacion_de_unidad.pdf"
     );
-
-    doc.text(
-      `Línea: ${formData.lineaTransporte}`,
-      20,
-      80
-    );
-
-    doc.text(
-      `Placas: ${formData.placasTracto}`,
-      20,
-      90
-    );
-
-    doc.text(
-      `Teléfono: ${formData.telefonoOperador}`,
-      20,
-      100
-    );
-
-    doc.text(
-      `Remolque 1: ${formData.remolque1}`,
-      20,
-      110
-    );
-
-    doc.text(
-      `Remolque 2: ${formData.remolque2}`,
-      20,
-      120
-    );
-
-    doc.save("Checklist_de_verificación_de_unidad.pdf");
 
     toast.success("PDF generado");
   };
