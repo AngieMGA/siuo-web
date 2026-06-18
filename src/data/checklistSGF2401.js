@@ -2,7 +2,7 @@ export const checklistSGF2401 = {
 
   id: "SG-F-24-01",
 
-  nombre: "Lista de Chequeo SG-F-24-01",
+  nombre: "Lista de chequeo (SG-F-24-01)",
 
   secciones: [
 

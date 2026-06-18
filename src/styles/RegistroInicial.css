@@ -18,7 +18,7 @@ body {
 .titulo {
   margin: 0;
   font-size: 2.2rem;
-  font-weight: 200;
+  font-weight: 180;
   font-family: "Segoe UI", sans-serif;
   color: #111;
 }
@@ -38,7 +38,7 @@ body {
   margin-bottom: 25px;
   font-size: 24px;
   font-weight: bold;
-}
+}*
 
 .grupo {
   display: flex;
@@ -1355,8 +1355,8 @@ input[type="checkbox"] {
   margin-bottom: 25px;
 }
 
-.logo-iecsa {
-  width: 220px;
+.logo-ieqsa {
+  width: 250px;
   height: auto;
 }
 
@@ -1385,7 +1385,7 @@ input[type="checkbox"] {
 }
 
 .folio-box {
-  width: 180px;
+  width: 100px;
   text-align: center;
 }
 

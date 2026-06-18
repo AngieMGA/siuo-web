@@ -2,7 +2,7 @@ export const checklistTransporte = {
 
   id: "CHK-TRANSPORTE",
 
-  nombre: "Checklist Transporte",
+  nombre: "Verificacion de unidad (SG-F-24-06)",
 
   secciones: [
 

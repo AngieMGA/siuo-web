@@ -27,10 +27,12 @@ import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import jsPDF from "jspdf";
-import { checklistTransporte } from "../data/checklistTransporte";
-import { checklistSGF2401 } from "../data/checklistSGF2401";
+import {checklistTransporte } from "../data/checklistTransporte";
+import {checklistRHF0121} from "../data/checklistRHF0121";
+import {checklistSGF2401 } from "../data/checklistSGF2401";
+import RHF0121DatosGenerales from "../components/RHF0121DatosGenerales";
+import RHF0121Section from "../components/RHF0121Section";
 
 function RegistroInicial() {
 
@@ -38,7 +40,7 @@ function RegistroInicial() {
 
   const [errors, setErrors] = useState({});
 
-  const [checklistSeleccionado, setChecklistSeleccionado] = useState("CHK-TRANSPORTE");
+  const [checklistSeleccionado, setChecklistSeleccionado] = useState("");
 
   console.log("Checklist:", checklistSeleccionado);
 
@@ -72,8 +74,14 @@ function RegistroInicial() {
   });
 });
 
-checklistSGF2401.secciones.forEach((seccion) => {
-  seccion.preguntas.forEach((pregunta) => {
+  checklistSGF2401.secciones.forEach((seccion) => {
+    seccion.preguntas.forEach((pregunta) => {
+    respuestasIniciales[pregunta.id] = "";
+  });
+});
+
+  checklistRHF0121.secciones.forEach((seccion) => {
+    seccion.preguntas.forEach((pregunta) => {
     respuestasIniciales[pregunta.id] = "";
   });
 });
@@ -191,6 +199,21 @@ checklistSGF2401.secciones.forEach((seccion) => {
     nombreRecibe: "",
     nombreSupervisor: "",
 
+    // RHF-0121
+
+    fechaHoraLlegada: "",
+    fechaHoraSalida: "",
+
+    nombreOperadorRHF: "",
+    lineaTransporteRHF: "",
+
+    numeroTractor: "",
+    numeroRemolque1: "",
+    numeroRemolque2: "",
+
+    placasTractor: "",
+    placasRemolque1: "",
+    placasRemolque2: "",
 
   };
 
@@ -694,6 +717,10 @@ if (Object.keys(nuevosErrores).length > 0) {
       }}
     >
 
+      <option value="">
+        -- SELECCIONE UN CHECKLIST --
+      </option>
+
       {catalogoChecklists.map((checklist) => (
 
         <option
@@ -778,17 +805,43 @@ if (Object.keys(nuevosErrores).length > 0) {
     />
   </>
 )}
-          <EvidenciasSection />
 
-          <button
-            className="boton"
-            onClick={guardarChecklist}
-            disabled={loading}
-          >
-            {loading
-              ? "Guardando..."
-              : "Guardar Checklist"}
-          </button>
+{checklistSeleccionado === "RH-F-01-21" && (
+  <>
+    <RHF0121DatosGenerales
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <RHF0121Section
+      formData={formData}
+      handleChange={handleChange}
+    />
+  </>
+)}
+
+          {checklistSeleccionado && (
+  <>
+    <EvidenciasSection />
+
+    <button
+      className="boton"
+      onClick={guardarChecklist}
+      disabled={loading}
+    >
+      {loading
+        ? "Guardando..."
+        : "Guardar Checklist"}
+    </button>
+
+    <button
+      className="boton"
+      onClick={generarPDF}
+    >
+      Generar PDF
+    </button>
+  </>
+)}
 
           <button
             className="boton"
@@ -840,5 +893,6 @@ if (Object.keys(nuevosErrores).length > 0) {
     </div>
   );
 }
+
 
 export default RegistroInicial;
