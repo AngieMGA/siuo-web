@@ -622,17 +622,14 @@ if (Object.keys(nuevosErrores).length > 0) {
 
       <br />
 
-      <span className="titulo-secundario">
-        Check List de Verificación de Unidad
-      </span>
-
     </h1>
 
   </div>
 
+{checklistSeleccionado && (
   <div className="folio-box">
 
-    <label>FOLIO</label>
+    <label>Folio</label>
 
     <input
       type="text"
@@ -642,14 +639,88 @@ if (Object.keys(nuevosErrores).length > 0) {
     />
 
   </div>
+)}
 
 </div>
 
       <div className="layout-operativo">
 
-        <div className="sidebar-operativo">
+        <div className="selector-checklist">
 
-          <CardSection title="INFORMACIÓN GENERAL">
+       <div className="bienvenida-checklist">
+
+  <h2>
+    Seleccione el checklist que desea capturar
+  </h2>
+
+  <p>
+    Haga clic en una opción para comenzar.
+  </p>
+
+</div>
+
+{!checklistSeleccionado && (
+
+  <div className="tarjetas-checklist">
+
+    <div
+      className="tarjeta-checklist"
+      onClick={() => {
+        setChecklistSeleccionado("CHK-TRANSPORTE");
+        setFormData({
+          ...formData,
+          tipoChecklist: "CHK-TRANSPORTE"
+        });
+      }}
+    >
+      <h3>🚛 Revisión de transporte </h3>
+      <p>SG-F-24-06</p>
+      <small>
+        Control de ingreso y salida de transporte.
+      </small>
+    </div>
+
+    <div
+      className="tarjeta-checklist"
+      onClick={() => {
+        setChecklistSeleccionado("SG-F-24-01");
+        setFormData({
+          ...formData,
+          tipoChecklist: "SG-F-24-01"
+        });
+      }}
+    >
+      <h3>📦 Lista de Chequeo</h3>
+      <p>SG-F-24-01</p>
+      <small>
+        Recepción de materia prima.
+      </small>
+    </div>
+
+    <div
+      className="tarjeta-checklist"
+      onClick={() => {
+        setChecklistSeleccionado("RH-F-01-21");
+        setFormData({
+          ...formData,
+          tipoChecklist: "RH-F-01-21"
+        });
+      }}
+    >
+      <h3>🚚 Inspección de seguridad para ingreso y salida </h3>
+      <p>RH-F-01-21</p>
+      <small>
+        Revisión de tractor y remolque.
+      </small>
+    </div>
+
+  </div>
+
+)}
+
+{checklistSeleccionado && (
+
+<CardSection title="INFORMACIÓN GENERAL">
 
             <InputField
               label="Fecha"
@@ -696,47 +767,27 @@ if (Object.keys(nuevosErrores).length > 0) {
             </div>
 
           </CardSection>
+          )}
 
-          <CardSection title="Tipos de checklist">
+          {checklistSeleccionado && (
 
-  <div className="input-group">
+  <div
+    className="flecha-regresar"
+    onClick={() => {
 
-    <label>Selecciona el check list correspondiente</label>
+      setChecklistSeleccionado("");
 
-    <select
-      value={checklistSeleccionado}
-      onChange={(e) => {
+      setFormData({
+        ...formData,
+        tipoChecklist: ""
+      });
 
-        setChecklistSeleccionado(e.target.value);
-
-        setFormData({
-          ...formData,
-          tipoChecklist: e.target.value
-        });
-
-      }}
-    >
-
-      <option value="">
-        -- SELECCIONE UN CHECKLIST --
-      </option>
-
-      {catalogoChecklists.map((checklist) => (
-
-        <option
-          key={checklist.id}
-          value={checklist.id}
-        >
-          {checklist.nombre}
-        </option>
-
-      ))}
-
-    </select>
-
+    }}
+  >
+    ← Seleccionar otro checklist
   </div>
 
-</CardSection>
+)}
 
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
             <DatosGeneralesTransporte
@@ -819,8 +870,8 @@ if (Object.keys(nuevosErrores).length > 0) {
     />
   </>
 )}
-
-          {checklistSeleccionado && (
+  
+    {checklistSeleccionado && (
   <>
     <EvidenciasSection />
 
@@ -842,16 +893,7 @@ if (Object.keys(nuevosErrores).length > 0) {
     </button>
   </>
 )}
-
-          <button
-            className="boton"
-            onClick={generarPDF}
-          >
-            Generar PDF
-          </button>
-
         </div>
-
         <div className="main-operativo">
 
   {checklistSeleccionado === "CHK-TRANSPORTE" && (

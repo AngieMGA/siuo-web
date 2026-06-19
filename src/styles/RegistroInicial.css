@@ -19,8 +19,8 @@ body {
   margin: 0;
   font-size: 2.2rem;
   font-weight: 180;
-  font-family: "Segoe UI", sans-serif;
-  color: #111;
+  font-family: "Playfair Display", Serif;
+  color: #080808;
 }
 
 .card-section {
@@ -34,7 +34,7 @@ body {
 }
 
 .subtitulo {
-  color: #d32f2f;
+  color: #232222;
   margin-bottom: 25px;
   font-size: 24px;
   font-weight: bold;
@@ -1356,7 +1356,7 @@ input[type="checkbox"] {
 }
 
 .logo-ieqsa {
-  width: 250px;
+  width: 350px;
   height: auto;
 }
 
@@ -1445,4 +1445,110 @@ input[type="checkbox"] {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+}
+
+.selector-checklist {
+  max-width: 700px;
+  margin: 20px auto;
+}
+
+.selector-checklist select {
+  width: 100%;
+  height: 45px;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 0 10px;
+}
+
+.mensaje-inicio {
+  text-align: center;
+  margin-top: 30px;
+  padding: 30px;
+}
+
+.mensaje-inicio h3 {
+  color: #d62828;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.mensaje-inicio p {
+  color: #555;
+  font-size: 16px;
+}
+
+.tarjetas-checklist {
+  display: flex;
+  gap: 20px;
+  margin-top: 25px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tarjeta-checklist {
+  width: 280px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0,0,0,.10);
+  transition: all .25s ease;
+  border-top: 4px solid #d62828;
+}
+
+.tarjeta-checklist:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.15);
+}
+
+.tarjeta-checklist h3 {
+  margin-bottom: 10px;
+  color: #d62828;
+}
+
+.tarjeta-checklist p {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.tarjeta-checklist small {
+  color: #666;
+}
+.tarjeta-checklist {
+  width: 320px;
+  min-height: 170px;
+}
+
+.tarjeta-checklist {
+  text-align: center;
+}
+
+.bienvenida-checklist {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.bienvenida-checklist h2 {
+  color: #d62828;
+  margin-bottom: 10px;
+}
+
+.bienvenida-checklist p {
+  color: #666;
+  font-size: 16px;
+}
+
+.flecha-regresar {
+  margin: 10px 0 20px 0;
+  color: #d62828;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-block;
+  transition: all .2s ease;
+}
+
+.flecha-regresar:hover {
+  transform: translateX(-5px);
+  color: #b71c1c;
 }
