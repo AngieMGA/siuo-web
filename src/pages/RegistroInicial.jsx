@@ -313,24 +313,6 @@ function RegistroInicial() {
     
     doc.setFontSize(12);
 
-doc.text(
-  `Fecha: ${formData.fecha}`,
-  20,
-  35
-);
-
-doc.text(
-  `Hora: ${formData.hora}`,
-  20,
-  45
-);
-
-doc.text(
-  `Status: ${formData.status}`,
-  20,
-  55
-);
-
     doc.text(
       `Fecha: ${formData.fecha}`,
       20,
@@ -604,49 +586,33 @@ if (Object.keys(nuevosErrores).length > 0) {
 
       <ToastContainer />
 
-      <div className="header-app">
+      {!checklistSeleccionado && (
 
-  <img
-    src={logo}
-    alt="Logo IEQSA"
-    className="logo-ieqsa"
-  />
+  <div className="header-app">
 
-  <div className="titulo-container">
+    <div className="topbar-checklist">
 
-    <h1 className="titulo">
-
-      <span className="titulo-principal">
-        AUDITORIA DE TRANSPORTE
+      <span className="titulo-topbar">
+        Auditoría de Transporte
       </span>
 
-      <br />
+      <img
+        src={logo}
+        alt="IEQSA"
+        className="logo-topbar"
+      />
 
-    </h1>
-
-  </div>
-
-{checklistSeleccionado && (
-  <div className="folio-box">
-
-    <label>Folio</label>
-
-    <input
-      type="text"
-      name="folio"
-      value={formData.folio}
-      onChange={handleChange}
-    />
+    </div>
 
   </div>
+
 )}
-
-</div>
 
       <div className="layout-operativo">
 
         <div className="selector-checklist">
 
+{!checklistSeleccionado && (
        <div className="bienvenida-checklist">
 
   <h2>
@@ -658,6 +624,8 @@ if (Object.keys(nuevosErrores).length > 0) {
   </p>
 
 </div>
+
+)}
 
 {!checklistSeleccionado && (
 
@@ -720,6 +688,30 @@ if (Object.keys(nuevosErrores).length > 0) {
 
 {checklistSeleccionado && (
 
+  <div className="contenedor-regresar">
+
+    <button
+      className="btn-back"
+      onClick={() => {
+
+        setChecklistSeleccionado("");
+
+        setFormData({
+          ...formData,
+          tipoChecklist: ""
+        });
+
+      }}
+    >
+      ←
+    </button>
+
+  </div>
+
+)}
+
+{checklistSeleccionado && (
+
 <CardSection title="INFORMACIÓN GENERAL">
 
             <InputField
@@ -768,26 +760,6 @@ if (Object.keys(nuevosErrores).length > 0) {
 
           </CardSection>
           )}
-
-          {checklistSeleccionado && (
-
-  <div
-    className="flecha-regresar"
-    onClick={() => {
-
-      setChecklistSeleccionado("");
-
-      setFormData({
-        ...formData,
-        tipoChecklist: ""
-      });
-
-    }}
-  >
-    ← Seleccionar otro checklist
-  </div>
-
-)}
 
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
             <DatosGeneralesTransporte
