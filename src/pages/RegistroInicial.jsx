@@ -33,6 +33,12 @@ import {checklistRHF0121} from "../data/checklistRHF0121";
 import {checklistSGF2401 } from "../data/checklistSGF2401";
 import RHF0121DatosGenerales from "../components/RHF0121DatosGenerales";
 import RHF0121Section from "../components/RHF0121Section";
+import RHF0121OperadorSection from "../components/RHF0121OperadorSection";
+import RHF0121TransporteSection from "../components/RHF0121TransporteSection";
+import RHF0121ResultadoSection from "../components/RHF0121ResultadoSection";
+import RHF0121RefrigeradoSection from "../components/RHF0121RefrigeradoSection";
+import RHF0121ComentariosSection from "../components/RHF0121ComentariosSection";
+import RHF0121EntregaSection from "../components/RHF0121EntregaSection";
 
 function RegistroInicial() {
 
@@ -832,6 +838,35 @@ if (Object.keys(nuevosErrores).length > 0) {
 {checklistSeleccionado === "RH-F-01-21" && (
   <>
     <RHF0121DatosGenerales
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <RHF0121OperadorSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <RHF0121TransporteSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+    <RHF0121RefrigeradoSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <RHF0121ResultadoSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <RHF0121ComentariosSection
+      formData={formData}
+      handleChange={handleChange}
+    />
+
+    <RHF0121EntregaSection
       formData={formData}
       handleChange={handleChange}
     />
