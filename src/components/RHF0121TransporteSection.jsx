@@ -1,4 +1,6 @@
 import CardSection from "./CardSection";
+import SelectionCard from "./SelectionCard";
+import FuelGauge from "./FuelGauge";
 
 function RHF0121TransporteSection({
   formData,
@@ -9,86 +11,122 @@ function RHF0121TransporteSection({
 
     <CardSection title="DATOS DEL TRANSPORTE">
 
-      <div className="grupo">
+      <div className="selection-group">
 
-        <label>Tipo de Transporte</label>
+  <SelectionCard
+    titulo="Nacional"
+    icono="🇲🇽"
+    tipo="success"
+    seleccionado={
+      formData.tipoTransporte === "Nacional"
+    }
+    onClick={() =>
+      handleChange({
+        target:{
+          name:"tipoTransporte",
+          value:"Nacional"
+        }
+      })
+    }
+  />
 
-        <select
-          name="tipoTransporte"
-          value={formData.tipoTransporte || ""}
-          onChange={handleChange}
-        >
-          <option value="">
-            Seleccione
-          </option>
+  <SelectionCard
+    titulo="Exportación"
+    icono="🌎"
+    tipo="info"
+    seleccionado={
+      formData.tipoTransporte === "Exportacion"
+    }
+    onClick={() =>
+      handleChange({
+        target:{
+          name:"tipoTransporte",
+          value:"Exportacion"
+        }
+      })
+    }
+  />
 
-          <option value="Nacional">
-            Nacional
-          </option>
+</div>
 
-          <option value="Exportacion">
-            Exportación
-          </option>
+      <div className="selection-group">
 
-        </select>
+  <SelectionCard
+    titulo="Sencillo"
+    icono="🚚"
+    tipo="info"
+    seleccionado={
+      formData.configuracion === "Sencillo"
+    }
+    onClick={() =>
+      handleChange({
+        target:{
+          name:"configuracion",
+          value:"Sencillo"
+        }
+      })
+    }
+  />
 
-      </div>
+  <SelectionCard
+    titulo="Full"
+    icono="🚛"
+    tipo="success"
+    seleccionado={
+      formData.configuracion === "Full"
+    }
+    onClick={() =>
+      handleChange({
+        target:{
+          name:"configuracion",
+          value:"Full"
+        }
+      })
+    }
+  />
 
-      <div className="grupo">
+  <SelectionCard
+    titulo="Contenedor"
+    icono="📦"
+    tipo="info"
+    seleccionado={
+      formData.configuracion === "Contenedor"
+    }
+    onClick={() =>
+      handleChange({
+        target:{
+          name:"configuracion",
+          value:"Contenedor"
+        }
+      })
+    }
+  />
 
-        <label>Configuración</label>
-
-        <select
-          name="configuracionTransporte"
-          value={formData.configuracionTransporte || ""}
-          onChange={handleChange}
-        >
-          <option value="">
-            Seleccione
-          </option>
-
-          <option value="Sencillo">
-            Sencillo
-          </option>
-
-          <option value="Full">
-            Full
-          </option>
-
-          <option value="Contenedor">
-            Contenedor
-          </option>
-
-        </select>
-
-      </div>
+</div>
 
       <label>Ajuste el medidor de acuerdo al nivel de combustible (%)</label>
 
-      <div className="grupo">
+      <CardSection title="COMBUSTIBLE">
 
-        <input
-          type="range"
-          min="0"
-          max="100"
-          name="nivelCombustible"
-          value={formData.nivelCombustible || 50}
-          onChange={handleChange}
-          />
+  <div className="tanques-container">
 
-        <p>
-          {formData.nivelCombustible || 50}%
-        </p>
+  <FuelGauge
+    titulo="TANQUE 1"
+    name="tanque1"
+    valor={formData.tanque1}
+    handleChange={handleChange}
+  />
 
-        <p>
+  <FuelGauge
+    titulo="TANQUE 2"
+    name="tanque2"
+    valor={formData.tanque2}
+    handleChange={handleChange}
+  />
 
-          {(formData.nivelCombustible || 50) >= 51
-            ? "✅ Mayor a 1/2 tanque"
-            : "❌ Menor a 1/2 tanque"}
+</div>
 
-        </p>
-
-      </div>
+</CardSection>
 
     </CardSection>
 

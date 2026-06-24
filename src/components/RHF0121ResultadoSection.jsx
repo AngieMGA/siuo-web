@@ -1,4 +1,5 @@
 import CardSection from "./CardSection";
+import SelectionCard from "./SelectionCard";
 
 function RHF0121ResultadoSection({
   formData,
@@ -7,62 +8,53 @@ function RHF0121ResultadoSection({
 
   return (
 
-    <CardSection title="RESULTADO DE INSPECCIÓN">
+    <CardSection title="INSPECCIÓN">
 
       <div className="grupo">
 
         <label>
           Resultado Final
         </label>
+      
+      </div>
 
-        <div className="resultado-cards">
+        <div className="selection-group">
 
-  <div
-    className={`resultado-card ${
+  <SelectionCard
+    titulo="Aceptada"
+    icono="✅"
+    tipo="success"
+    seleccionado={
       formData.resultadoFinal === "Aceptada"
-        ? "seleccionada-aprobada"
-        : ""
-    }`}
+    }
     onClick={() =>
       handleChange({
-        target: {
-          name: "resultadoFinal",
-          value: "Aceptada"
+        target:{
+          name:"resultadoFinal",
+          value:"Aceptada"
         }
       })
     }
-  >
-    🟢
+  />
 
-    <h3>Aceptada</h3>
-
-  </div>
-
-  <div
-    className={`resultado-card ${
+  <SelectionCard
+    titulo="Rechazada"
+    icono="❌"
+    tipo="danger"
+    seleccionado={
       formData.resultadoFinal === "Rechazada"
-        ? "seleccionada-rechazada"
-        : ""
-    }`}
+    }
     onClick={() =>
       handleChange({
-        target: {
-          name: "resultadoFinal",
-          value: "Rechazada"
+        target:{
+          name:"resultadoFinal",
+          value:"Rechazada"
         }
       })
     }
-  >
-    🔴
-    
-
-    <h3>Rechazada</h3>
-
-  </div>
+  />
 
 </div>
-
-      </div>
 
       {formData.resultadoFinal === "Aceptada" && (
 

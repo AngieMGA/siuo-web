@@ -837,6 +837,39 @@ if (Object.keys(nuevosErrores).length > 0) {
 
 {checklistSeleccionado === "RH-F-01-21" && (
   <>
+
+   <div className="rhf-header">
+
+    <button
+      className="btn-back"
+      onClick={() => {
+
+        setChecklistSeleccionado("");
+
+        setFormData({
+          ...formData,
+          tipoChecklist: ""
+        });
+
+      }}
+    >
+      ←
+    </button>
+
+    <div className="rhf-codigo">
+      RH-F-01-21
+    </div>
+
+    <div className="rhf-titulo">
+      INSPECCIÓN DE TRACTOR Y REMOLQUE
+    </div>
+
+    <div className="rhf-subtitulo">
+      Requisitos de seguridad para ingreso y salida
+    </div>
+
+  </div>
+
     <RHF0121DatosGenerales
       formData={formData}
       handleChange={handleChange}
@@ -865,6 +898,7 @@ if (Object.keys(nuevosErrores).length > 0) {
       formData={formData}
       handleChange={handleChange}
     />
+    
 
     <RHF0121EntregaSection
       formData={formData}

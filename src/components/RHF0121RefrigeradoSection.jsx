@@ -1,4 +1,5 @@
 import CardSection from "./CardSection";
+import SelectionCard from "./SelectionCard";
 
 function RHF0121RefrigeradoSection({
   formData,
@@ -9,61 +10,43 @@ function RHF0121RefrigeradoSection({
 
     <CardSection title="REFRIGERADO">
 
-      <div className="grupo">
+      <div className="selection-group">
 
-        <label>
-          ¿Unidad Refrigerada?
-        </label>
-
-        <div className="resultado-cards">
-
-  <div
-    className={`resultado-card ${
+  <SelectionCard
+    titulo="Sí"
+    icono="🧊"
+    tipo="success"
+    seleccionado={
       formData.refrigerado === "SI"
-        ? "seleccionada-aprobada"
-        : ""
-    }`}
+    }
     onClick={() =>
       handleChange({
-        target: {
-          name: "refrigerado",
-          value: "SI"
+        target:{
+          name:"refrigerado",
+          value:"SI"
         }
       })
     }
-  >
+  />
 
-    🧊
-
-    <h3>Refrigerada</h3>
-
-  </div>
-
-  <div
-    className={`resultado-card ${
+  <SelectionCard
+    titulo="No"
+    icono="🚫"
+    tipo="danger"
+    seleccionado={
       formData.refrigerado === "NO"
-        ? "seleccionada-rechazada"
-        : ""
-    }`}
+    }
     onClick={() =>
       handleChange({
-        target: {
-          name: "refrigerado",
-          value: "NO"
+        target:{
+          name:"refrigerado",
+          value:"NO"
         }
       })
     }
-  >
-
-    🚚
-
-    <h3>No Refrigerada</h3>
-
-  </div>
+  />
 
 </div>
-
-      </div>
 
       {formData.refrigerado === "SI" && (
 

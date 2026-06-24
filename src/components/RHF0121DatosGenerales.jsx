@@ -8,7 +8,9 @@ function RHF0121DatosGenerales({
 
   return (
 
-    <CardSection title="DATOS GENERALES RH-F-01-21">
+    <>
+
+    <CardSection title="DATOS GENERALES">
 
       <InputField
         label="Fecha y Hora de Llegada"
@@ -81,7 +83,7 @@ function RHF0121DatosGenerales({
       />
 
     </CardSection>
-
+    </>
   );
 }
 

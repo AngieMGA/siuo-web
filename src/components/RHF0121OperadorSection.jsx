@@ -1,5 +1,6 @@
 import CardSection from "./CardSection";
 import InputField from "./InputField";
+import SelectionCard from "./SelectionCard";
 
 function RHF0121OperadorSection({
   formData,
@@ -12,28 +13,47 @@ function RHF0121OperadorSection({
 
       <div className="grupo">
 
-        <label>
+        <label className="titulo-grupo">
           Presentación del Operador
         </label>
 
-        <select
-          name="presentacionOperador"
-          value={formData.presentacionOperador || ""}
-          onChange={handleChange}
-        >
-          <option value="">
-            Seleccione
-          </option>
+        <div className="selection-group">
 
-          <option value="Bien">
-            Bien
-          </option>
+  <SelectionCard
+    titulo="Bien"
+    icono="👨"
+    tipo="success"
+    seleccionado={
+      formData.presentacionOperador === "Bien"
+    }
+    onClick={() =>
+      handleChange({
+        target:{
+          name:"presentacionOperador",
+          value:"Bien"
+        }
+      })
+    }
+  />
 
-          <option value="Mal">
-            Mal
-          </option>
+  <SelectionCard
+    titulo="Mal"
+    icono="⚠️"
+    tipo="danger"
+    seleccionado={
+      formData.presentacionOperador === "Mal"
+    }
+    onClick={() =>
+      handleChange({
+        target:{
+          name:"presentacionOperador",
+          value:"Mal"
+        }
+      })
+    }
+  />
 
-        </select>
+</div>
 
       </div>
 
