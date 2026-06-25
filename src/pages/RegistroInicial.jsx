@@ -709,7 +709,7 @@ if (Object.keys(nuevosErrores).length > 0) {
 
       }}
     >
-      ←
+      ← Regresar
     </button>
 
   </div>
@@ -846,7 +846,7 @@ if (Object.keys(nuevosErrores).length > 0) {
 
       }}
     >
-      ←
+      
     </button>
 
     <div className="rhf-codigo">
