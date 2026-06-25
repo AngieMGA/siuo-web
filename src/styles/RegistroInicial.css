@@ -1934,3 +1934,14 @@ input[type="checkbox"] {
   font-size:16px;
   color:#1f2937;
 }
+
+.rhf-top{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.rhf-header .btn-back{
+    margin:0;
+}

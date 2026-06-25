@@ -716,56 +716,47 @@ if (Object.keys(nuevosErrores).length > 0) {
 
 )}
 
-{checklistSeleccionado && (
+{checklistSeleccionado &&
+ checklistSeleccionado !== "RH-F-01-21" && (
 
-<CardSection title="INFORMACIÓN GENERAL">
+  <CardSection title="INFORMACIÓN GENERAL">
 
-            <InputField
-              label="Fecha"
-              name="fecha"
-              value={formData.fecha}
-              onChange={handleChange}
-            />
+    <InputField
+      label="Fecha"
+      name="fecha"
+      value={formData.fecha}
+      onChange={handleChange}
+    />
 
-            <InputField
-              label="Hora"
-              name="hora"
-              value={formData.hora}
-              onChange={handleChange}
-            />
+    <InputField
+      label="Hora"
+      name="hora"
+      value={formData.hora}
+      onChange={handleChange}
+    />
 
-            <div className="grupo">
+    <div className="grupo">
 
-              <label>Status</label>
+      <label>Status</label>
 
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-              >
+      <select
+        name="status"
+        value={formData.status}
+        onChange={handleChange}
+      >
 
-                <option>
-                  Pendiente
-                </option>
+        <option>Pendiente</option>
+        <option>En revisión</option>
+        <option>Aprobado</option>
+        <option>Rechazado</option>
 
-                <option>
-                  En revisión
-                </option>
+      </select>
 
-                <option>
-                  Aprobado
-                </option>
+    </div>
 
-                <option>
-                  Rechazado
-                </option>
+  </CardSection>
 
-              </select>
-
-            </div>
-
-          </CardSection>
-          )}
+)}
 
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
             <DatosGeneralesTransporte
@@ -840,6 +831,8 @@ if (Object.keys(nuevosErrores).length > 0) {
 
    <div className="rhf-header">
 
+     <div className="rhf-top"></div>
+
     <button
       className="btn-back"
       onClick={() => {
@@ -870,6 +863,44 @@ if (Object.keys(nuevosErrores).length > 0) {
 
   </div>
 
+  <CardSection title="INFORMACIÓN GENERAL">
+
+  <InputField
+    label="Fecha"
+    name="fecha"
+    value={formData.fecha}
+    onChange={handleChange}
+  />
+
+  <InputField
+    label="Hora"
+    name="hora"
+    value={formData.hora}
+    onChange={handleChange}
+  />
+
+  <div className="grupo">
+
+    <label>Status</label>
+
+    <select
+      name="status"
+      value={formData.status}
+      onChange={handleChange}
+    >
+
+      <option>Pendiente</option>
+      <option>En revisión</option>
+      <option>Aprobado</option>
+      <option>Rechazado</option>
+
+    </select>
+
+  </div>
+
+</CardSection>
+
+
     <RHF0121DatosGenerales
       formData={formData}
       handleChange={handleChange}
@@ -898,7 +929,6 @@ if (Object.keys(nuevosErrores).length > 0) {
       formData={formData}
       handleChange={handleChange}
     />
-    
 
     <RHF0121EntregaSection
       formData={formData}

@@ -8,8 +8,6 @@ function RHF0121DatosGenerales({
 
   return (
 
-    <>
-
     <CardSection title="DATOS GENERALES">
 
       <InputField
@@ -83,7 +81,7 @@ function RHF0121DatosGenerales({
       />
 
     </CardSection>
-    </>
+  
   );
 }
 
