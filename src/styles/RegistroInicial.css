@@ -1937,9 +1937,9 @@ input[type="checkbox"] {
     display:flex;
     align-items:center;
     gap:15px;
-    margin-bottom:15px;
 }
 
-.rhf-header .btn-back{
-    margin:0;
+.rhf-header-content{
+    flex:1;
+    text-align:center;
 }

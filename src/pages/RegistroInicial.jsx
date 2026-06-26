@@ -39,6 +39,7 @@ import RHF0121ResultadoSection from "../components/RHF0121ResultadoSection";
 import RHF0121RefrigeradoSection from "../components/RHF0121RefrigeradoSection";
 import RHF0121ComentariosSection from "../components/RHF0121ComentariosSection";
 import RHF0121EntregaSection from "../components/RHF0121EntregaSection";
+import HeaderChecklist from "../components/HeaderChecklist";
 
 function RegistroInicial() {
 
@@ -730,7 +731,6 @@ if (Object.keys(nuevosErrores).length > 0) {
 
     <InputField
       label="Hora"
-      name="hora"
       value={formData.hora}
       onChange={handleChange}
     />
@@ -759,11 +759,20 @@ if (Object.keys(nuevosErrores).length > 0) {
 )}
 
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
+            <>
+
+            <HeaderChecklist
+              codigo="SG-F-24-06"
+              titulo="CHECKLIST DE VERIFICACIÓN DE UNIDAD"
+              subtitulo="Auditoría de Transporte"
+            />
+
             <DatosGeneralesTransporte
               formData={formData}
               handleChange={handleChange}
               errors={errors}
             />
+            </>
 )}
 
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
@@ -798,6 +807,51 @@ if (Object.keys(nuevosErrores).length > 0) {
   {checklistSeleccionado === "SG-F-24-01" && (
   <>
 
+    <HeaderChecklist
+      codigo="SG-F-24-01"
+      titulo="RECEPCIÓN DE MATERIA PRIMA"
+      subtitulo="Recepción y Verificación"
+    />
+
+    <CardSection title="INFORMACIÓN GENERAL">
+
+      <InputField
+        label="Fecha"
+        name="fecha"
+        value={formData.fecha}
+        onChange={handleChange}
+      />
+
+      <InputField
+        label="Hora"
+        name="hora"
+        value={formData.hora}
+        onChange={handleChange}
+      />
+
+      <div className="grupo">
+
+        <label>Status</label>
+
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
+
+          <option>Pendiente</option>
+          <option>En revisión</option>
+          <option>Aprobado</option>
+          <option>Rechazado</option>
+
+        </select>
+
+      </div>
+
+    </CardSection>
+
+
+
     <DatosGeneralesSGF2401
       formData={formData}
       handleChange={handleChange}
@@ -829,39 +883,29 @@ if (Object.keys(nuevosErrores).length > 0) {
 {checklistSeleccionado === "RH-F-01-21" && (
   <>
 
-   <div className="rhf-header">
+  <HeaderChecklist
+  codigo="RH-F-01-21"
+  titulo="INSPECCIÓN DE TRACTOR Y REMOLQUE"
+  subtitulo="Requisitos de seguridad para ingreso y salida"
+>
 
-     <div className="rhf-top"></div>
+  <button
+    className="btn-back"
+    onClick={() => {
 
-    <button
-      className="btn-back"
-      onClick={() => {
+      setChecklistSeleccionado("");
 
-        setChecklistSeleccionado("");
+      setFormData({
+        ...formData,
+        tipoChecklist: ""
+      });
 
-        setFormData({
-          ...formData,
-          tipoChecklist: ""
-        });
+    }}
+  >
+    ←
+  </button>
 
-      }}
-    >
-      
-    </button>
-
-    <div className="rhf-codigo">
-      RH-F-01-21
-    </div>
-
-    <div className="rhf-titulo">
-      INSPECCIÓN DE TRACTOR Y REMOLQUE
-    </div>
-
-    <div className="rhf-subtitulo">
-      Requisitos de seguridad para ingreso y salida
-    </div>
-
-  </div>
+</HeaderChecklist>
 
   <CardSection title="INFORMACIÓN GENERAL">
 
