@@ -24,6 +24,7 @@ import DatosPesajeSection from "../components/DatosPesajeSection";
 import MermaAzucarSection from "../components/MermaAzucarSection";
 import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
+import SGF2433Section from "../components/SGF2433Section";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -205,6 +206,55 @@ function RegistroInicial() {
 
     nombreRecibe: "",
     nombreSupervisor: "",
+
+    // SG-F-24-33
+
+    nombreProducto: "",
+    fechaRecepcion: "",
+    horaRecepcion: "",
+    operador2433: "",
+    placas2433: "",
+    fechaTerminoRecepcion: "",
+    horaTerminoRecepcion: "",
+    numeroSellos2433: "",
+    numeroFactura2433: "",
+    turno2433: "",
+    tripulacion2433: "",
+
+    nivelAntes: "",
+    nivelDespues: "",
+
+    conosSeguridad: false,
+    ventilarOperacion: false,
+    contenedorIdentificado: false,
+    identificacionNOM: false,
+
+    explosivo: false,
+    inflamable: false,
+    gasPresion: false,
+    corrosivo: false,
+    comburente: false,
+    toxicidad: false,
+    salud: false,
+    medioAmbiente: false,
+
+    cantidadFactura: "",
+    cantidadFacturaObs: "",
+
+    certificadoCalidad: "",
+    certificadoCalidadObs: "",
+
+    contenedoresBuenasCondiciones: "",
+    contenedoresBuenasCondicionesObs: "",
+
+    producto1: "",
+    caducidad1: "",
+    producto2: "",
+    caducidad2: "",
+    producto3: "",
+    caducidad3: "",
+    producto4: "",
+    caducidad4: "",
 
     // RHF-0121
 
@@ -689,7 +739,28 @@ if (Object.keys(nuevosErrores).length > 0) {
       </small>
     </div>
 
+    <div
+  className="tarjeta-checklist"
+  onClick={() => {
+    setChecklistSeleccionado("SG-F-24-33");
+    setFormData({
+      ...formData,
+      tipoChecklist: "SG-F-24-33"
+    });
+  }}
+>
+  <h3>🧪 Recepción de Productos Químicos</h3>
+
+  <p>SG-F-24-33</p>
+
+  <small>
+    Recepción de productos químicos, materiales e ingredientes.
+  </small>
+
+</div>
+
   </div>
+
 
 )}
 
@@ -714,6 +785,15 @@ if (Object.keys(nuevosErrores).length > 0) {
     </button>
 
   </div>
+
+)}
+
+{checklistSeleccionado === "SG-F-24-33" && (
+
+    <SGF2433Section
+        formData={formData}
+        handleChange={handleChange}
+    />
 
 )}
 
@@ -744,11 +824,9 @@ if (Object.keys(nuevosErrores).length > 0) {
         value={formData.status}
         onChange={handleChange}
       >
-
-        <option>Pendiente</option>
-        <option>En revisión</option>
         <option>Aprobado</option>
         <option>Rechazado</option>
+        <option>Terreno</option>
 
       </select>
 
@@ -839,8 +917,6 @@ if (Object.keys(nuevosErrores).length > 0) {
           onChange={handleChange}
         >
 
-          <option>Pendiente</option>
-          <option>En revisión</option>
           <option>Aprobado</option>
           <option>Rechazado</option>
 
@@ -877,6 +953,58 @@ if (Object.keys(nuevosErrores).length > 0) {
       formData={formData}
       handleChange={handleChange}
     />
+  </>
+)}
+
+{checklistSeleccionado === "SG-F-24-33" && (
+  <>
+
+    <HeaderChecklist
+      codigo="SG-F-24-33"
+      titulo="RECEPCIÓN DE PRODUCTOS QUÍMICOS, MATERIALES E INGREDIENTES"
+      subtitulo="Recepción y Verificación"
+    />
+
+    <CardSection title="INFORMACIÓN GENERAL">
+
+      <InputField
+        label="Fecha"
+        name="fecha"
+        value={formData.fecha}
+        onChange={handleChange}
+      />
+
+      <InputField
+        label="Hora"
+        name="hora"
+        value={formData.hora}
+        onChange={handleChange}
+      />
+
+      <div className="grupo">
+
+        <label>Status</label>
+
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
+          <option>Pendiente</option>
+          <option>En revisión</option>
+          <option>Aprobado</option>
+          <option>Rechazado</option>
+        </select>
+
+      </div>
+
+    </CardSection>
+
+    <SGF2433Section
+      formData={formData}
+      handleChange={handleChange}
+    />
+
   </>
 )}
 
