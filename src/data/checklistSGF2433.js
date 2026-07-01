@@ -6,23 +6,21 @@ export const transporte2433 = [
 
   "Tipo de transporte (Redilas, Plataforma, Caja seca, Carro tanque, Pipa)",
 
-  "Condiciones generales (Luces, Llantas, Fugas)",
+  "Condiciones generales (Luces, Llantas, Fugas) Cuenta con hoja de Mantenimiento de Unidad y equipo adicional (bombeo, elevación, grua)",
 
-  "Cuenta con hoja de mantenimiento de unidad y equipo adicional",
-
-  "Anterior a la unidad",
+  "Aterrizar la unidad ( Antes de comenzar la descarga, gas Lp, materias primas base alcohol)",
 
   "Identificación del transporte con base a la sustancia almacenada",
 
-  "Trancas y acordonamiento del área",
+  "Tranca, acordonamiento del área, asegurar que no existan fuentes de ignición cerca",
 
-  "Hoja de datos de seguridad",
+  "Hoja de datos de seguridad de sustancias y/o producto químico",
 
   "Kit para derrames",
 
-  "Si se utiliza rampa móvil asegurar condiciones de la misma",
+  "Si se utiliza rampa móvil asegurar condiciones de la misma (trancas, fijación a la unidad)",
 
-  "No existen fuentes de ignición cerca"
+  "No existen fuentes de ignición cerca (Recepción de materias primas base alcohol, gas)"
 
 ];
 
