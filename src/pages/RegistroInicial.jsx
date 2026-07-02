@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
-import { catalogoChecklists } from "../data/catalogoChecklists";
-import "../styles/RegistroInicial.css";
+//Importación de imagenes
 import logo from "../assets/logoIeqsa.png";
 
+import { useEffect, useState } from "react";
+import { catalogoChecklists } from "../data/catalogoChecklists";
+import { ToastContainer, toast } from "react-toastify";
+import {checklistTransporte } from "../data/checklistTransporte";
+import {checklistRHF0121} from "../data/checklistRHF0121";
+import {checklistSGF2401 } from "../data/checklistSGF2401";
 import DatosGeneralesTransporte from "../components/DatosGeneralesTransporte";
 import DatosGeneralesSGF2401 from "../components/DatosGeneralesSGF2401";
 import DocumentacionSection from "../components/DocumentacionSection";
@@ -25,13 +29,7 @@ import MermaAzucarSection from "../components/MermaAzucarSection";
 import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 import SGF2433Section from "../components/SGF2433Section";
-
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import jsPDF from "jspdf";
-import {checklistTransporte } from "../data/checklistTransporte";
-import {checklistRHF0121} from "../data/checklistRHF0121";
-import {checklistSGF2401 } from "../data/checklistSGF2401";
 import RHF0121DatosGenerales from "../components/RHF0121DatosGenerales";
 import RHF0121Section from "../components/RHF0121Section";
 import RHF0121OperadorSection from "../components/RHF0121OperadorSection";
@@ -41,6 +39,9 @@ import RHF0121RefrigeradoSection from "../components/RHF0121RefrigeradoSection";
 import RHF0121ComentariosSection from "../components/RHF0121ComentariosSection";
 import RHF0121EntregaSection from "../components/RHF0121EntregaSection";
 import HeaderChecklist from "../components/HeaderChecklist";
+import GradoRiesgoSection from "../components/GradoRiesgoSection";
+import jsPDF from "jspdf";
+import "../styles/RegistroInicial.css";
 
 function RegistroInicial() {
 
@@ -981,6 +982,11 @@ if (Object.keys(nuevosErrores).length > 0) {
         onChange={handleChange}
       />
 
+      <GradoRiesgoSection
+        formData={formData}
+        handleChange={handleChange}
+      />
+
       <div className="grupo">
 
         <label>Status</label>
@@ -1072,6 +1078,10 @@ if (Object.keys(nuevosErrores).length > 0) {
 
 </CardSection>
 
+    {/*<GradoRiesgoSection
+      formData={formData}
+      handleChange={handleChange}
+    /> */}
 
     <RHF0121DatosGenerales
       formData={formData}
