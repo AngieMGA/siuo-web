@@ -798,45 +798,6 @@ if (Object.keys(nuevosErrores).length > 0) {
 
 )}
 
-{checklistSeleccionado &&
- checklistSeleccionado !== "RH-F-01-21" && (
-
-  <CardSection title="INFORMACIÓN GENERAL">
-
-    <InputField
-      label="Fecha"
-      name="fecha"
-      value={formData.fecha}
-      onChange={handleChange}
-    />
-
-    <InputField
-      label="Hora"
-      value={formData.hora}
-      onChange={handleChange}
-    />
-
-    <div className="grupo">
-
-      <label>Status</label>
-
-      <select
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
-      >
-        <option>Aprobado</option>
-        <option>Rechazado</option>
-        <option>Terreno</option>
-
-      </select>
-
-    </div>
-
-  </CardSection>
-
-)}
-
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
             <>
 

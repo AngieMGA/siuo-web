@@ -8,9 +8,9 @@ function RHF0121DatosGenerales({
 
   return (
 
-    <CardSection title="DATOS GENERALES">
+    <CardSection title="DATOS OPERADOR">
 
-      <InputField
+      {/* <InputField
         label="Fecha y Hora de Llegada"
         name="fechaHoraLlegada"
         value={formData.fechaHoraLlegada}
@@ -22,7 +22,7 @@ function RHF0121DatosGenerales({
         name="fechaHoraSalida"
         value={formData.fechaHoraSalida}
         onChange={handleChange}
-      />
+      />*/}
 
       <InputField
         label="Nombre del Operador"
