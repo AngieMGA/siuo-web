@@ -29,7 +29,6 @@ import MermaAzucarSection from "../components/MermaAzucarSection";
 import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 import SGF2433Section from "../components/SGF2433Section";
-import "react-toastify/dist/ReactToastify.css";
 import RHF0121DatosGenerales from "../components/RHF0121DatosGenerales";
 import RHF0121Section from "../components/RHF0121Section";
 import RHF0121OperadorSection from "../components/RHF0121OperadorSection";
@@ -40,8 +39,10 @@ import RHF0121ComentariosSection from "../components/RHF0121ComentariosSection";
 import RHF0121EntregaSection from "../components/RHF0121EntregaSection";
 import HeaderChecklist from "../components/HeaderChecklist";
 import GradoRiesgoSection from "../components/GradoRiesgoSection";
-import jsPDF from "jspdf";
+import RHF0121CargaDescargaSection from "../components/RHF0121CargaDescargaSection";
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/RegistroInicial.css";
+import jsPDF from "jspdf";
 
 function RegistroInicial() {
 
@@ -853,42 +854,10 @@ if (Object.keys(nuevosErrores).length > 0) {
       subtitulo="Recepción y Verificación"
     />
 
-    <CardSection title="INFORMACIÓN GENERAL">
-
-      <InputField
-        label="Fecha"
-        name="fecha"
-        value={formData.fecha}
-        onChange={handleChange}
-      />
-
-      <InputField
-        label="Hora"
-        name="hora"
-        value={formData.hora}
-        onChange={handleChange}
-      />
-
-      <div className="grupo">
-
-        <label>Status</label>
-
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-
-          <option>Aprobado</option>
-          <option>Rechazado</option>
-
-        </select>
-
-      </div>
-
-    </CardSection>
-
-
+    <SGF2401InformacionGeneral
+    formData={formData}
+    handleChange={handleChange}
+/>
 
     <DatosGeneralesSGF2401
       formData={formData}
@@ -926,46 +895,6 @@ if (Object.keys(nuevosErrores).length > 0) {
       titulo="RECEPCIÓN DE PRODUCTOS QUÍMICOS, MATERIALES E INGREDIENTES"
       subtitulo="Recepción y Verificación"
     />
-
-    <CardSection title="INFORMACIÓN GENERAL">
-
-      <InputField
-        label="Fecha"
-        name="fecha"
-        value={formData.fecha}
-        onChange={handleChange}
-      />
-
-      <InputField
-        label="Hora"
-        name="hora"
-        value={formData.hora}
-        onChange={handleChange}
-      />
-
-      <GradoRiesgoSection
-        formData={formData}
-        handleChange={handleChange}
-      />
-
-      <div className="grupo">
-
-        <label>Status</label>
-
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          <option>Pendiente</option>
-          <option>En revisión</option>
-          <option>Aprobado</option>
-          <option>Rechazado</option>
-        </select>
-
-      </div>
-
-    </CardSection>
 
     <SGF2433Section
       formData={formData}
