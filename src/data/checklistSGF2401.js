@@ -1,3 +1,9 @@
+// ======================================================
+// Preguntas no utilizadas por el área.
+// Se conservan comentadas para mantener la correspondencia
+// con el formato oficial SG-F-24-01.
+// ======================================================
+
 export const checklistSGF2401 = {
 
   id: "SG-F-24-01",
@@ -42,16 +48,17 @@ export const checklistSGF2401 = {
           texto: "Nombre del Operador en la Factura o Remision"
         },
 
-        {
+        /*{
           id: "TR-007",
           texto: "Certificado de Lavado de la unidad"
-        },
+        },*/
 
         {
           id: "TR-008",
           texto: "Se han colocado las trancas"
         },
 
+        /*
         {
           id: "TR-009",
           texto: "Temperatura (<10° Concentrado)"
@@ -61,6 +68,7 @@ export const checklistSGF2401 = {
           id: "TR-010",
           texto: "Inspeccionar contenedores de ingredientes asegurando que no haya daño que impacte en ingredientes "
         },
+        */
 
         {
           id: "TR-011",
@@ -76,10 +84,11 @@ export const checklistSGF2401 = {
 
   preguntas: [
 
+   /*
     {
       id: "MAT-001",
       texto: "Materias primas liberadas por Calidad antes de descarga"
-    },
+    },*/
 
     {
       id: "MAT-002",
@@ -106,7 +115,8 @@ export const checklistSGF2401 = {
       texto: "Libre de plagas"
     },
 
-    {
+   /*
+   {
       id: "MAT-007",
       texto: "Coincide cantidad física con cantidad facturada"
     },
@@ -115,6 +125,7 @@ export const checklistSGF2401 = {
       id: "MAT-008",
       texto: "Presenta certificado de calidad / cotejable"
     },
+    */
 
     {
       id: "MAT-009",
@@ -126,10 +137,12 @@ export const checklistSGF2401 = {
       texto: "Sellos de los Materiales (íntegros en buen estado)"
     },
 
-    {
+   /*
+   {
       id: "MAT-011",
       texto: "Lotes recibidos deberan cotejarse, no caducados y en concentrado no debera caducar en los proximos 30 días"
     },
+    */
 
     {
       id: "MAT-012",
@@ -143,13 +156,14 @@ export const checklistSGF2401 = {
 
   ]
 },
-
+  
     {
       id: "TARIMA",
       nombre: "Tarimas Nueva Estufada",
 
       preguntas: [
 
+  /*  
   {
     id: "TAR-001",
     texto: "Certificado de No Tratamiento Químico"
@@ -168,7 +182,7 @@ export const checklistSGF2401 = {
   {
     id: "TAR-004",
     texto: "Porcentaje de humedad no mayor a 19%"
-  }
+  }*/
 
 ]
     },
@@ -202,7 +216,7 @@ export const checklistSGF2401 = {
   ]
 },
 
-{
+/*{
   id: "SACO",
   nombre: "Calidad del Saco de Azúcar",
 
@@ -244,6 +258,6 @@ export const checklistSGF2401 = {
     }
 
   ]
-}
+}*/
   ]
 };

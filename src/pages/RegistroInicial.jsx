@@ -27,6 +27,7 @@ import SGF2401Section from "../components/SGF2401Section";
 import DatosPesajeSection from "../components/DatosPesajeSection";
 import MermaAzucarSection from "../components/MermaAzucarSection";
 import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
+import SGF2401InformacionGeneral from "../components/SGF2401InformacionGeneral";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 import SGF2433Section from "../components/SGF2433Section";
 import RHF0121DatosGenerales from "../components/RHF0121DatosGenerales";
