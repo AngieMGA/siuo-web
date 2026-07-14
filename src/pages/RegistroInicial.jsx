@@ -44,6 +44,8 @@ import RHF0121CargaDescargaSection from "../components/RHF0121CargaDescargaSecti
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/RegistroInicial.css";
 import jsPDF from "jspdf";
+import { generarPDFSGF2401 } from "../pdf/generarPDFSGF2401";
+import autoTable from "jspdf-autotable";
 
 function RegistroInicial() {
 
@@ -154,17 +156,10 @@ function RegistroInicial() {
     proveedor: "",
     material: "",
     operador: "",
-    lote: "",
     turno: "",
-
     diseno: "",
     tripulacion: "",
-
     placasNumero: "",
-
-    alergeno: "",
-
-    ordenCompra: "",
     facturaRemision: "",
 
     pesoInicial: "",
@@ -357,157 +352,33 @@ function RegistroInicial() {
 
   const generarPDF = () => {
 
-    const doc = new jsPDF();
+    console.log("Entró a generarPDF");
+    console.log(formData.tipoChecklist);
 
-    doc.setFontSize(20);
+  switch (formData.tipoChecklist) {
 
-    doc.text(
-      formData.tipoChecklist === "SG-F-24-01"
-        ? "SG-F-24-01 Recepción de Materia Prima"
-        : "Checklist de Verificación de Unidad",
-      20,
-      20
-    );
+    case "SG-F-24-01":
+      generarPDFSGF2401(formData);
+      break;
 
-    doc.setFontSize(12);
-    
-    doc.setFontSize(12);
+    case "CHK-TRANSPORTE":
+      toast.info("PDF de CHK Transporte en desarrollo.");
+      break;
 
-    doc.text(
-      `Fecha: ${formData.fecha}`,
-      20,
-      35
-    );
+    case "RH-F-01-21":
+      toast.info("PDF de RH-F-01-21 en desarrollo.");
+      break;
 
-    doc.text(
-      `Hora: ${formData.hora}`,
-      20,
-      45
-    );
+    case "SG-F-24-33":
+      toast.info("PDF de SG-F-24-33 en desarrollo.");
+      break;
 
-    doc.text(
-      `Status: ${formData.status}`,
-      20,
-      55
-    );
-    if (formData.tipoChecklist === "CHK-TRANSPORTE") {
+    default:
+      toast.error("Checklist no soportado.");
+      break;
+  }
 
-  doc.text(
-    `Operador: ${formData.nombreOperador}`,
-    20,
-    70
-  );
-
-  doc.text(
-    `Línea: ${formData.lineaTransporte}`,
-    20,
-    80
-  );
-
-  doc.text(
-    `Placas: ${formData.placasTracto}`,
-    20,
-    90
-  );
-
-  doc.text(
-    `Teléfono: ${formData.telefonoOperador}`,
-    20,
-    100
-  );
-
-  doc.text(
-    `Remolque 1: ${formData.remolque1}`,
-    20,
-    110
-  );
-
-  doc.text(
-    `Remolque 2: ${formData.remolque2}`,
-    20,
-    120
-  );
-
-}
-
-    if (formData.tipoChecklist === "SG-F-24-01") {
-
-  doc.text(
-    `Proveedor: ${formData.proveedor}`,
-    20,
-    140
-  );
-
-  doc.text(
-    `Material: ${formData.material}`,
-    20,
-    150
-  );
-
-  doc.text(
-    `Operador: ${formData.operador}`,
-    20,
-    160
-  );
-
-  doc.text(
-    `Lote: ${formData.lote}`,
-    20,
-    170
-  );
-
-  doc.text(
-    `Turno: ${formData.turno}`,
-    20,
-    180
-  );
-
-  doc.text(
-  `Diseño: ${formData.diseno}`,
-  20,
-  190
-);
-
-doc.text(
-  `Tripulación: ${formData.tripulacion}`,
-  20,
-  200
-);
-
-doc.text(
-  `Placas/Número: ${formData.placasNumero}`,
-  20,
-  210
-);
-
-doc.text(
-  `Alérgeno y/o Micro Sensitivo: ${formData.alergeno}`,
-  20,
-  220
-);
-
-doc.text(
-  `Orden de Compra IEQSA: ${formData.ordenCompra}`,
-  20,
-  230
-);
-
-doc.text(
-  `Factura / Remisión: ${formData.facturaRemision}`,
-  20,
-  240
-);
-
-}
-
-    doc.save(
-      formData.tipoChecklist === "SG-F-24-01"
-        ? "SG-F-24-01.pdf"
-        : "Checklist_de_verificacion_de_unidad.pdf"
-    );
-
-    toast.success("PDF generado");
-  };
+};
 
   const guardarChecklist = async () => {
 
@@ -557,11 +428,6 @@ if (formData.tipoChecklist === "SG-F-24-01") {
   if (!formData.operador) {
     nuevosErrores.operador =
       "Ingrese el operador";
-  }
-
-  if (!formData.lote) {
-    nuevosErrores.lote =
-      "Ingrese el lote";
   }
 
   if (!formData.turno) {
