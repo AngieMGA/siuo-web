@@ -17,7 +17,7 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
   );
 
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
+  doc.setFontSize(10);
 
   doc.text(
     titulo,
@@ -163,7 +163,6 @@ doc.line(
   ["Material", formData.material],
 
   ["Operador", formData.operador],
-  ["Lote", formData.lote],
 
   ["Turno", formData.turno],
   ["Diseño", formData.diseno],
@@ -171,7 +170,6 @@ doc.line(
   ["Tripulación", formData.tripulacion],
   ["Placas / Número", formData.placasNumero],
 
-  ["Orden de Compra", formData.ordenCompra],
   ["Factura / Remisión", formData.facturaRemision],
 
   ["Alérgeno", formData.alergeno]
@@ -293,13 +291,48 @@ const datosPesaje = [
 
   checklistSGF2401.secciones.forEach((seccion) => {
 
-  if (seccion.preguntas.length === 0) return;
+    if (inicioTabla > 245) {
+      doc.addPage();
+      inicioTabla = 20;
+    }
 
-  autoTable(doc, {
+    if (seccion.preguntas.length === 0) return;
+
+    doc.setFillColor(220,220,220);
+
+    doc.rect(
+    10,
+    inicioTabla,
+    195,
+    7,
+    "F"
+);
+
+    doc.setFont("helvetica","bold");
+
+    doc.setFontSize(11);
+
+    doc.text(
+        seccion.nombre.toUpperCase(),
+        15,
+        inicioTabla + 6
+    );
+
+    inicioTabla += 8;
+
+    autoTable(doc,{
 
     startY: inicioTabla,
 
     theme: "grid",
+
+    styles: {
+
+    fontSize: 9,
+
+    cellPadding: 2
+
+  },
 
     head: [[
       "Pregunta",
@@ -336,20 +369,22 @@ const datosPesaje = [
 
     headStyles: {
 
-      fillColor: [220, 220, 220],
+    fillColor: [235, 235, 235],
 
-      textColor: 0
+    textColor: 0,
 
-    },
+    fontStyle: "bold"
+
+  },
 
     columnStyles: {
 
   0: {
-    cellWidth: 155
+    cellWidth: 145
   },
 
   1: {
-    cellWidth: 35
+    cellWidth: 45.
   }
 
 }
@@ -357,7 +392,7 @@ const datosPesaje = [
   });
 
   inicioTabla =
-    doc.lastAutoTable.finalY + 10;
+    doc.lastAutoTable.finalY + 6;
 
 });
 
