@@ -5,8 +5,7 @@ import { checklistSGF2401 } from "../data/checklistSGF2401";
 
 function dibujarSeccion(doc, titulo, datos, yInicial) {
 
-  // Encabezado gris
-  doc.setFillColor(220, 220, 220);
+  doc.setFillColor(220,220,220);
 
   doc.rect(
     10,
@@ -16,7 +15,7 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
     "F"
   );
 
-  doc.setFont("helvetica", "bold");
+  doc.setFont("helvetica","bold");
   doc.setFontSize(10);
 
   doc.text(
@@ -25,17 +24,16 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
     yInicial + 6
   );
 
-  // Datos
-  doc.setFont("helvetica", "normal");
+  doc.setFont("helvetica","normal");
   doc.setFontSize(10);
 
   let y = yInicial + 16;
 
-  datos.forEach((campo, index) => {
+  datos.forEach((campo,index)=>{
 
     const columna = index % 2;
 
-    if (columna === 0) {
+    if(columna===0){
 
       doc.text(
         `${campo[0]}: ${campo[1] || ""}`,
@@ -43,7 +41,7 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
         y
       );
 
-    } else {
+    }else{
 
       doc.text(
         `${campo[0]}: ${campo[1] || ""}`,
@@ -51,13 +49,105 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
         y
       );
 
-      y += 8;
+      }
+
+      if (columna === 1 || index === datos.length - 1) {
+
+        y += 8;
 
     }
 
   });
 
   return y + 4;
+
+}
+
+function dibujarChecklist(
+  doc,
+  secciones,
+  formData,
+  inicioTabla
+) {
+
+  secciones.forEach((seccion) => {
+
+    if (seccion.preguntas.length === 0) return;
+
+    if (inicioTabla > 245) {
+      doc.addPage();
+      inicioTabla = 20;
+    }
+
+    doc.setFillColor(220,220,220);
+
+    doc.rect(
+      10,
+      inicioTabla,
+      195,
+      7,
+      "F"
+    );
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(10);
+
+    doc.text(
+      seccion.nombre.toUpperCase(),
+      15,
+      inicioTabla + 5
+    );
+
+    inicioTabla += 8;
+
+    autoTable(doc,{
+
+      startY: inicioTabla,
+
+      theme:"grid",
+
+      head:[["Pregunta","Resultado"]],
+
+      body: seccion.preguntas.map((pregunta)=>{
+
+        let resultado="N/A";
+
+        if(formData[pregunta.id]==="cumple")
+          resultado="Cumple";
+
+        if(formData[pregunta.id]==="noCumple")
+          resultado="No cumple";
+
+        return[
+          pregunta.texto,
+          resultado
+        ];
+
+      }),
+
+      styles:{
+        fontSize:9,
+        cellPadding:2
+      },
+
+      headStyles:{
+        fillColor:[235,235,235],
+        textColor:0
+      },
+
+      columnStyles:{
+        0:{cellWidth:145},
+        1:{cellWidth:45}
+      }
+
+    });
+
+    inicioTabla =
+      doc.lastAutoTable.finalY + 6;
+
+  });
+
+  return inicioTabla;
 
 }
 
@@ -135,28 +225,6 @@ doc.line(
   doc.text(formData.hora, 90, 53);
   doc.text(formData.status, 155, 53);
 
-  doc.setFillColor(220, 220, 220);
-
-  doc.rect(
-    10,
-    60,
-    195,
-    8,
-    "F"
-  );
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
-
-  doc.text(
-    "INFORMACIÓN GENERAL",
-    15,
-    66
-  );
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-
   const informacionGeneral = [
 
   ["Proveedor", formData.proveedor],
@@ -171,8 +239,6 @@ doc.line(
   ["Placas / Número", formData.placasNumero],
 
   ["Factura / Remisión", formData.facturaRemision],
-
-  ["Alérgeno", formData.alergeno]
 
 ];
 
@@ -289,112 +355,12 @@ const datosPesaje = [
 
   let inicioTabla = y + 12;
 
-  checklistSGF2401.secciones.forEach((seccion) => {
-
-    if (inicioTabla > 245) {
-      doc.addPage();
-      inicioTabla = 20;
-    }
-
-    if (seccion.preguntas.length === 0) return;
-
-    doc.setFillColor(220,220,220);
-
-    doc.rect(
-    10,
-    inicioTabla,
-    195,
-    7,
-    "F"
+inicioTabla = dibujarChecklist(
+  doc,
+  checklistSGF2401.secciones,
+  formData,
+  inicioTabla
 );
-
-    doc.setFont("helvetica","bold");
-
-    doc.setFontSize(11);
-
-    doc.text(
-        seccion.nombre.toUpperCase(),
-        15,
-        inicioTabla + 6
-    );
-
-    inicioTabla += 8;
-
-    autoTable(doc,{
-
-    startY: inicioTabla,
-
-    theme: "grid",
-
-    styles: {
-
-    fontSize: 9,
-
-    cellPadding: 2
-
-  },
-
-    head: [[
-      "Pregunta",
-      "Resultado"
-    ]],
-
-    body: seccion.preguntas.map((pregunta) => {
-
-  let resultado = "";
-
-  if (formData[pregunta.id] === "cumple") {
-
-    resultado = "Cumple";
-
-  } else if (formData[pregunta.id] === "noCumple") {
-
-    resultado = "No cumple";
-
-  } else {
-
-    resultado = "N/A";
-
-  }
-
-  return [
-
-    pregunta.texto,
-
-    resultado
-
-  ];
-
-}),
-
-    headStyles: {
-
-    fillColor: [235, 235, 235],
-
-    textColor: 0,
-
-    fontStyle: "bold"
-
-  },
-
-    columnStyles: {
-
-  0: {
-    cellWidth: 145
-  },
-
-  1: {
-    cellWidth: 45.
-  }
-
-}
-
-  });
-
-  inicioTabla =
-    doc.lastAutoTable.finalY + 6;
-
-});
 
 doc.save("SG-F-24-01.pdf");
 
