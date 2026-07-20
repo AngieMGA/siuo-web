@@ -18,7 +18,7 @@ import EvidenciasSection from "../components/EvidenciasSection";
 import HistorialSection from "../components/HistorialSection";
 import DashboardSection from "../components/DashboardSection";
 import TruckInspection from "../components/TruckInspection";
-import TireInspection from "../components/TireInspection";
+import TruckDiagram from "../components/TruckDiagram";
 import ModalDetalle from "../components/ModalDetalle";
 import SupervisorSection from "../components/SupervisorSection";
 import InputField from "../components/InputField";
@@ -908,10 +908,6 @@ if (Object.keys(nuevosErrores).length > 0) {
 
   {checklistSeleccionado === "CHK-TRANSPORTE" && (
     <>
-      <TireInspection
-        remolque1={formData.remolque1}
-        remolque2={formData.remolque2}
-      />
 
       <DashboardSection
         historial={historial}

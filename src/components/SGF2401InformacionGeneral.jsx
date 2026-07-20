@@ -3,6 +3,7 @@ import InputField from "./InputField";
 
 function SGF2401InformacionGeneral({ formData, handleChange }) {
   return (
+
     <CardSection title="INFORMACIÓN GENERAL">
       <InputField
         label="Fecha"

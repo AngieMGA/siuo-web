@@ -1,0 +1,109 @@
+.truck-diagram {
+
+  position: relative;
+
+  width: 900px;
+
+  max-width: 100%;
+
+  margin: 20px auto;
+
+}
+
+.truck-image {
+
+  width: 100%;
+
+  display: block;
+
+}
+
+/* Zonas clicables */
+
+.hotspot {
+
+  position: absolute;
+
+  width: 26px;
+
+  height: 26px;
+
+  border-radius: 50%;
+
+  border: 2px solid white;
+
+  cursor: pointer;
+
+  transform: translate(-50%, -50%);
+
+  transition: .2s;
+
+}
+
+.hotspot:hover {
+
+  transform: translate(-50%, -50%) scale(1.2);
+
+}
+
+.ok {
+
+  background: rgba(46, 204, 113, .75);
+
+}
+
+.observacion {
+
+  background: rgba(241, 196, 15, .85);
+
+}
+
+.danio {
+
+  background: rgba(231, 76, 60, .85);
+
+}
+
+/* Leyenda */
+
+.leyenda {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 25px;
+
+  margin-top: 20px;
+
+  font-weight: 600;
+
+}
+
+.hotspot{
+
+    position:absolute;
+
+    width:26px;
+
+    height:26px;
+
+    background:red;
+
+    color:white;
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    transform:translate(-50%,-50%);
+
+}

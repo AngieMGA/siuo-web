@@ -1,5 +1,6 @@
 import CardSection from "./CardSection";
 import StatusButton from "./StatusButton";
+import TruckDiagram from "./TruckDiagram"; 
 
 const preguntasEstadoRemolque = [
 
@@ -46,6 +47,8 @@ function EstadoRemolqueSection({
 }) {
 
   return (
+
+      <>
 
     <CardSection title="ESTADO DEL REMOLQUE">
 
@@ -134,6 +137,18 @@ function EstadoRemolqueSection({
       </table>
 
     </CardSection>
+
+    <CardSection title="DIAGRAMA DE LA UNIDAD">
+    <TruckDiagram tipo="UNIDAD" />
+    </CardSection>
+
+    {formData.remolque2?.trim() && (
+        <CardSection title="DIAGRAMA DEL REMOLQUE 2">
+            <TruckDiagram tipo="REM2" />
+        </CardSection>
+)}
+
+  </>
 
   );
 }

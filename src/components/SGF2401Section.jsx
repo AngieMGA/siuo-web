@@ -2,6 +2,7 @@ import CardSection from "./CardSection";
 import { checklistSGF2401 } from "../data/checklistSGF2401";
 import InputField from "./InputField";
 import React from "react";
+import TruckDiagram from "../components/TruckDiagram";
 
 function SGF2401Section({
   formData,
@@ -9,7 +10,7 @@ function SGF2401Section({
 }) {
 
   return (
-
+  
     <CardSection title="SG-F-24-01">
 
       {checklistSGF2401.secciones
