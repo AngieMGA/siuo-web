@@ -138,14 +138,14 @@ function EstadoRemolqueSection({
 
     </CardSection>
 
-    <CardSection title="DIAGRAMA DE LA UNIDAD">
-    <TruckDiagram tipo="UNIDAD" />
-    </CardSection>
+    <CardSection title="DIAGRAMA DEL REMOLQUE 1">
+    <TruckDiagram tipo="REM1" />
+</CardSection>
 
-    {formData.remolque2?.trim() && (
-        <CardSection title="DIAGRAMA DEL REMOLQUE 2">
-            <TruckDiagram tipo="REM2" />
-        </CardSection>
+{formData.remolque2?.trim() && (
+    <CardSection title="DIAGRAMA DEL REMOLQUE 2">
+        <TruckDiagram tipo="REM2" />
+    </CardSection>
 )}
 
   </>
