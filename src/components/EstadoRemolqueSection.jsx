@@ -43,7 +43,8 @@ const preguntasEstadoRemolque = [
 
 function EstadoRemolqueSection({
   formData,
-  handleChange
+  handleChange,
+  actualizarLlanta
 }) {
 
   return (
@@ -139,12 +140,20 @@ function EstadoRemolqueSection({
     </CardSection>
 
     <CardSection title="DIAGRAMA DEL REMOLQUE 1">
-    <TruckDiagram tipo="REM1" />
+    <TruckDiagram
+    tipo="REM1"
+    llantas={formData.llantas}
+    actualizarLlanta={actualizarLlanta}
+/>
 </CardSection>
 
 {formData.remolque2?.trim() && (
     <CardSection title="DIAGRAMA DEL REMOLQUE 2">
-        <TruckDiagram tipo="REM2" />
+  <TruckDiagram
+      tipo="REM2"
+      llantas={formData.llantas}
+      actualizarLlanta={actualizarLlanta}
+  />
     </CardSection>
 )}
 

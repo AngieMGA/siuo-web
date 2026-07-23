@@ -46,6 +46,7 @@ import "../styles/RegistroInicial.css";
 import jsPDF from "jspdf";
 import { generarPDFSGF2401 } from "../pdf/generarPDFSGF2401";
 import autoTable from "jspdf-autotable";
+import { LLANTAS } from "../data/truckDiagramData";
 
 function RegistroInicial() {
 
@@ -292,11 +293,14 @@ function RegistroInicial() {
   return `IEQSA-RT-${fecha}-${String(ultimoConsecutivo).padStart(3, "0")}`;
 };
 
-  const [formData, setFormData] =
-  useState({
+  const [formData, setFormData] = useState({
     ...formularioInicial,
-    folio: generarFolio()
-  });
+    folio: generarFolio(),
+    llantas: LLANTAS.map(llanta => ({
+        ...llanta,
+        incidencias: [...llanta.incidencias]
+    }))
+});
 
   const handleChange = (e) => {
 
@@ -320,6 +324,24 @@ function RegistroInicial() {
     ...errors,
     [name]: ""
   });
+};
+
+const actualizarLlanta = (llantaActualizada) => {
+
+  setFormData(prev => ({
+
+    ...prev,
+
+    llantas: prev.llantas.map(llanta =>
+
+      llanta.id === llantaActualizada.id
+        ? llantaActualizada
+        : llanta
+
+    )
+
+  }));
+
 };
 
   const editarChecklist = (item) => {
@@ -706,8 +728,9 @@ if (Object.keys(nuevosErrores).length > 0) {
           />
 
           <EstadoRemolqueSection
-            formData={formData}
-            handleChange={handleChange}
+              formData={formData}
+              handleChange={handleChange}
+              actualizarLlanta={actualizarLlanta}
           />
         </>
 )}

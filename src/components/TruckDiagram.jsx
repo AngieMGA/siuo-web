@@ -1,12 +1,14 @@
+import { useState } from "react";
 import "../styles/TruckDiagram.css";
 import TruckDiagramSvg from "./TruckDiagramSvg";
-import { LLANTAS } from "../data/truckDiagramData";
+import TireModal from "./TireModal";
 
-function TruckDiagram({ tipo }) {
 
-    const grupoMostrar = tipo;
+function TruckDiagram({ tipo, llantas, actualizarLlanta }) {
 
-    const llantasMostrar = LLANTAS.filter(
+    const [llantaSeleccionada, setLlantaSeleccionada] = useState(null);
+
+    const llantasMostrar = (llantas || []).filter(
     llanta => llanta.grupo === tipo
 );
 
@@ -16,7 +18,19 @@ function TruckDiagram({ tipo }) {
             <TruckDiagramSvg
                 llantas={llantasMostrar}
                 onLlantaClick={(llanta) => {
-                    console.log(llanta);
+                    setLlantaSeleccionada(llanta);
+                }}
+            />
+
+            <TireModal
+                llanta={llantaSeleccionada}
+                onClose={() => setLlantaSeleccionada(null)}
+                onGuardar={(llantaActualizada) => {
+
+                    actualizarLlanta(llantaActualizada);
+
+                    setLlantaSeleccionada(null);
+
                 }}
             />
 

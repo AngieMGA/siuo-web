@@ -18,28 +18,41 @@ export const INCIDENCIAS = [
     { id: "OTRO", nombre: "Otro" }
 ];
 
+
 export const LLANTAS = [
 
-    // REMOLQUE 1
-    { id:"R1_1", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:260, y:145 },
-    { id:"R1_2", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:300, y:145 },
-    { id:"R1_3", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:260, y:245 },
-    { id:"R1_4", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:300, y:245 },
+// ===== TRACTO =====
 
-    { id:"R1_5", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:690, y:145 },
-    { id:"R1_6", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:730, y:145 },
-    { id:"R1_7", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:690, y:245 },
-    { id:"R1_8", grupo:"REM1", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:730, y:245 },
+// Dirección
+{ id:"T1", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:70,  y:95 },
+{ id:"T2", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:70,  y:250 },
 
-    // REMOLQUE 2
-    { id:"R2_1", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:260, y:145 },
-    { id:"R2_2", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:300, y:145 },
-    { id:"R2_3", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:260, y:245 },
-    { id:"R2_4", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:300, y:245 },
+// Primer eje dual
+{ id:"T3", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:180, y:95 },
+{ id:"T4", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:220, y:95 },
 
-    { id:"R2_5", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:690, y:145 },
-    { id:"R2_6", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:730, y:145 },
-    { id:"R2_7", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:690, y:245 },
-    { id:"R2_8", grupo:"REM2", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:730, y:245 }
+{ id:"T5", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:180, y:250 },
+{ id:"T6", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:220, y:250 },
+
+// Segundo eje dual
+{ id:"T7", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:280, y:95 },
+{ id:"T8", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:320, y:95 },
+
+{ id:"T9", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:280, y:250 },
+{ id:"T10", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:320, y:250 },
+
+// ===== REMOLQUE =====
+
+{ id:"R1", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:760, y:95 },
+{ id:"R2", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:800, y:95 },
+
+{ id:"R3", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:760, y:250 },
+{ id:"R4", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:800, y:250 },
+
+{ id:"R5", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:900, y:95 },
+{ id:"R6", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:940, y:95 },
+
+{ id:"R7", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:900, y:250 },
+{ id:"R8", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:940, y:250 },
 
 ];
