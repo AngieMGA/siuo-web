@@ -141,19 +141,19 @@ function EstadoRemolqueSection({
 
     <CardSection title="DIAGRAMA DEL REMOLQUE 1">
     <TruckDiagram
-    tipo="REM1"
-    llantas={formData.llantas}
-    actualizarLlanta={actualizarLlanta}
-/>
+        tipo="REM1"
+        llantas={formData.llantasRem1}
+        actualizarLlanta={actualizarLlanta}
+    />
 </CardSection>
 
 {formData.remolque2?.trim() && (
     <CardSection title="DIAGRAMA DEL REMOLQUE 2">
-  <TruckDiagram
-      tipo="REM2"
-      llantas={formData.llantas}
-      actualizarLlanta={actualizarLlanta}
-  />
+        <TruckDiagram
+            tipo="REM2"
+            llantas={formData.llantasRem2}
+            actualizarLlanta={actualizarLlanta}
+        />
     </CardSection>
 )}
 

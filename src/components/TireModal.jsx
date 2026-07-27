@@ -24,15 +24,6 @@ function TireModal({
 
     if (!datos) return null;
 
-    const cambiarEstado = (estado) => {
-
-        setDatos(prev => ({
-            ...prev,
-            estado
-        }));
-
-    };
-
     const cambiarComentario = (comentario) => {
 
         setDatos(prev => ({
@@ -64,115 +55,142 @@ function TireModal({
 
             <div className="modal">
 
-                <h2>Llanta {datos.id}</h2>
+                <h2>Llanta {datos.numero}</h2>
 
                 <hr />
 
-                <label>Estado</label>
+                {datos.estado === ESTADOS.BIEN && (
 
-                <select
-                    value={datos.estado}
-                    onChange={(e) =>
-                        cambiarEstado(e.target.value)
-                    }
-                >
+    <>
 
-                    <option value={ESTADOS.BIEN}>
-                        Bien
-                    </option>
+        <p><strong>¿Qué deseas registrar?</strong></p>
 
-                    <option value={ESTADOS.OBSERVACION}>
-                        Observación
-                    </option>
+        <div
+            style={{
+                display: "flex",
+                gap: 10,
+                justifyContent: "center",
+                marginTop: 20,
+                marginBottom: 20
+            }}
+        >
 
-                    <option value={ESTADOS.DANADA}>
-                        Dañada
-                    </option>
+            <button
+                type="button"
+                onClick={() =>
+                    setDatos(prev => ({
+                        ...prev,
+                        estado: ESTADOS.DANADA
+                    }))
+                }
+            >
+                🔴 Dañada
+            </button>
 
-                </select>
+            <button
+                type="button"
+                onClick={() =>
+                    setDatos(prev => ({
+                        ...prev,
+                        estado: ESTADOS.OBSERVACION
+                    }))
+                }
+            >
+                🟡 Observación
+            </button>
+
+        </div>
+
+    </>
+
+)}
+
+                {datos.estado === ESTADOS.OBSERVACION && (
+
+                    <>
+
+                        <label>Comentario</label>
+
+                        <textarea
+                            rows="4"
+                            value={datos.comentario}
+                            onChange={(e) =>
+                                cambiarComentario(e.target.value)
+                            }
+                        />
+
+                    </>
+
+                )}
+
+                {datos.estado === ESTADOS.DANADA && (
+
+                    <>
+
+                        <label>Incidencias</label>
+
+                        <div>
+
+                            {INCIDENCIAS.map((incidencia) => (
+
+                                <label
+                                    key={incidencia.id}
+                                    style={{
+                                        display: "block",
+                                        marginBottom: 5
+                                    }}
+                                >
+
+                                    <input
+                                        type="checkbox"
+                                        checked={datos.incidencias.includes(
+                                            incidencia.id
+                                        )}
+                                        onChange={() =>
+                                            cambiarIncidencia(incidencia.id)
+                                        }
+                                    />
+
+                                    {" "}
+                                    {incidencia.nombre}
+
+                                </label>
+
+                            ))}
+
+                        </div>
+
+                    </>
+
+                )}
 
                 <br />
-                <br />
 
-                <label>Incidencias</label>
+<div
+    style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        gap: 10
+    }}
+>
 
-                <div>
+    <button
+        type="button"
+        onClick={onClose}
+    >
+        Cancelar
+    </button>
 
-                    {INCIDENCIAS.map((incidencia) => (
+    {datos.estado !== ESTADOS.BIEN && (
+        <button
+            type="button"
+            onClick={() => onGuardar(datos)}
+        >
+            Guardar
+        </button>
+    )}
 
-                        <label
-                            key={incidencia.id}
-                            style={{
-                                display: "block",
-                                marginBottom: 5
-                            }}
-                        >
-
-                            <input
-                                type="checkbox"
-                                checked={
-                                    datos.incidencias.includes(
-                                        incidencia.id
-                                    )
-                                }
-                                onChange={() =>
-                                    cambiarIncidencia(
-                                        incidencia.id
-                                    )
-                                }
-                            />
-
-                            {" "}
-                            {incidencia.nombre}
-
-                        </label>
-
-                    ))}
-
-                </div>
-
-                <br />
-
-                <label>Comentario</label>
-
-                <textarea
-                    rows="4"
-                    value={datos.comentario}
-                    onChange={(e) =>
-                        cambiarComentario(
-                            e.target.value
-                        )
-                    }
-                />
-
-                <br />
-                <br />
-
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: 10
-                    }}
-                >
-
-                    <button
-                        type="button"
-                        onClick={onClose}
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={() =>
-                            onGuardar(datos)
-                        }
-                    >
-                        Guardar
-                    </button>
-
-                </div>
+</div>
 
             </div>
 

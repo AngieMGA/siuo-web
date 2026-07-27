@@ -15,16 +15,30 @@ function Tire({ llanta, onClick }) {
             onClick={() => onClick?.(llanta)}
         >
 
+            {/* Número */}
+            <text
+                x={llanta.x}
+                y={llanta.y - 12}
+                textAnchor="middle"
+                fontSize="8"
+                fontWeight="bold"
+                fill="#000"
+            >
+                {llanta.numero}
+            </text>
+
+            {/* Llanta */}
             <ellipse
                 cx={llanta.x}
                 cy={llanta.y}
-                rx="12"
-                ry="8"
+                rx="10"
+                ry="6"
                 fill={COLORES[llanta.estado]}
                 stroke="#222"
                 strokeWidth="2"
             />
 
+            {/* Centro */}
             <ellipse
                 cx={llanta.x}
                 cy={llanta.y}

@@ -3,34 +3,31 @@ import "../styles/TruckDiagram.css";
 import TruckDiagramSvg from "./TruckDiagramSvg";
 import TireModal from "./TireModal";
 
-
 function TruckDiagram({ tipo, llantas, actualizarLlanta }) {
 
     const [llantaSeleccionada, setLlantaSeleccionada] = useState(null);
 
-    const llantasMostrar = (llantas || []).filter(
-    llanta => llanta.grupo === tipo
-);
+    const llantasMostrar = llantas || [];
+
+    const manejarClickLlanta = (llanta) => {
+        setLlantaSeleccionada(llanta);
+    };
 
     return (
         <div className="truck-diagram">
 
             <TruckDiagramSvg
+                tipo={tipo}
                 llantas={llantasMostrar}
-                onLlantaClick={(llanta) => {
-                    setLlantaSeleccionada(llanta);
-                }}
+                onLlantaClick={manejarClickLlanta}
             />
 
             <TireModal
                 llanta={llantaSeleccionada}
                 onClose={() => setLlantaSeleccionada(null)}
                 onGuardar={(llantaActualizada) => {
-
-                    actualizarLlanta(llantaActualizada);
-
+                    actualizarLlanta(tipo, llantaActualizada);
                     setLlantaSeleccionada(null);
-
                 }}
             />
 

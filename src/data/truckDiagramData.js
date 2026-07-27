@@ -18,41 +18,65 @@ export const INCIDENCIAS = [
     { id: "OTRO", nombre: "Otro" }
 ];
 
+export const LLANTAS_REM1 = [
 
-export const LLANTAS = [
+    // Cabina
+    { id:"R1", numero:1, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:42, y:82 },
+    { id:"R2", numero:2, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:42, y:193 },
 
-// ===== TRACTO =====
+    // Eje 1
+    { id:"R3", numero:3, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:170, y:78 },
+    { id:"R4", numero:4, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:210, y:78 },
 
-// Dirección
-{ id:"T1", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:70,  y:95 },
-{ id:"T2", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:70,  y:250 },
+    { id:"R5", numero:5, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:170, y:196 },
+    { id:"R6", numero:6, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:210, y:196 },
 
-// Primer eje dual
-{ id:"T3", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:180, y:95 },
-{ id:"T4", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:220, y:95 },
+    // Eje 2
+    { id:"R7", numero:7, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:250, y:78 },
+    { id:"R8", numero:8, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:290, y:78 },
 
-{ id:"T5", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:180, y:250 },
-{ id:"T6", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:220, y:250 },
+    { id:"R9", numero:9, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:250, y:196 },
+    { id:"R10", numero:10, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:290, y:196 },
 
-// Segundo eje dual
-{ id:"T7", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:280, y:95 },
-{ id:"T8", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:320, y:95 },
+    // Remolque
+    { id:"R11", numero:11, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:605, y:78 },
+    { id:"R12", numero:12, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:645, y:78 },
 
-{ id:"T9", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:280, y:250 },
-{ id:"T10", grupo:"TRACTO", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:320, y:250 },
+    { id:"R13", numero:13, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:605, y:196 },
+    { id:"R14", numero:14, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:645, y:196 },
 
-// ===== REMOLQUE =====
+    { id:"R15", numero:15, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:685, y:78 },
+    { id:"R16", numero:16, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:725, y:78 },
 
-{ id:"R1", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:760, y:95 },
-{ id:"R2", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:800, y:95 },
+    { id:"R17", numero:17, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:685, y:196 },
+    { id:"R18", numero:18, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:725, y:196 }
 
-{ id:"R3", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:760, y:250 },
-{ id:"R4", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:800, y:250 },
+];
 
-{ id:"R5", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:900, y:95 },
-{ id:"R6", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:940, y:95 },
+export const LLANTAS_REM2 = [
 
-{ id:"R7", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:900, y:250 },
-{ id:"R8", grupo:"REMOLQUE", estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:940, y:250 },
+    { id:"R1", numero:1, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:605, y:78 },
+    { id:"R2", numero:2, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:645, y:78 },
+
+    { id:"R3", numero:3, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:605, y:196 },
+    { id:"R4", numero:4, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:645, y:196 },
+
+    { id:"R5", numero:5, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:685, y:78 },
+    { id:"R6", numero:6, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:725, y:78 },
+
+    { id:"R7", numero:7, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:685, y:196 },
+    { id:"R8", numero:8, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:725, y:196 },
+
+    { id:"R9", numero:9, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:765, y:78 },
+    { id:"R10", numero:10, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:805, y:78 },
+
+    { id:"R11", numero:11, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:765, y:196 },
+    { id:"R12", numero:12, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:805, y:196 },
+
+    { id:"R13", numero:13, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:845, y:78 },
+    { id:"R14", numero:14, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:885, y:78 },
+
+    { id:"R15", numero:15, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:845, y:196 },
+    { id:"R16", numero:16, estado:ESTADOS.BIEN, incidencias:[], comentario:"", x:885, y:196 }
 
 ];

@@ -46,7 +46,7 @@ import "../styles/RegistroInicial.css";
 import jsPDF from "jspdf";
 import { generarPDFSGF2401 } from "../pdf/generarPDFSGF2401";
 import autoTable from "jspdf-autotable";
-import { LLANTAS } from "../data/truckDiagramData";
+import { LLANTAS_REM1, LLANTAS_REM2 } from "../data/truckDiagramData";
 
 function RegistroInicial() {
 
@@ -296,7 +296,13 @@ function RegistroInicial() {
   const [formData, setFormData] = useState({
     ...formularioInicial,
     folio: generarFolio(),
-    llantas: LLANTAS.map(llanta => ({
+
+    llantasRem1: LLANTAS_REM1.map(llanta => ({
+        ...llanta,
+        incidencias: [...llanta.incidencias]
+    })),
+
+    llantasRem2: LLANTAS_REM2.map(llanta => ({
         ...llanta,
         incidencias: [...llanta.incidencias]
     }))
@@ -326,21 +332,31 @@ function RegistroInicial() {
   });
 };
 
-const actualizarLlanta = (llantaActualizada) => {
+const actualizarLlanta = (tipo, llantaActualizada) => {
 
-  setFormData(prev => ({
+    if (tipo === "REM1") {
 
-    ...prev,
+        setFormData(prev => ({
+            ...prev,
+            llantasRem1: prev.llantasRem1.map(llanta =>
+                llanta.id === llantaActualizada.id
+                    ? llantaActualizada
+                    : llanta
+            )
+        }));
 
-    llantas: prev.llantas.map(llanta =>
+    } else if (tipo === "REM2") {
 
-      llanta.id === llantaActualizada.id
-        ? llantaActualizada
-        : llanta
+        setFormData(prev => ({
+            ...prev,
+            llantasRem2: prev.llantasRem2.map(llanta =>
+                llanta.id === llantaActualizada.id
+                    ? llantaActualizada
+                    : llanta
+            )
+        }));
 
-    )
-
-  }));
+    }
 
 };
 

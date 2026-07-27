@@ -1,55 +1,53 @@
-import { LLANTAS } from "../data/truckDiagramData";
+import truckDiagram from "../assets/truckDiagram.png";
 import Tire from "./Tire";
 
-function TruckDiagramSvg({ llantas = LLANTAS, onLlantaClick }) {
+function TruckDiagramSvg({ tipo, llantas = [], onLlantaClick }) {
 
     return (
-        <svg
-    viewBox="0 0 1000 400"
-    width="100%"
-    height="100%"
->
 
-    {/* Caja del remolque */}
-    <rect
-        x="170"
-        y="90"
-        width="650"
-        height="220"
-        rx="10"
-        fill="#F8F8F8"
-        stroke="#555"
-        strokeWidth="3"
-    />
+        <div
+            style={{
+                position: "relative",
+                width: "100%",
+                maxWidth: "1100px",
+                margin: "0 auto"
+            }}
+        >
 
-    {/* Patines */}
-    <line
-        x1="240"
-        y1="310"
-        x2="240"
-        y2="340"
-        stroke="#555"
-        strokeWidth="3"
-    />
+            <img
+                src={truckDiagram}
+                alt="Diagrama del remolque"
+                style={{
+                    width: "100%",
+                    display: "block"
+                }}
+            />
 
-    <line
-        x1="280"
-        y1="310"
-        x2="280"
-        y2="340"
-        stroke="#555"
-        strokeWidth="3"
-    />
+            <svg
+                viewBox="0 0 791 277"
+                style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%"
+                }}
+            >
 
-    {llantas.map((llanta) => (
-        <Tire
-            key={llanta.id}
-            llanta={llanta}
-            onClick={onLlantaClick}
-        />
-    ))}
+                {llantas.map((llanta) => (
 
-</svg>
+                    <Tire
+                        key={llanta.id}
+                        llanta={llanta}
+                        onClick={onLlantaClick}
+                    />
+
+                ))}
+
+            </svg>
+
+        </div>
+
     );
 
 }
