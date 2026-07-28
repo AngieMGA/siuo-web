@@ -3,9 +3,11 @@ import "../styles/TruckDiagram.css";
 import TruckDiagramSvg from "./TruckDiagramSvg";
 import TireModal from "./TireModal";
 
-function TruckDiagram({ tipo, llantas, actualizarLlanta }) {
+function TruckDiagram({ tipo, llantas, actualizarLlanta,   mostrarFull }) {
 
     const [llantaSeleccionada, setLlantaSeleccionada] = useState(null);
+
+    const [llantasTemp, setLlantasTemp] = useState(llantas || []);
 
     const llantasMostrar = llantas || [];
 
@@ -20,6 +22,7 @@ function TruckDiagram({ tipo, llantas, actualizarLlanta }) {
                 tipo={tipo}
                 llantas={llantasMostrar}
                 onLlantaClick={manejarClickLlanta}
+                mostrarFull={mostrarFull}
             />
 
             <TireModal

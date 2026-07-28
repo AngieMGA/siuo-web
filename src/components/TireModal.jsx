@@ -11,16 +11,17 @@ function TireModal({
 
     useEffect(() => {
 
-        if (llanta) {
+    if (!llanta) {
+        setDatos(null);
+        return;
+    }
 
-            setDatos({
-                ...llanta,
-                incidencias: [...llanta.incidencias]
-            });
+    setDatos({
+        ...llanta,
+        incidencias: [...llanta.incidencias]
+    });
 
-        }
-
-    }, [llanta]);
+}, [llanta]);
 
     if (!datos) return null;
 
@@ -107,39 +108,69 @@ function TireModal({
 
                 {datos.estado === ESTADOS.OBSERVACION && (
 
-                    <>
+    <>
 
-                        <label>Comentario</label>
+        <button
+            type="button"
+            onClick={() =>
+                setDatos(prev => ({
+                    ...prev,
+                    estado: ESTADOS.BIEN
+                }))
+            }
+        >
+            ← Regresar
+        </button>
 
-                        <textarea
-                            rows="4"
-                            value={datos.comentario}
-                            onChange={(e) =>
-                                cambiarComentario(e.target.value)
-                            }
-                        />
+        <br />
+        <br />
 
-                    </>
+        <label>Comentario</label>
 
-                )}
+        <textarea
+            rows="4"
+            value={datos.comentario}
+            onChange={(e) =>
+                cambiarComentario(e.target.value)
+            }
+        />
+
+    </>
+
+)}
 
                 {datos.estado === ESTADOS.DANADA && (
 
-                    <>
+    <>
 
-                        <label>Incidencias</label>
+        <button
+            type="button"
+            onClick={() =>
+                setDatos(prev => ({
+                    ...prev,
+                    estado: ESTADOS.BIEN
+                }))
+            }
+        >
+            ← Regresar
+        </button>
 
-                        <div>
+        <br />
+        <br />
 
-                            {INCIDENCIAS.map((incidencia) => (
+        <label>Incidencias</label>
 
-                                <label
-                                    key={incidencia.id}
-                                    style={{
-                                        display: "block",
-                                        marginBottom: 5
-                                    }}
-                                >
+        <div>
+            
+            {INCIDENCIAS.map((incidencia) => (
+
+                <label
+                key={incidencia.id}
+                style={{
+                display: "block",
+                marginBottom: 5
+                }}
+            >
 
                                     <input
                                         type="checkbox"
@@ -175,16 +206,39 @@ function TireModal({
 >
 
     <button
-        type="button"
-        onClick={onClose}
-    >
-        Cancelar
+    type="button"
+    onClick={() => {
+        setDatos(null);
+        onClose();
+    }}
+>
+    Cancelar
     </button>
 
     {datos.estado !== ESTADOS.BIEN && (
         <button
             type="button"
-            onClick={() => onGuardar(datos)}
+            onClick={() => {
+
+    if (
+        datos.estado === ESTADOS.DANADA &&
+        datos.incidencias.length === 0
+    ) {
+        alert("Selecciona al menos una incidencia.");
+        return;
+    }
+
+    if (
+        datos.estado === ESTADOS.OBSERVACION &&
+        datos.comentario.trim() === ""
+    ) {
+        alert("Escribe un comentario.");
+        return;
+    }
+
+    onGuardar(datos);
+
+}}
         >
             Guardar
         </button>

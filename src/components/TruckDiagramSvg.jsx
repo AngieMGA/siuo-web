@@ -1,7 +1,17 @@
-import truckDiagram from "../assets/truckDiagram.png";
+import Remolque1 from "../assets/Remolque1.png";
+import Remolque2 from "../assets/Remolque2.png";
 import Tire from "./Tire";
 
-function TruckDiagramSvg({ tipo, llantas = [], onLlantaClick }) {
+function TruckDiagramSvg({
+    tipo,
+    llantas = [],
+    onLlantaClick,
+    mostrarFull
+}) {
+
+    const imagen = mostrarFull
+        ? Remolque2
+        : Remolque1;
 
     return (
 
@@ -15,12 +25,14 @@ function TruckDiagramSvg({ tipo, llantas = [], onLlantaClick }) {
         >
 
             <img
-                src={truckDiagram}
+                src={imagen}
                 alt="Diagrama del remolque"
                 style={{
-                    width: "100%",
-                    display: "block"
-                }}
+                width: "100%",
+                display: "block",
+                borderRadius: "10px",
+                boxShadow: "0 4px 12px rgba(0,0,0,.15)"
+            }}
             />
 
             <svg
@@ -33,6 +45,18 @@ function TruckDiagramSvg({ tipo, llantas = [], onLlantaClick }) {
                     height: "100%"
                 }}
             >
+
+                <defs>
+                    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow
+                            dx="0"
+                            dy="1"
+                            stdDeviation="2"
+                            floodColor="#000"
+                            floodOpacity="0.35"
+                        />
+                    </filter>
+                </defs>
 
                 {llantas.map((llanta) => (
 

@@ -308,6 +308,8 @@ function RegistroInicial() {
     }))
 });
 
+  const mostrarFull = !!formData.remolque2?.trim();
+
   const handleChange = (e) => {
 
   const { name, value, type, checked } = e.target;
@@ -747,6 +749,7 @@ if (Object.keys(nuevosErrores).length > 0) {
               formData={formData}
               handleChange={handleChange}
               actualizarLlanta={actualizarLlanta}
+              mostrarFull={mostrarFull}
           />
         </>
 )}
