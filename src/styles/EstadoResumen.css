@@ -1,0 +1,111 @@
+.estado-resumen{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin:18px 0;
+
+}
+
+.estado-card{
+
+    flex:1;
+
+    min-width:120px;
+
+    background:#fff;
+
+    border-radius:14px;
+
+    padding:14px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.10);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    transition:.25s;
+
+}
+
+.estado-card:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.estado-icon{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#fff;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+.estado-card.bien .estado-icon{
+
+    background:#43A047;
+
+}
+
+.estado-card.obs .estado-icon{
+
+    background:#FFC107;
+
+}
+
+.estado-card.danada .estado-icon{
+
+    background:#E53935;
+
+}
+
+.estado-card.total .estado-icon{
+
+    background:#1565C0;
+
+}
+
+.estado-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.estado-numero{
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+.estado-texto{
+
+    color:#666;
+
+    font-size:13px;
+
+}

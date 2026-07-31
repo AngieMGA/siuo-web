@@ -1,6 +1,7 @@
 import CardSection from "./CardSection";
 import StatusButton from "./StatusButton";
 import TruckDiagram from "./TruckDiagram"; 
+import EstadoResumen from "./EstadoResumen";
 
 const preguntasEstadoRemolque = [
 
@@ -48,22 +49,17 @@ function EstadoRemolqueSection({
   mostrarFull
 }) {
 
-    const totalBien =
-    formData.llantasRem1.filter(
-        l => l.estado === "BIEN"
-    ).length;
+    const llantas = mostrarFull
+    ? formData.llantasFull
+    : formData.llantasSencillo;
 
-const totalDanada =
-    formData.llantasRem1.filter(
-        l => l.estado === "DANADA"
-    ).length;
+    const totalBien = llantas.filter(l => l.estado === ESTADOS.BIEN).length;
 
-const totalObservacion =
-    formData.llantasRem1.filter(
-        l => l.estado === "OBSERVACION"
-    ).length;
+    const totalDanada = llantas.filter(l => l.estado === ESTADOS.DANADA).length;
 
-const total = formData.llantasRem1.length;
+    const totalObservacion = llantas.filter(l => l.estado === ESTADOS.OBSERVACION).length;
+
+    const total = llantas.length;
 
   return (
 
@@ -157,7 +153,7 @@ const total = formData.llantasRem1.length;
 
     </CardSection>
 
-    <CardSection title="DIAGRAMA DEL REMOLQUE 1">
+    <CardSection title="DIAGRAMA DE LA UNIDAD">
     <p style={{ marginBottom: "10px" }}>
     <strong>Seleccione la llanta a inspeccionar.</strong>
 </p>
@@ -186,51 +182,20 @@ const total = formData.llantasRem1.length;
     Al hacer clic sobre una llanta podrá registrar un daño o una observación.
 </p>
 
-<div
-    style={{
-        display: "flex",
-        gap: "12px",
-        flexWrap: "wrap",
-        marginBottom: "20px"
-    }}
->
-
-    <div className="estado-card">
-        🟢 {totalBien}
-    </div>
-
-    <div className="estado-card">
-        🟡 {totalObservacion}
-    </div>
-
-    <div className="estado-card">
-        🔴 {totalDanada}
-    </div>
-
-    <div className="estado-card">
-        Total {total}
-    </div>
-
-</div>
+<EstadoResumen
+    bien={totalBien}
+    observacion={totalObservacion}
+    danada={totalDanada}
+    total={total}
+/>
 
 <TruckDiagram
-    tipo="REM1"
-    llantas={formData.llantasRem1}
+    tipo={mostrarFull ? "FULL" : "SENCILLO"}
+    llantas={mostrarFull ? formData.llantasFull : formData.llantasSencillo}
     actualizarLlanta={actualizarLlanta}
     mostrarFull={mostrarFull}
 />
 </CardSection>
-
-{formData.remolque2?.trim() && (
-    <CardSection title="DIAGRAMA DEL REMOLQUE 2">
-        <TruckDiagram
-            tipo="REM2"
-            llantas={formData.llantasRem2}
-            actualizarLlanta={actualizarLlanta}
-            mostrarFull={mostrarFull}
-        />
-    </CardSection>
-)}
 
   </>
 

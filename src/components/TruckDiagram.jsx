@@ -7,8 +7,6 @@ function TruckDiagram({ tipo, llantas, actualizarLlanta,   mostrarFull }) {
 
     const [llantaSeleccionada, setLlantaSeleccionada] = useState(null);
 
-    const [llantasTemp, setLlantasTemp] = useState(llantas || []);
-
     const llantasMostrar = llantas || [];
 
     const manejarClickLlanta = (llanta) => {

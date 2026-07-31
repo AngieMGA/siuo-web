@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ESTADOS } from "../data/truckDiagramData";
 
 const COLORES = {
@@ -6,22 +7,31 @@ const COLORES = {
     [ESTADOS.DANADA]: "#E53935"
 };
 
-function Tire({ llanta, onClick }) {
+function Tire({
+    llanta,
+    onClick,
+    editable = false
+}) {
+
+    const [posicion, setPosicion] = useState({
+    x: llanta.x,
+    y: llanta.y
+});
+
 
     return (
 
         <g
-            style={{
-                cursor: "pointer",
-                transition: "transform .2s"
-            }}
-            onClick={() => onClick?.(llanta)}
-        >
+    style={{
+        cursor: "pointer"
+    }}
+    onClick={() => onClick?.(llanta)}
+>
 
             {/* Área clickeable (invisible) */}
             <rect
-                x={llanta.x - 15}
-                y={llanta.y - 15}
+                x={posicion.x - 15}
+                y={posicion.y - 15}
                 width="30"
                 height="30"
                 fill="transparent"
@@ -29,8 +39,8 @@ function Tire({ llanta, onClick }) {
 
             {/* Badge */}
             <circle
-                cx={llanta.x}
-                cy={llanta.y}
+                cx={posicion.x}
+                cy={posicion.y}
                 r="9"
                 fill={COLORES[llanta.estado]}
                 stroke="#fff"
@@ -38,8 +48,8 @@ function Tire({ llanta, onClick }) {
             />
 
             <circle
-                cx={llanta.x}
-                cy={llanta.y}
+                cx={posicion.x}
+                cy={posicion.y}
                 r="11"
                 fill="none"
                 stroke="rgba(0,0,0,.15)"
@@ -48,8 +58,8 @@ function Tire({ llanta, onClick }) {
 
             {/* Número */}
             <text
-                x={llanta.x}
-                y={llanta.y + 3}
+                x={posicion.x}
+                y={posicion.y + 3}
                 textAnchor="middle"
                 fontSize="8"
                 fontWeight="bold"

@@ -46,7 +46,10 @@ import "../styles/RegistroInicial.css";
 import jsPDF from "jspdf";
 import { generarPDFSGF2401 } from "../pdf/generarPDFSGF2401";
 import autoTable from "jspdf-autotable";
-import { LLANTAS_REM1, LLANTAS_REM2 } from "../data/truckDiagramData";
+import {
+    LLANTAS_SENCILLO,
+    LLANTAS_FULL
+} from "../data/truckDiagramData";
 
 function RegistroInicial() {
 
@@ -297,16 +300,21 @@ function RegistroInicial() {
     ...formularioInicial,
     folio: generarFolio(),
 
-    llantasRem1: LLANTAS_REM1.map(llanta => ({
-        ...llanta,
-        incidencias: [...llanta.incidencias]
-    })),
+    llantasSencillo: LLANTAS_SENCILLO.map(llanta => ({
+    ...llanta,
+    incidencias: [...llanta.incidencias]
+})),
 
-    llantasRem2: LLANTAS_REM2.map(llanta => ({
-        ...llanta,
-        incidencias: [...llanta.incidencias]
-    }))
+    llantasFull: LLANTAS_FULL.map(llanta => ({
+    ...llanta,
+    incidencias: [...llanta.incidencias]
+}))
 });
+
+llantasFull: LLANTAS_FULL.map(llanta => ({
+    ...llanta,
+    incidencias: [...llanta.incidencias]
+}))
 
   const mostrarFull = !!formData.remolque2?.trim();
 
@@ -336,29 +344,27 @@ function RegistroInicial() {
 
 const actualizarLlanta = (tipo, llantaActualizada) => {
 
-    if (tipo === "REM1") {
+    setFormData(prev => ({
 
-        setFormData(prev => ({
-            ...prev,
-            llantasRem1: prev.llantasRem1.map(llanta =>
-                llanta.id === llantaActualizada.id
-                    ? llantaActualizada
-                    : llanta
-            )
-        }));
+        ...prev,
 
-    } else if (tipo === "REM2") {
+        [tipo === "FULL"
+            ? "llantasFull"
+            : "llantasSencillo"]:
 
-        setFormData(prev => ({
-            ...prev,
-            llantasRem2: prev.llantasRem2.map(llanta =>
-                llanta.id === llantaActualizada.id
-                    ? llantaActualizada
-                    : llanta
-            )
-        }));
+        prev[
+            tipo === "FULL"
+                ? "llantasFull"
+                : "llantasSencillo"
+        ].map(llanta =>
 
-    }
+            llanta.id === llantaActualizada.id
+                ? llantaActualizada
+                : llanta
+
+        )
+
+    }));
 
 };
 
