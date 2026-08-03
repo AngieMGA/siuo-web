@@ -7,59 +7,91 @@ const COLORES = {
     [ESTADOS.DANADA]: "#E53935"
 };
 
-function Tire({
-    llanta,
-    onClick,
-    editable = false
-}) {
+function Tire({ llanta, onClick, editable = false }) {
 
     const [posicion, setPosicion] = useState({
-    x: llanta.x,
-    y: llanta.y
-});
+        x: llanta.x,
+        y: llanta.y
+    });
 
+    const [drag, setDrag] = useState(false);
+
+    const mover = (e) => {
+
+        if (!editable || !drag) return;
+
+        const svg = e.target.ownerSVGElement;
+
+        const pt = svg.createSVGPoint();
+
+        pt.x = e.clientX;
+        pt.y = e.clientY;
+
+        const cursor = pt.matrixTransform(
+            svg.getScreenCTM().inverse()
+        );
+
+        setPosicion({
+            x: cursor.x,
+            y: cursor.y
+        });
+
+    };
 
     return (
 
         <g
-    style={{
-        cursor: "pointer"
-    }}
-    onClick={() => onClick?.(llanta)}
->
 
-            {/* Área clickeable (invisible) */}
-            <rect
-                x={posicion.x - 15}
-                y={posicion.y - 15}
-                width="30"
-                height="30"
-                fill="transparent"
-            />
+            onMouseMove={mover}
 
-            {/* Badge */}
+            onMouseDown={() => {
+
+                if (editable)
+                    setDrag(true);
+
+            }}
+
+            onMouseUp={() => {
+
+                if (!editable) return;
+
+                setDrag(false);
+
+                console.log(
+                    llanta.id,
+                    "x:",
+                    Math.round(posicion.x),
+                    "y:",
+                    Math.round(posicion.y)
+                );
+
+            }}
+
+            style={{
+                cursor: editable ? "move" : "pointer"
+            }}
+
+            onClick={() => {
+
+                if (!editable)
+                    onClick?.(llanta);
+
+            }}
+
+        >
+
             <circle
-                cx={posicion.x}
-                cy={posicion.y}
+                cx={editable ? posicion.x : llanta.x}
+                cy={editable ? posicion.y : llanta.y}
                 r="9"
                 fill={COLORES[llanta.estado]}
-                stroke="#fff"
-                strokeWidth="2.5"
+                stroke="#FFF"
+                strokeWidth="2"
             />
 
-            <circle
-                cx={posicion.x}
-                cy={posicion.y}
-                r="11"
-                fill="none"
-                stroke="rgba(0,0,0,.15)"
-                strokeWidth="1"
-            />
-
-            {/* Número */}
             <text
-                x={posicion.x}
-                y={posicion.y + 3}
+                x={editable ? posicion.x : llanta.x}
+                y={(editable ? posicion.y : llanta.y) + 3}
                 textAnchor="middle"
                 fontSize="8"
                 fontWeight="bold"

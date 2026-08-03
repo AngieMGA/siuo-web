@@ -45,6 +45,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/RegistroInicial.css";
 import jsPDF from "jspdf";
 import { generarPDFSGF2401 } from "../pdf/generarPDFSGF2401";
+import { generarPDFCHKTransporte } from "../pdf/generarPDFCHKTransporte";
 import autoTable from "jspdf-autotable";
 import {
     LLANTAS_SENCILLO,
@@ -408,7 +409,7 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
       break;
 
     case "CHK-TRANSPORTE":
-      toast.info("PDF de CHK Transporte en desarrollo.");
+      generarPDFCHKTransporte(formData);
       break;
 
     case "RH-F-01-21":

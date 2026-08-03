@@ -2,6 +2,7 @@ import CardSection from "./CardSection";
 import StatusButton from "./StatusButton";
 import TruckDiagram from "./TruckDiagram"; 
 import EstadoResumen from "./EstadoResumen";
+import { ESTADOS } from "../data/truckDiagramData";
 
 const preguntasEstadoRemolque = [
 

@@ -64,6 +64,7 @@ function TruckDiagramSvg({
                         key={llanta.id}
                         llanta={llanta}
                         onClick={onLlantaClick}
+                        editable={false}
                     />
 
                 ))}
