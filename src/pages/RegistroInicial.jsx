@@ -104,7 +104,42 @@ function RegistroInicial() {
   });
 });
 
-  const formularioInicial = {
+function generarFolio(prefijo = "RT") {
+
+    const hoy = new Date();
+
+    const anio = String(hoy.getFullYear()).slice(-2);
+
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+
+    const dia = String(hoy.getDate()).padStart(2, "0");
+
+    const consecutivo = localStorage.getItem(
+        `folio-${prefijo}-${anio}${mes}${dia}`
+    );
+
+    const nuevoConsecutivo =
+        consecutivo
+            ? Number(consecutivo) + 1
+            : 1;
+
+    localStorage.setItem(
+
+        `folio-${prefijo}-${anio}${mes}${dia}`,
+
+        nuevoConsecutivo
+
+    );
+
+    return `${prefijo}-${anio}${mes}${dia}-${String(
+        nuevoConsecutivo
+    ).padStart(3, "0")}`;
+
+}
+
+  function crearFormularioInicial(prefijo = "RT") {
+
+  return {
 
     tipoChecklist: "CHK-TRANSPORTE",
     
@@ -130,9 +165,9 @@ function RegistroInicial() {
     nombreOperador: "",
     telefonoOperador: "",
     lineaTransporte: "",
-    placasTracto: "",
+    placasytarjetacirculacion: "",
     nombreInspector: "",
-    folio: "",
+    folio: generarFolio(prefijo),
     remolque1: "",
     remolque2: "",
 
@@ -275,47 +310,23 @@ function RegistroInicial() {
     placasRemolque1: "",
     placasRemolque2: "",
 
-  };
-
-  const generarFolio = () => {
-
-  const hoy = new Date();
-
-  const fecha =
-    hoy.getFullYear().toString() +
-    String(hoy.getMonth() + 1).padStart(2, "0") +
-    String(hoy.getDate()).padStart(2, "0");
-
-  const ultimoConsecutivo =
-    Number(localStorage.getItem(`folio-${fecha}`) || 0) + 1;
-
-  localStorage.setItem(
-    `folio-${fecha}`,
-    ultimoConsecutivo
-  );
-
-  return `IEQSA-RT-${fecha}-${String(ultimoConsecutivo).padStart(3, "0")}`;
-};
-
-  const [formData, setFormData] = useState({
-    ...formularioInicial,
-    folio: generarFolio(),
-
     llantasSencillo: LLANTAS_SENCILLO.map(llanta => ({
-    ...llanta,
-    incidencias: [...llanta.incidencias]
-})),
+      ...llanta,
+      incidencias: [...llanta.incidencias]
+    })),
 
     llantasFull: LLANTAS_FULL.map(llanta => ({
-    ...llanta,
-    incidencias: [...llanta.incidencias]
-}))
-});
+      ...llanta,
+      incidencias: [...llanta.incidencias]
+    }))
 
-llantasFull: LLANTAS_FULL.map(llanta => ({
-    ...llanta,
-    incidencias: [...llanta.incidencias]
-}))
+    };
+
+}
+
+  const [formData, setFormData] = useState(
+      crearFormularioInicial("RT")
+  );
 
   const mostrarFull = !!formData.remolque2?.trim();
 
@@ -323,24 +334,54 @@ llantasFull: LLANTAS_FULL.map(llanta => ({
 
   const { name, value, type, checked } = e.target;
 
-  console.log(
-    "Nombre:",
-    name,
-    "Valor:",
-    value
-  );
-
-  setFormData({
+  let nuevoFormData = {
     ...formData,
     [name]: type === "checkbox"
       ? checked
       : value
-  });
+  };
+
+  const sacos = [
+    "saco1Kg",
+    "saco2Kg",
+    "saco3Kg",
+    "saco4Kg",
+    "saco5Kg",
+    "saco6Kg",
+    "saco7Kg",
+    "saco8Kg"
+  ];
+
+  // Si cambió alguno de los sacos, recalcular automáticamente
+  if (sacos.includes(name)) {
+
+    const totalKg = sacos.reduce((total, saco) => {
+
+      return total + (parseFloat(nuevoFormData[saco]) || 0);
+
+    }, 0);
+
+    const promedioKg = totalKg / 8;
+
+    const diferenciaKg = promedioKg - 1503.84;
+
+    nuevoFormData.totalKg = totalKg.toFixed(2);
+
+    nuevoFormData.promedioKg = promedioKg.toFixed(2);
+
+    nuevoFormData.diferenciaKg = diferenciaKg.toFixed(2);
+
+  }
+
+  console.log(nuevoFormData.inspector);
+
+  setFormData(nuevoFormData);
 
   setErrors({
     ...errors,
     [name]: ""
   });
+
 };
 
 const actualizarLlanta = (tipo, llantaActualizada) => {
@@ -389,8 +430,10 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
 
     setHistorial(nuevoHistorial);
 
-    toast.success("Checklist eliminado");
-  };
+     toast.success("Checklist eliminado");
+
+};
+
 
   const verDetalle = (item) => {
 
@@ -444,10 +487,10 @@ if (formData.tipoChecklist === "CHK-TRANSPORTE") {
       "Ingrese la línea de transporte";
   }
 
-  if (!formData.placasTracto) {
-    nuevosErrores.placasTracto =
-      "Ingrese las placas";
-  }
+  if (!formData.placasytarjetacirculacion) {
+  nuevosErrores.placasytarjetacirculacion =
+    "Ingrese las placas y tarjeta de circulación";
+}
 
 }
 
@@ -517,6 +560,18 @@ if (Object.keys(nuevosErrores).length > 0) {
 
       setLoading(true);
 
+      const ahora = new Date();
+
+      const datosAGuardar = {
+
+        ...formData,
+
+        hora: ahora.toLocaleTimeString(),
+
+        fecha: ahora.toLocaleDateString()
+
+      };
+
       const response = await fetch(
         "https://localhost:7030/api/checklist",
         {
@@ -524,7 +579,7 @@ if (Object.keys(nuevosErrores).length > 0) {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(datosAGuardar)
         }
       );
 
@@ -535,9 +590,39 @@ if (Object.keys(nuevosErrores).length > 0) {
 
       console.log("DATA:", data);
 
+      
+    switch (datosAGuardar.tipoChecklist) {
+
+  case "CHK-TRANSPORTE":
+    generarPDFCHKTransporte(datosAGuardar);
+    break;
+
+  case "SG-F-24-01":
+    generarPDFSGF2401(datosAGuardar);
+    break;
+
+  case "RH-F-01-21":
+    // generarPDFRHF0121(datosAGuardar);
+    break;
+
+  case "SG-F-24-33":
+    // generarPDFSGF2433(datosAGuardar);
+    break;
+
+}
+
       toast.success(
         "Checklist enviado correctamente"
       );
+
+      const nuevoFormulario = crearFormularioInicial("RT");
+
+console.log(nuevoFormulario);
+
+setFormData(nuevoFormulario);
+
+      console.log(crearFormularioInicial("RT"));
+
     } 
     
     catch (error) {
@@ -944,12 +1029,6 @@ if (Object.keys(nuevosErrores).length > 0) {
         : "Guardar Checklist"}
     </button>
 
-    <button
-      className="boton"
-      onClick={generarPDF}
-    >
-      Generar PDF
-    </button>
   </>
 )}
         </div>

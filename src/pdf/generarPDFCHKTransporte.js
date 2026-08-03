@@ -70,6 +70,16 @@ function dibujarTablaChecklist(doc, idSeccion, formData, startY) {
         s => s.id === idSeccion
     );
 
+    console.log("SECCIÓN:", idSeccion);
+
+console.table(
+    seccion.preguntas.map((pregunta) => ({
+        pregunta: pregunta.texto,
+        rem1: formData[`${pregunta.id}-REM1`],
+        rem2: formData[`${pregunta.id}-REM2`]
+    }))
+);
+
     autoTable(doc, {
 
         startY,
@@ -86,9 +96,9 @@ function dibujarTablaChecklist(doc, idSeccion, formData, startY) {
 
             pregunta.texto,
 
-            formData[`${pregunta.id}-REM1`] ? "X" : "",
+            formData[`${pregunta.id}-REM1`] ? "X" : "N/C",
 
-            formData[`${pregunta.id}-REM1`] ? "X" : "",
+            formData[`${pregunta.id}-REM2`] ? "X" : "N/C",
 
         ]),
 
@@ -367,11 +377,13 @@ const datosGenerales = [
 
     ["Línea", formData.lineaTransporte],
 
-    ["Placas", formData.placasytarjetacirculacion],
+    ["Placas y Tarjeta de Circulación", formData.placasytarjetacirculacion],
 
     ["Remolque 1", formData.remolque1],
 
     ["Remolque 2", formData.remolque2],
+
+    ["Tipo de suspensión", formData.suspension],
 
     ["Engomado Federal", formData.engomadoVerificacion],
 
@@ -419,7 +431,7 @@ const datosEnrampado = [
 
     ["Lateral", formData.lateral],
 
-    ["Observaciones", formData.observaciones]
+    ["Observaciones", formData.observacionesEnrampado]
 
 ];
 
@@ -456,6 +468,8 @@ y = dibujarIncidencias(
     formData,
     y
 );
+
+console.log(formData);
 
 doc.save("CHK-TRANSPORTE.pdf");
 

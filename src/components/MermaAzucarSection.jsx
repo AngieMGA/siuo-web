@@ -67,11 +67,20 @@ function MermaAzucarSection({
 
       <div
   style={{
-    marginTop: "20px"
+    marginTop: "25px",
+    maxWidth: "500px"
   }}
 >
 
-  <div className="input-group">
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "300px 140px",
+      rowGap: "12px",
+      columnGap: "15px",
+      alignItems: "center"
+    }}
+  >
 
     <label>Total Kg</label>
 
@@ -80,10 +89,6 @@ function MermaAzucarSection({
       readOnly
     />
 
-  </div>
-
-  <div className="input-group">
-
     <label>Prom</label>
 
     <input
@@ -91,26 +96,14 @@ function MermaAzucarSection({
       readOnly
     />
 
-  </div>
-
-  <div className="input-group">
-
-    <label>
-      Dif. Prom. Teórico (1503.84)
-    </label>
+    <label>Dif. Prom. Teórico (1503.84)</label>
 
     <input
       value={formData.diferenciaKg || ""}
       readOnly
     />
 
-  </div>
-
-  <div className="input-group">
-
-    <label>
-      Kg Totales de Merma x Num. Sacos
-    </label>
+    <label>Kg Totales de Merma x Num. Sacos</label>
 
     <input
       value={formData.mermaKg || ""}
