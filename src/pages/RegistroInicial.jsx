@@ -691,13 +691,15 @@ setFormData(nuevoFormulario);
 
     <div
       className="tarjeta-checklist"
+
       onClick={() => {
-        setChecklistSeleccionado("CHK-TRANSPORTE");
-        setFormData({
-          ...formData,
-          tipoChecklist: "CHK-TRANSPORTE"
-        });
-      }}
+  setChecklistSeleccionado("CHK-TRANSPORTE");
+
+  setFormData({
+    ...crearFormularioInicial("RT"),
+    tipoChecklist: "CHK-TRANSPORTE"
+  });
+}}
     >
       <h3>🚛 Revisión de transporte </h3>
       <p>SG-F-24-06</p>
@@ -709,12 +711,13 @@ setFormData(nuevoFormulario);
     <div
       className="tarjeta-checklist"
       onClick={() => {
-        setChecklistSeleccionado("SG-F-24-01");
-        setFormData({
-          ...formData,
-          tipoChecklist: "SG-F-24-01"
-        });
-      }}
+      setChecklistSeleccionado("SG-F-24-01");
+
+      setFormData({
+        ...crearFormularioInicial("RMP"),
+        tipoChecklist: "SG-F-24-01"
+      });
+}}
     >
       <h3>📦 Lista de Chequeo</h3>
       <p>SG-F-24-01</p>
@@ -726,12 +729,13 @@ setFormData(nuevoFormulario);
     <div
       className="tarjeta-checklist"
       onClick={() => {
-        setChecklistSeleccionado("RH-F-01-21");
-        setFormData({
-          ...formData,
-          tipoChecklist: "RH-F-01-21"
-        });
-      }}
+      setChecklistSeleccionado("RH-F-01-21");
+
+      setFormData({
+        ...crearFormularioInicial("RH"),
+        tipoChecklist: "RH-F-01-21"
+      });
+}}
     >
       <h3>🚚 Inspección de seguridad para ingreso y salida </h3>
       <p>RH-F-01-21</p>
@@ -743,12 +747,13 @@ setFormData(nuevoFormulario);
     <div
   className="tarjeta-checklist"
   onClick={() => {
-    setChecklistSeleccionado("SG-F-24-33");
-    setFormData({
-      ...formData,
-      tipoChecklist: "SG-F-24-33"
-    });
-  }}
+  setChecklistSeleccionado("SG-F-24-33");
+
+  setFormData({
+    ...crearFormularioInicial("CC"),
+    tipoChecklist: "SG-F-24-33"
+  });
+}}
 >
   <h3>🧪 Recepción de Productos Químicos</h3>
 
@@ -775,10 +780,7 @@ setFormData(nuevoFormulario);
 
         setChecklistSeleccionado("");
 
-        setFormData({
-          ...formData,
-          tipoChecklist: ""
-        });
+        setFormData(crearFormularioInicial("RT"));
 
       }}
     >
