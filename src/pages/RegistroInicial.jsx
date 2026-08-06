@@ -28,9 +28,11 @@ import DatosPesajeSection from "../components/DatosPesajeSection";
 import MermaAzucarSection from "../components/MermaAzucarSection";
 import ObservacionesSGF2401 from "../components/ObservacionesSGF2401";
 import SGF2401InformacionGeneral from "../components/SGF2401InformacionGeneral";
+import RHF0121InformacionGeneral from "../components/RHF0121InformacionGeneral";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 import SGF2433Section from "../components/SGF2433Section";
 import RHF0121DatosGenerales from "../components/RHF0121DatosGenerales";
+import { generarPDFRHF0121 } from "../pdf/generarPDFRHF0121";
 import RHF0121Section from "../components/RHF0121Section";
 import RHF0121OperadorSection from "../components/RHF0121OperadorSection";
 import RHF0121TransporteSection from "../components/RHF0121TransporteSection";
@@ -64,13 +66,15 @@ function RegistroInicial() {
 
   const [historial, setHistorial] = useState(() => {
 
-    const historialGuardado =
+  const historialGuardado =
       localStorage.getItem("historial");
 
     return historialGuardado
       ? JSON.parse(historialGuardado)
       : [];
   });
+
+  const [busqueda, setBusqueda] = useState("");
 
   const [detalleChecklist, setDetalleChecklist] =
     useState(null); 
@@ -104,37 +108,39 @@ function RegistroInicial() {
   });
 });
 
-function generarFolio(prefijo = "RT") {
+function obtenerFolio(prefijo = "RT") {
 
     const hoy = new Date();
 
     const anio = String(hoy.getFullYear()).slice(-2);
-
     const mes = String(hoy.getMonth() + 1).padStart(2, "0");
-
     const dia = String(hoy.getDate()).padStart(2, "0");
 
-    const consecutivo = localStorage.getItem(
-        `folio-${prefijo}-${anio}${mes}${dia}`
-    );
+    const llave = `folio-${prefijo}-${anio}${mes}${dia}`;
 
-    const nuevoConsecutivo =
-        consecutivo
-            ? Number(consecutivo) + 1
-            : 1;
+    const consecutivo =
+        Number(localStorage.getItem(llave) || 0) + 1;
+
+    return `${prefijo}-${anio}${mes}${dia}-${String(consecutivo).padStart(3, "0")}`;
+}
+
+function aumentarConsecutivo(prefijo = "RT") {
+
+    const hoy = new Date();
+
+    const anio = String(hoy.getFullYear()).slice(-2);
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoy.getDate()).padStart(2, "0");
+
+    const llave = `folio-${prefijo}-${anio}${mes}${dia}`;
+
+    const consecutivo =
+        Number(localStorage.getItem(llave) || 0);
 
     localStorage.setItem(
-
-        `folio-${prefijo}-${anio}${mes}${dia}`,
-
-        nuevoConsecutivo
-
+        llave,
+        consecutivo + 1
     );
-
-    return `${prefijo}-${anio}${mes}${dia}-${String(
-        nuevoConsecutivo
-    ).padStart(3, "0")}`;
-
 }
 
   function crearFormularioInicial(prefijo = "RT") {
@@ -166,8 +172,13 @@ function generarFolio(prefijo = "RT") {
     telefonoOperador: "",
     lineaTransporte: "",
     placasytarjetacirculacion: "",
-    nombreInspector: "",
-    folio: generarFolio(prefijo),
+    inspector: "",
+    engomadoVerificacion: "",
+    engomadoFisico: "",
+    rampa: "",
+    lateral: "",
+    observacionesEnrampado: "",
+    folio: obtenerFolio(prefijo),
     remolque1: "",
     remolque2: "",
 
@@ -309,6 +320,7 @@ function generarFolio(prefijo = "RT") {
     placasTractor: "",
     placasRemolque1: "",
     placasRemolque2: "",
+    comentarios: "",
 
     llantasSencillo: LLANTAS_SENCILLO.map(llanta => ({
       ...llanta,
@@ -333,6 +345,8 @@ function generarFolio(prefijo = "RT") {
   const handleChange = (e) => {
 
   const { name, value, type, checked } = e.target;
+
+  console.log("CAMBIO:", name, value);
 
   let nuevoFormData = {
     ...formData,
@@ -472,6 +486,8 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
 
   const guardarChecklist = async () => {
 
+    console.log("ANTES DE VALIDAR:", formData.tipoChecklist);
+
     let nuevosErrores = {};
     let primerError = null;
 
@@ -526,6 +542,9 @@ if (formData.tipoChecklist === "SG-F-24-01") {
   }
 
 }
+
+console.log("FORMDATA COMPLETO:", formData);
+console.log("Errores:", nuevosErrores);
 
 setErrors(nuevosErrores);
 
@@ -602,22 +621,43 @@ if (Object.keys(nuevosErrores).length > 0) {
     break;
 
   case "RH-F-01-21":
-    // generarPDFRHF0121(datosAGuardar);
+    generarPDFRHF0121(datosAGuardar);
     break;
 
   case "SG-F-24-33":
-    // generarPDFSGF2433(datosAGuardar);
+    generarPDFSGF2433(datosAGuardar);
     break;
 
+}     
+
+      let prefijo = "RT";
+
+      console.log("TIPO A GUARDAR:", datosAGuardar.tipoChecklist);
+
+switch (datosAGuardar.tipoChecklist) {
+
+  case "CHK-TRANSPORTE":
+    prefijo = "RT";
+    break;
+
+  case "SG-F-24-01":
+    prefijo = "RMP";
+    break;
+
+  case "RH-F-01-21":
+    prefijo = "RH";
+    break;
+
+  case "SG-F-24-33":
+    prefijo = "RQ";
+    break;
 }
 
-      toast.success(
-        "Checklist enviado correctamente"
-      );
+aumentarConsecutivo(prefijo);
 
-      const nuevoFormulario = crearFormularioInicial("RT");
+toast.success("Checklist enviado correctamente");
 
-console.log(nuevoFormulario);
+const nuevoFormulario = crearFormularioInicial(prefijo);
 
 setFormData(nuevoFormulario);
 
@@ -638,6 +678,24 @@ setFormData(nuevoFormulario);
     }
   };
 
+  const resultadosBusqueda = historial.filter((item) => {
+
+  if (!busqueda.trim()) return false;
+
+  const texto = busqueda.toLowerCase();
+
+  return (
+
+    item.folio?.toLowerCase().includes(texto) ||
+
+    item.nombreOperador?.toLowerCase().includes(texto) ||
+
+    item.placasytarjetacirculacion?.toLowerCase().includes(texto)
+
+  );
+
+});
+
   return (
 
     <div className="container">
@@ -646,23 +704,39 @@ setFormData(nuevoFormulario);
 
       {!checklistSeleccionado && (
 
-  <div className="header-app">
+  <>
 
-    <div className="topbar-checklist">
+    <div className="header-app">
 
-      <span className="titulo-topbar">
-        Auditoría de Transporte
-      </span>
+      <div className="topbar-checklist">
 
-      <img
-        src={logo}
-        alt="IEQSA"
-        className="logo-topbar"
+        <span className="titulo-topbar">
+          Auditoría de Transporte
+        </span>
+
+        <img
+          src={logo}
+          alt="IEQSA"
+          className="logo-topbar"
+        />
+
+      </div>
+
+    </div>
+
+    <div className="contenedor-buscador">
+
+      <input
+        type="text"
+        className="input-buscador"
+        placeholder="🔍 Escriba un folio, nombre del operador o placas para localizar un checklist registrado"
+        value={busqueda}
+        onChange={(e) => setBusqueda(e.target.value)}
       />
 
     </div>
 
-  </div>
+  </>
 
 )}
 
@@ -674,12 +748,8 @@ setFormData(nuevoFormulario);
        <div className="bienvenida-checklist">
 
   <h2>
-    Seleccione el checklist que desea capturar
+    Seleccione el checklist que desea capturar para comenzar.
   </h2>
-
-  <p>
-    Haga clic en una opción para comenzar.
-  </p>
 
 </div>
 
@@ -731,10 +801,17 @@ setFormData(nuevoFormulario);
       onClick={() => {
       setChecklistSeleccionado("RH-F-01-21");
 
-      setFormData({
-        ...crearFormularioInicial("RH"),
-        tipoChecklist: "RH-F-01-21"
-      });
+      const nuevoFormulario = {
+  ...crearFormularioInicial("RH"),
+  tipoChecklist: "RH-F-01-21"
+};
+
+console.log(nuevoFormulario);
+
+setFormData(nuevoFormulario);
+
+console.log("Seleccionado RH");
+      console.log("Seleccionado RH");
 }}
     >
       <h3>🚚 Inspección de seguridad para ingreso y salida </h3>
@@ -808,6 +885,48 @@ setFormData(nuevoFormulario);
               titulo="CHECKLIST DE VERIFICACIÓN DE UNIDAD"
               subtitulo="Auditoría de Transporte"
             />
+
+            <CardSection title="INFORMACIÓN GENERAL">
+
+            <InputField
+              label="Fecha"
+              name="fecha"
+              value={formData.fecha}
+              onChange={handleChange}
+            />
+
+            <InputField
+              label="Hora"
+              name="hora"
+              value={formData.hora}
+              onChange={handleChange}
+            />
+
+            <div className="grupo">
+
+              <label>Status</label>
+
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option>Pendiente</option>
+                <option>En revisión</option>
+                <option>Aprobado</option>
+                <option>Rechazado</option>
+              </select>
+
+            </div>
+
+            <InputField
+              label="Folio"
+              name="folio"
+              value={formData.folio}
+              readOnly
+            />
+
+          </CardSection>
 
             <DatosGeneralesTransporte
               formData={formData}
@@ -934,42 +1053,10 @@ setFormData(nuevoFormulario);
 
 </HeaderChecklist>
 
-  <CardSection title="INFORMACIÓN GENERAL">
-
-  <InputField
-    label="Fecha"
-    name="fecha"
-    value={formData.fecha}
-    onChange={handleChange}
-  />
-
-  <InputField
-    label="Hora"
-    name="hora"
-    value={formData.hora}
-    onChange={handleChange}
-  />
-
-  <div className="grupo">
-
-    <label>Status</label>
-
-    <select
-      name="status"
-      value={formData.status}
-      onChange={handleChange}
-    >
-
-      <option>Pendiente</option>
-      <option>En revisión</option>
-      <option>Aprobado</option>
-      <option>Rechazado</option>
-
-    </select>
-
-  </div>
-
-</CardSection>
+  <RHF0121InformacionGeneral
+    formData={formData}
+    handleChange={handleChange}
+/>
 
     {/*<GradoRiesgoSection
       formData={formData}
@@ -1039,21 +1126,25 @@ setFormData(nuevoFormulario);
   {checklistSeleccionado === "CHK-TRANSPORTE" && (
     <>
 
+      {/*
       <DashboardSection
-        historial={historial}
+          historial={historial}
       />
+      */}
 
+      {/*
       <HistorialSection
-        historial={historial}
-        editarChecklist={editarChecklist}
-        eliminarChecklist={eliminarChecklist}
-        verDetalle={verDetalle}
+          historial={historial}
+          editarChecklist={editarChecklist}
+          eliminarChecklist={eliminarChecklist}
+          verDetalle={verDetalle}
       />
+      */}
 
-      <SupervisorSection
+      {/*<SupervisorSection
         historial={historial}
         verDetalle={verDetalle}
-      />
+      />*/}
     </>
   )}
 

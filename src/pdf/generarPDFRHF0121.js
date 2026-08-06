@@ -1,8 +1,9 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import logo from "../assets/logoIeqsa.png";
-import { checklistTransporte } from "../data/checklistTransporte";
+import { checklistRHF0121 } from "../data/checklistRHF0121";
 import { ESTADOS, INCIDENCIAS } from "../data/truckDiagramData";
+
 
 function dibujarSeccion(doc, titulo, datos, yInicial) {
 
@@ -61,6 +62,100 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
     });
 
     return y + 4;
+
+}
+
+
+function dibujarChecklist(
+  doc,
+  secciones,
+  formData,
+  inicioTabla
+) {
+
+  secciones.forEach((seccion) => {
+
+    if (seccion.preguntas.length === 0) return;
+
+    const alturaPregunta = 12;
+
+    if (inicioTabla + alturaPregunta > 265) {
+
+      doc.addPage();
+
+      inicioTabla = 20;
+
+    }
+
+    doc.setFillColor(220,220,220);
+
+    doc.rect(
+      10,
+      inicioTabla,
+      195,
+      7,
+      "F"
+    );
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(10);
+
+    doc.text(
+      seccion.nombre.toUpperCase(),
+      15,
+      inicioTabla + 5
+    );
+
+    inicioTabla += 8;
+
+    autoTable(doc,{
+
+      startY: inicioTabla,
+
+      theme:"grid",
+
+      head:[["Pregunta","Resultado"]],
+
+      body: seccion.preguntas.map((pregunta)=>{
+
+        let resultado="N/A";
+
+        if(formData[pregunta.id]==="cumple")
+          resultado="Cumple";
+
+        if(formData[pregunta.id]==="noCumple")
+          resultado="No cumple";
+
+        return[
+          pregunta.texto,
+          resultado
+        ];
+
+      }),
+
+      styles:{
+        fontSize:9,
+        cellPadding:2
+      },
+
+      headStyles:{
+        fillColor:[235,235,235],
+        textColor:0
+      },
+
+      columnStyles:{
+        0:{cellWidth:145},
+        1:{cellWidth:45}
+      }
+
+    });
+
+    inicioTabla =
+      doc.lastAutoTable.finalY + 6;
+
+  });
+
+  return inicioTabla;
 
 }
 
@@ -293,7 +388,10 @@ function validarSaltoPagina(doc, y, alturaNecesaria = 0) {
 
 }
 
-export function generarPDFCHKTransporte(formData){
+export function generarPDFRHF0121(formData) {
+
+    console.log("Entré al PDF RH");
+    console.log(formData);
 
     const doc = new jsPDF("p","mm","letter");
 
@@ -333,20 +431,20 @@ export function generarPDFCHKTransporte(formData){
     doc.setFontSize(16);
 
     doc.text(
-        "SG-F-24-06",
+        "RH-F-01-21",
         105,
         15,
-        { align:"center" }
+        { align: "center" }
     );
 
     doc.setFontSize(13);
 
     doc.text(
-        "CHECKLIST DE VERIFICACIÓN DE UNIDAD",
-        105,
-        23,
-        { align:"center" }
-    );
+    "INSPECCIÓN DE TRACTOR Y REMOLQUE",
+    105,
+    23,
+    { align: "center" }
+);
 
     doc.setFont("helvetica","normal");
     doc.setFontSize(10);
@@ -369,25 +467,19 @@ let y = 68;
 
 const datosGenerales = [
 
-    ["Inspector", formData.inspector],
-
-    ["Operador", formData.nombreOperador],
-
+    ["Nombre del Operador", formData.nombreOperadorRHF],
     ["Teléfono", formData.telefonoOperador],
 
-    ["Línea", formData.lineaTransporte],
+    ["Línea de Transporte", formData.lineaTransporteRHF],
+    ["Número de Tractor", formData.numeroTractor],
 
-    ["Placas y Tarjeta de Circulación", formData.placasytarjetacirculacion],
+    ["Número de Remolque 1", formData.numeroRemolque1],
+    ["Número de Remolque 2", formData.numeroRemolque2],
 
-    ["Remolque 1", formData.remolque1],
+    ["Placas Tractor", formData.placasTractor],
+    ["Placas Remolque 1", formData.placasRemolque1],
 
-    ["Remolque 2", formData.remolque2],
-
-    ["Tipo de suspensión", formData.suspension],
-
-    ["Engomado Federal", formData.engomadoVerificacion],
-
-    ["Engomado Físico", formData.engomadoFisico]
+    ["Placas Remolque 2", formData.placasRemolque2]
 
 ];
 
@@ -398,6 +490,158 @@ y = dibujarSeccion(
     y
 );
 
+const datosOperador = [
+
+    ["Presentación", formData.presentacionOperador],
+    ["Licencia Federal", formData.numeroLicencia],
+
+    ["Tarjeta de Circulación", formData.numeroTarjeta],
+    ["Número IMSS", formData.numeroIMSS],
+
+    ["Seguro Vigente", formData.numeroSeguro],
+    ["Carta Porte", formData.numeroCartaPorte],
+
+    ["Observaciones EPP", formData.observacionesEPP]
+
+];
+
+y = dibujarSeccion(
+    doc,
+    "DATOS DEL OPERADOR",
+    datosOperador,
+    y
+);
+
+let inicioTabla = y + 10;
+
+inicioTabla = dibujarChecklist(
+    doc,
+    checklistRHF0121.secciones,
+    formData,
+    inicioTabla
+);
+
+y = inicioTabla;
+
+const datosTransporte = [
+
+    ["Tipo de Transporte", formData.tipoTransporte],
+    ["Configuración", formData.configuracion],
+
+    ["Tanque 1 (%)", formData.tanque1],
+    ["Tanque 2 (%)", formData.tanque2]
+
+];
+
+y = dibujarSeccion(
+    doc,
+    "DATOS DEL TRANSPORTE",
+    datosTransporte,
+    y
+);
+
+const datosRefrigerado = [
+
+    ["Refrigerado", formData.refrigerado],
+    ["Temperatura (°C)", formData.temperatura]
+
+];
+
+y = dibujarSeccion(
+    doc,
+    "REFRIGERADO",
+    datosRefrigerado,
+    y
+);
+
+const datosResultado = [
+
+    ["Resultado Final", formData.resultadoFinal],
+
+    ["Rampa Asignada", formData.rampaAsignada]
+
+];
+
+y = dibujarSeccion(
+    doc,
+    "RESULTADO DE LA INSPECCIÓN",
+    datosResultado,
+    y
+);
+
+
+const datosEntrega = [
+
+    ["Origen (Descarga)", formData.origenDescarga],
+    ["Destino (Carga)", formData.destinoCarga],
+
+    ["Número de Sellos / Fleje", formData.numeroSellos],
+    ["No. Delivery", formData.numeroDelivery]
+
+];
+
+y = dibujarSeccion(
+    doc,
+    "DATOS DE ENTREGA",
+    datosEntrega,
+    y
+);
+
+// Si ya no cabe, crear una nueva página
+if (y + 45 > 255) {
+
+    doc.addPage();
+
+    y = 20;
+
+}
+
+// Encabezado
+doc.setFillColor(220,220,220);
+
+doc.rect(
+    10,
+    y,
+    195,
+    8,
+    "F"
+);
+
+doc.setFont("helvetica","bold");
+doc.setFontSize(10);
+
+doc.text(
+    "COMENTARIOS",
+    15,
+    y + 6
+);
+
+y += 15;
+
+// Recuadro
+doc.rect(
+    15,
+    y,
+    175,
+    38
+);
+
+// Texto
+doc.setFont("helvetica","normal");
+
+doc.text(
+    formData.comentarios || "",
+    18,
+    y + 6,
+    {
+        maxWidth: 170
+    }
+);
+
+y += 48;
+
+
+/*
 y = validarSaltoPagina(doc, y, 40);
 
 y = dibujarTablaChecklist(
@@ -452,7 +696,8 @@ y = dibujarTablaChecklist(
     formData,
     y
 );
-
+*/
+/*
 y = validarSaltoPagina(doc, y, 25);
 
 y = dibujarResumenLlantas(
@@ -468,7 +713,7 @@ y = dibujarIncidencias(
     formData,
     y
 );
-
+*/
 console.log(formData);
 
 doc.save(`${formData.folio}.pdf`);

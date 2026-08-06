@@ -12,13 +12,6 @@ function DatosGeneralesTransporte({
     <CardSection title="DATOS GENERALES">
 
       <InputField
-        label="Folio"
-        name="folio"
-        value={formData.folio}
-        onChange={handleChange}
-      />
-
-      <InputField
         label="Nombre del Inspector"
         name="inspector"
         value={formData.inspector}

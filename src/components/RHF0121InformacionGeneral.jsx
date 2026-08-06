@@ -1,7 +1,11 @@
 import CardSection from "./CardSection";
 import InputField from "./InputField";
 
-function SGF2401InformacionGeneral({ formData, handleChange }) {
+function RHF0121InformacionGeneral({
+  formData,
+  handleChange
+}) {
+
   return (
 
     <CardSection title="INFORMACIÓN GENERAL">
@@ -10,8 +14,7 @@ function SGF2401InformacionGeneral({ formData, handleChange }) {
         label="Folio"
         name="folio"
         value={formData.folio}
-        onChange={handleChange}
-        disabled
+        readOnly
       />
 
       <InputField
@@ -29,6 +32,7 @@ function SGF2401InformacionGeneral({ formData, handleChange }) {
       />
 
       <div className="grupo">
+
         <label>Status</label>
 
         <select
@@ -36,14 +40,20 @@ function SGF2401InformacionGeneral({ formData, handleChange }) {
           value={formData.status}
           onChange={handleChange}
         >
+
           <option>Pendiente</option>
           <option>En revisión</option>
           <option>Aprobado</option>
           <option>Rechazado</option>
+
         </select>
+
       </div>
+
     </CardSection>
+
   );
+
 }
 
-export default SGF2401InformacionGeneral;
+export default RHF0121InformacionGeneral;

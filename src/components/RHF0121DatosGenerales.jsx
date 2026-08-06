@@ -32,6 +32,13 @@ function RHF0121DatosGenerales({
       />
 
       <InputField
+        label="Teléfono del Operador"
+        name="telefonoOperador"
+        value={formData.telefonoOperador}
+        onChange={handleChange}
+      />
+
+      <InputField
         label="Línea de Transporte"
         name="lineaTransporteRHF"
         value={formData.lineaTransporteRHF}

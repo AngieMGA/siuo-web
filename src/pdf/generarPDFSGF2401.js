@@ -29,6 +29,17 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
 
   let y = yInicial + 16;
 
+  const alturaNecesaria =
+  Math.ceil(datos.length / 2) * 8 + 20;
+
+if (yInicial + alturaNecesaria > 255) {
+
+  doc.addPage();
+
+  yInicial = 20;
+
+}
+
   datos.forEach((campo,index)=>{
 
     const columna = index % 2;
@@ -74,9 +85,14 @@ function dibujarChecklist(
 
     if (seccion.preguntas.length === 0) return;
 
-    if (inicioTabla > 245) {
+    const alturaPregunta = 12;
+
+    if (inicioTabla + alturaPregunta > 265) {
+
       doc.addPage();
+
       inicioTabla = 20;
+
     }
 
     doc.setFillColor(220,220,220);
@@ -152,6 +168,8 @@ function dibujarChecklist(
 }
 
 export function generarPDFSGF2401(formData) {
+
+console.log(formData);
 
 const doc = new jsPDF("p", "mm", "letter");
 
@@ -273,12 +291,33 @@ const datosPesaje = [
 
 ];
 
+  /*
+  const hayDatosPesaje = datosPesaje.some(
+    ([, valor]) => valor && String(valor).trim() !== ""
+  );
+
+  if (hayDatosPesaje) {
+
   y = dibujarSeccion(
     doc,
     "DATOS DE PESAJE Y TANQUES",
     datosPesaje,
     y
   );
+
+  }
+  */
+
+  let inicioTabla = y + 12;
+
+inicioTabla = dibujarChecklist(
+  doc,
+  checklistSGF2401.secciones,
+  formData,
+  inicioTabla
+);
+
+y = inicioTabla;
 
   const datosMerma = [
 
@@ -327,41 +366,81 @@ const datosPesaje = [
     y
   );
 
-    const observaciones = [
+  console.log(formData.observacionesSGF2401);
+console.log(formData.nombreRecibe);
+console.log(formData.nombreSupervisor);
 
-    [
-      "Observaciones",
-      formData.observacionesSGF2401
-    ],
+    // Si ya no cabe, crea una nueva página
+if (y + 45 > 255) {
+  doc.addPage();
+  y = 20;
+}
 
-    [
-      "Nombre quien recibe",
-      formData.nombreRecibe
-    ],
+// Encabezado
+doc.setFillColor(220, 220, 220);
+doc.rect(10, y, 195, 8, "F");
 
-    [
-      "Supervisor / Verificó",
-      formData.nombreSupervisor
-    ]
+doc.setFont("helvetica", "bold");
+doc.setFontSize(10);
+doc.text("OBSERVACIONES", 15, y + 6);
 
-  ];
+y += 15;
 
-  y = dibujarSeccion(
-    doc,
-    "OBSERVACIONES",
-    observaciones,
-    y
-  );
+// Observaciones
 
-  let inicioTabla = y + 12;
+doc.setFont("helvetica", "bold");
+doc.text("Observaciones:", 15, y);
 
-inicioTabla = dibujarChecklist(
-  doc,
-  checklistSGF2401.secciones,
-  formData,
-  inicioTabla
+y += 6;
+
+doc.setFont("helvetica", "normal");
+
+doc.text(
+    formData.observacionesSGF2401 || "",
+    15,
+    y,
+    {
+        maxWidth: 180
+    }
 );
 
-doc.save("SG-F-24-01.pdf");
+// Línea debajo de las observaciones
+doc.line(
+    15,
+    y + 8,
+    190,
+    y + 8
+);
+
+y += 18;
+
+// Nombre quien recibe
+
+doc.setFont("helvetica", "bold");
+doc.text("Nombre quien recibe:", 15, y);
+
+doc.setFont("helvetica", "normal");
+doc.text(
+    formData.nombreRecibe || "",
+    65,
+    y
+);
+
+y += 10;
+
+// Supervisor
+
+doc.setFont("helvetica", "bold");
+doc.text("Supervisor / Verificó:", 15, y);
+
+doc.setFont("helvetica", "normal");
+doc.text(
+    formData.nombreSupervisor || "",
+    65,
+    y
+);
+  
+
+doc.save(`${formData.folio}.pdf`);
 
 }

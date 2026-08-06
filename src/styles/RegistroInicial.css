@@ -2063,3 +2063,49 @@ border-radius:8px;
     color:#d32f2f;
     font-weight:bold;
 }
+
+.contenedor-buscador{
+
+    max-width:900px;
+
+    margin:25px auto 40px;
+
+    text-align:center;
+
+}
+
+.input-buscador{
+
+    width:100%;
+
+    padding:16px 20px;
+
+    border-radius:12px;
+
+    border:1px solid #dcdcdc;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.2s;
+
+}
+
+.input-buscador:focus{
+
+    border-color:#d62828;
+
+    box-shadow:0 0 8px rgba(214,40,40,.20);
+
+}
+
+.texto-ayuda-buscador{
+
+    margin-top:10px;
+
+    color:#777;
+
+    font-size:14px;
+
+}
