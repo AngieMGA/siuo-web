@@ -649,7 +649,7 @@ switch (datosAGuardar.tipoChecklist) {
     break;
 
   case "SG-F-24-33":
-    prefijo = "RQ";
+    prefijo = "RPQ";
     break;
 }
 
@@ -824,13 +824,13 @@ console.log("Seleccionado RH");
     <div
   className="tarjeta-checklist"
   onClick={() => {
-  setChecklistSeleccionado("SG-F-24-33");
+    setChecklistSeleccionado("SG-F-24-33");
 
-  setFormData({
-    ...crearFormularioInicial("CC"),
-    tipoChecklist: "SG-F-24-33"
-  });
-}}
+    setFormData({
+      ...crearFormularioInicial("RQ"),
+      tipoChecklist: "SG-F-24-33"
+    });
+  }}
 >
   <h3>🧪 Recepción de Productos Químicos</h3>
 
@@ -839,7 +839,6 @@ console.log("Seleccionado RH");
   <small>
     Recepción de productos químicos, materiales e ingredientes.
   </small>
-
 </div>
 
   </div>
@@ -867,14 +866,81 @@ console.log("Seleccionado RH");
   </div>
 
 )}
-
 {checklistSeleccionado === "SG-F-24-33" && (
+  <>
+
+    <HeaderChecklist
+      codigo="SG-F-24-33"
+      titulo="RECEPCIÓN DE PRODUCTOS QUÍMICOS, MATERIALES E INGREDIENTES"
+      subtitulo="Recepción y Verificación"
+    >
+
+      <button
+        className="btn-back"
+        onClick={() => {
+
+          setChecklistSeleccionado("");
+
+          setFormData({
+            ...formData,
+            tipoChecklist: ""
+          });
+
+        }}
+      >
+        ←
+      </button>
+
+    </HeaderChecklist>
+
+    <CardSection title="INFORMACIÓN GENERAL">
+
+      <InputField
+        label="Fecha"
+        name="fecha"
+        value={formData.fecha}
+        onChange={handleChange}
+      />
+
+      <InputField
+        label="Hora"
+        name="hora"
+        value={formData.hora}
+        onChange={handleChange}
+      />
+
+      <div className="grupo">
+
+        <label>Status</label>
+
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
+          <option>Pendiente</option>
+          <option>En revisión</option>
+          <option>Aprobado</option>
+          <option>Rechazado</option>
+        </select>
+
+      </div>
+
+      <InputField
+        label="Folio"
+        name="folio"
+        value={formData.folio}
+        readOnly
+      />
+
+    </CardSection>
 
     <SGF2433Section
-        formData={formData}
-        handleChange={handleChange}
+      formData={formData}
+      handleChange={handleChange}
     />
 
+  </>
 )}
 
           {checklistSeleccionado === "CHK-TRANSPORTE" && (
@@ -1009,23 +1075,6 @@ console.log("Seleccionado RH");
   </>
 )}
 
-{checklistSeleccionado === "SG-F-24-33" && (
-  <>
-
-    <HeaderChecklist
-      codigo="SG-F-24-33"
-      titulo="RECEPCIÓN DE PRODUCTOS QUÍMICOS, MATERIALES E INGREDIENTES"
-      subtitulo="Recepción y Verificación"
-    />
-
-    <SGF2433Section
-      formData={formData}
-      handleChange={handleChange}
-    />
-
-  </>
-)}
-
 {checklistSeleccionado === "RH-F-01-21" && (
   <>
 
@@ -1034,22 +1083,6 @@ console.log("Seleccionado RH");
   titulo="INSPECCIÓN DE TRACTOR Y REMOLQUE"
   subtitulo="Requisitos de seguridad para ingreso y salida"
 >
-
-  <button
-    className="btn-back"
-    onClick={() => {
-
-      setChecklistSeleccionado("");
-
-      setFormData({
-        ...formData,
-        tipoChecklist: ""
-      });
-
-    }}
-  >
-    ←
-  </button>
 
 </HeaderChecklist>
 
