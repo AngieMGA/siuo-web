@@ -31,6 +31,7 @@ import SGF2401InformacionGeneral from "../components/SGF2401InformacionGeneral";
 import RHF0121InformacionGeneral from "../components/RHF0121InformacionGeneral";
 import EstadoSupersacoSection from "../components/EstadoSupersacoSection";
 import SGF2433Section from "../components/SGF2433Section";
+import { generarPDFSGF2433 } from "../pdf/generarPDFSGF2433";
 import RHF0121DatosGenerales from "../components/RHF0121DatosGenerales";
 import { generarPDFRHF0121 } from "../pdf/generarPDFRHF0121";
 import RHF0121Section from "../components/RHF0121Section";
@@ -143,12 +144,15 @@ function aumentarConsecutivo(prefijo = "RT") {
     );
 }
 
-  function crearFormularioInicial(prefijo = "RT") {
+  function crearFormularioInicial(
+    prefijo = "RT",
+    tipoChecklist = "CHK-TRANSPORTE"
+) {
 
-  return {
+  const formulario = {
 
-    tipoChecklist: "CHK-TRANSPORTE",
-    
+    tipoChecklist,
+
     ...respuestasIniciales,
 
     documentacionRem1: false,
@@ -269,6 +273,9 @@ function aumentarConsecutivo(prefijo = "RT") {
     numeroFactura2433: "",
     turno2433: "",
     tripulacion2433: "",
+    comentarios2433: "",
+    nombreRecibe2433: "",
+    nombreSupervisor2433: "",
 
     nivelAntes: "",
     nivelDespues: "",
@@ -333,6 +340,23 @@ function aumentarConsecutivo(prefijo = "RT") {
     }))
 
     };
+
+    // Reiniciar peligros
+for (let i = 0; i < 24; i++) {
+    formulario[`peligro${i}`] = false;
+}
+
+// Reiniciar aspectos ambientales
+for (let i = 0; i < 12; i++) {
+    formulario[`ambiental${i}`] = false;
+}
+
+// Reiniciar observaciones del transportista
+for (let i = 0; i < 11; i++) {
+    formulario[`transporteObs${i}`] = "";
+}
+
+return formulario;
 
 }
 
@@ -474,7 +498,7 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
       break;
 
     case "SG-F-24-33":
-      toast.info("PDF de SG-F-24-33 en desarrollo.");
+      generarPDFSGF2433(datosAGuardar);
       break;
 
     default:
@@ -486,12 +510,16 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
 
   const guardarChecklist = async () => {
 
-    console.log("ANTES DE VALIDAR:", formData.tipoChecklist);
+    console.log("FORMDATA AL ENTRAR:", formData);
+
+    console.log("=== GUARDAR CHECKLIST ===");
+    console.log("tipoChecklist:", formData.tipoChecklist);
+    console.log("folio:", formData.folio);
 
     let nuevosErrores = {};
     let primerError = null;
 
-if (formData.tipoChecklist === "CHK-TRANSPORTE") {
+if (checklistSeleccionado === "CHK-TRANSPORTE") {
 
   if (!formData.nombreOperador) {
     nuevosErrores.nombreOperador =
@@ -510,7 +538,7 @@ if (formData.tipoChecklist === "CHK-TRANSPORTE") {
 
 }
 
-if (formData.tipoChecklist === "SG-F-24-01") {
+if (checklistSeleccionado === "SG-F-24-01") {
 
   if (!formData.proveedor) {
   nuevosErrores.proveedor =
@@ -543,9 +571,35 @@ if (formData.tipoChecklist === "SG-F-24-01") {
 
 }
 
+console.log("CHECKLIST SELECCIONADO:", checklistSeleccionado);
+
+if (checklistSeleccionado === "SG-F-24-33") {
+
+  console.log("nombreProducto:", formData.nombreProducto);
+console.log("operador2433:", formData.operador2433);
+console.log("placas2433:", formData.placas2433);
+
+    if (!formData.nombreProducto) {
+        nuevosErrores.nombreProducto = "Ingrese el producto";
+    }
+
+    if (!formData.operador2433) {
+        nuevosErrores.operador2433 = "Ingrese el operador";
+    }
+
+    if (!formData.placas2433) {
+        nuevosErrores.placas2433 = "Ingrese las placas";
+    }
+
+}
+
 console.log("FORMDATA COMPLETO:", formData);
 console.log("Errores:", nuevosErrores);
 
+console.log("TIPO CHECKLIST:", formData.tipoChecklist);
+
+
+console.log(Object.keys(nuevosErrores));
 setErrors(nuevosErrores);
 
 if (primerError) {
@@ -657,7 +711,12 @@ aumentarConsecutivo(prefijo);
 
 toast.success("Checklist enviado correctamente");
 
-const nuevoFormulario = crearFormularioInicial(prefijo);
+const nuevoFormulario = crearFormularioInicial(
+    prefijo,
+    datosAGuardar.tipoChecklist
+);
+
+setFormData(nuevoFormulario);
 
 setFormData(nuevoFormulario);
 
@@ -765,10 +824,12 @@ setFormData(nuevoFormulario);
       onClick={() => {
   setChecklistSeleccionado("CHK-TRANSPORTE");
 
-  setFormData({
-    ...crearFormularioInicial("RT"),
-    tipoChecklist: "CHK-TRANSPORTE"
-  });
+  setFormData(
+  crearFormularioInicial(
+    "RT",
+    "CHK-TRANSPORTE"
+  )
+);
 }}
     >
       <h3>🚛 Revisión de transporte </h3>
@@ -783,10 +844,12 @@ setFormData(nuevoFormulario);
       onClick={() => {
       setChecklistSeleccionado("SG-F-24-01");
 
-      setFormData({
-        ...crearFormularioInicial("RMP"),
-        tipoChecklist: "SG-F-24-01"
-      });
+      setFormData(
+        crearFormularioInicial(
+          "RMP",
+          "SG-F-24-01"
+        )
+      );
 }}
     >
       <h3>📦 Lista de Chequeo</h3>
@@ -801,14 +864,13 @@ setFormData(nuevoFormulario);
       onClick={() => {
       setChecklistSeleccionado("RH-F-01-21");
 
-      const nuevoFormulario = {
-  ...crearFormularioInicial("RH"),
-  tipoChecklist: "RH-F-01-21"
-};
-
-console.log(nuevoFormulario);
+      const nuevoFormulario = crearFormularioInicial(
+  "RH",
+  "RH-F-01-21"
+);
 
 setFormData(nuevoFormulario);
+console.log(nuevoFormulario);
 
 console.log("Seleccionado RH");
       console.log("Seleccionado RH");
@@ -823,14 +885,21 @@ console.log("Seleccionado RH");
 
     <div
   className="tarjeta-checklist"
+
   onClick={() => {
+
     setChecklistSeleccionado("SG-F-24-33");
 
-    setFormData({
-      ...crearFormularioInicial("RQ"),
-      tipoChecklist: "SG-F-24-33"
-    });
-  }}
+    const nuevoFormulario = crearFormularioInicial(
+        "RPQ",
+        "SG-F-24-33"
+    );
+
+    console.log("NUEVO FORMULARIO:", nuevoFormulario);
+
+    setFormData(nuevoFormulario);
+
+}}
 >
   <h3>🧪 Recepción de Productos Químicos</h3>
 

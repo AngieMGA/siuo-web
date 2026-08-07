@@ -1,95 +1,175 @@
 export const transporte2433 = [
 
-  "El transporte se encuentra limpio y libre de plagas",
+    "El transporte se encuentra limpio y libre de plagas",
 
-  "El transporte se encuentra libre de material extraño, olores extraños y/o alérgenos",
+    "El transporte se encuentra libre de material extraño, olores extraños y/o alérgenos",
 
-  "Tipo de transporte (Redilas, Plataforma, Caja seca, Carro tanque, Pipa)",
+    "Tipo de transporte (Redilas, Plataforma, Caja seca, Carro tanque, Pipa)",
 
-  "Condiciones generales (Luces, Llantas, Fugas) Cuenta con hoja de Mantenimiento de Unidad y equipo adicional (bombeo, elevación, grua)",
+    "Condiciones generales (Luces, Llantas, Fugas) Cuenta con hoja de Mantenimiento de Unidad y equipo adicional (bombeo, elevación, grua)",
 
-  "Aterrizar la unidad ( Antes de comenzar la descarga, gas Lp, materias primas base alcohol)",
+    "Aterrizar la unidad (Antes de comenzar la descarga, gas LP, materias primas base alcohol)",
 
-  "Identificación del transporte con base a la sustancia almacenada",
+    "Identificación del transporte con base a la sustancia almacenada",
 
-  "Tranca, acordonamiento del área, asegurar que no existan fuentes de ignición cerca",
+    "Tranca, acordonamiento del área, asegurar que no existan fuentes de ignición cerca",
 
-  "Hoja de datos de seguridad de sustancias y/o producto químico",
+    "Hoja de datos de seguridad de sustancias y/o producto químico",
 
-  "Kit para derrames",
+    "Kit para derrames",
 
-  "Si se utiliza rampa móvil asegurar condiciones de la misma (trancas, fijación a la unidad)",
+    "Si se utiliza rampa móvil asegurar condiciones de la misma (trancas, fijación a la unidad)",
 
-  "No existen fuentes de ignición cerca (Recepción de materias primas base alcohol, gas)"
+    "No existen fuentes de ignición cerca (Recepción de materias primas base alcohol, gas)"
 
 ];
 
 export const epp2433 = [
 
-  "Arnés de cuerpo completo",
+    "Arnés de cuerpo completo",
 
-  "Línea de vida (ANSI Z359.1-92)",
+    "Línea de vida (ANSI Z359.1-92)",
 
-  "Línea de vida portátil retráctil o con amortiguador",
+    "Línea de vida portátil retráctil o con amortiguador",
 
-  "Casco con barboquejo",
+    "Casco con barboquejo",
 
-  "Calzado de seguridad",
+    "Calzado de seguridad",
 
-  "Guantes",
+    "Guantes",
 
-  "Protección auditiva",
+    "Protección auditiva",
 
-  "Protección visual",
+    "Protección visual",
 
-  "Protección respiratoria",
+    "Protección respiratoria",
 
-  "Protección corporal"
+    "Protección corporal"
 
 ];
 
 export const trasvase2433 = {
 
-  antes: [
+    antes: [
 
-    "Área delimitada y señalizada",
+        "Área delimitada y señalizada",
 
-    "Extintor disponible",
+        "Extintor disponible",
 
-    "Equipo de protección personal completo",
+        "Equipo de protección personal completo",
 
-    "Hoja de seguridad disponible",
+        "Hoja de seguridad disponible",
 
-    "Kit para derrames disponible"
+        "Kit para derrames disponible"
 
-  ],
+    ],
 
-  durante: [
+    durante: [
 
-    "No existen fugas",
+        "No existen fugas",
 
-    "Se mantiene comunicación",
+        "Se mantiene comunicación",
 
-    "Se monitorea el nivel del tanque",
+        "Se monitorea el nivel del tanque",
 
-    "No existen fuentes de ignición",
+        "No existen fuentes de ignición",
 
-    "Área libre de personal ajeno"
+        "Área libre de personal ajeno"
 
-  ],
+    ],
 
-  despues: [
+    despues: [
 
-    "Área limpia",
+        "Área limpia",
 
-    "Se retiran residuos",
+        "Se retiran residuos",
 
-    "Se retiran herramientas",
+        "Se retiran herramientas",
 
-    "Se retiran señalamientos",
+        "Se retiran señalamientos",
 
-    "Equipo almacenado correctamente"
+        "Equipo almacenado correctamente"
 
-  ]
+    ]
 
 };
+
+export const peligros2433 = [
+
+    "Deficiencia de oxígeno",
+
+    "Carga manual",
+
+    "Movimiento de cargas",
+
+    "Colisión o volcadura",
+
+    "Partes en movimiento",
+
+    "Exposición a ruido",
+
+    "Posturas",
+
+    "Proyección de partículas",
+
+    "Superficies resbalosas",
+
+    "Caídas al mismo nivel",
+
+    "Contacto con sustancias químicas",
+
+    "Incendio",
+
+    "Caídas de diferente nivel",
+
+    "Invasión",
+
+    "Atropellamiento",
+
+    "Explosión",
+
+    "Contacto con superficies calientes",
+
+    "Riesgos eléctricos",
+
+    "Polvo",
+
+    "Iluminación no adecuada",
+
+    "Cuerpos punzocortantes",
+
+    "Vibración",
+
+    "Aves",
+
+    "Agotamiento físico"
+
+];
+
+export const ambientales2433 = [
+
+    "Generación de residuos peligrosos",
+
+    "Generación de ruido",
+
+    "Consumo de energía",
+
+    "Consumo de agua",
+
+    "Generación de calor",
+
+    "Consumo de productos químicos",
+
+    "Consumo de materiales",
+
+    "Descarga de aguas",
+
+    "Emisiones a la atmósfera",
+
+    "Generación de residuos no peligrosos",
+
+    "Contaminación del agua",
+
+    "Contaminación del suelo"
+
+];

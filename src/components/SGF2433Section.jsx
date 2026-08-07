@@ -7,6 +7,7 @@ import SeguridadTransporte2433 from "./SeguridadTransporte2433";
 import EPP2433 from "./EPP2433";
 import PeligrosAmbientales2433 from "./PeligrosAmbientales2433";
 import Trasvase2433 from "./Trasvase2433";
+import ObservacionesSGF2433 from "./ObservacionesSGF2433";
 
 function SGF2433Section({
     formData,
@@ -58,6 +59,11 @@ function SGF2433Section({
             />
 
             <Trasvase2433
+                formData={formData}
+                handleChange={handleChange}
+            />
+
+            <ObservacionesSGF2433
                 formData={formData}
                 handleChange={handleChange}
             />

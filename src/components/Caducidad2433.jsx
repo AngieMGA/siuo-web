@@ -10,118 +10,69 @@ function Caducidad2433({
 
         <CardSection title="REGISTRO DE CADUCIDAD EN CASO DE APLICAR (MATERIALES E INGREDIENTES)">
 
-            <table className="sgf-table">
+            <div className="caducidad-grid">
 
-                <thead>
+  <InputField
+    label="Producto"
+    name="producto1"
+    value={formData.producto1}
+    onChange={handleChange}
+  />
 
-                    <tr>
+  <InputField
+    label="Caducidad"
+    type="date"
+    name="caducidad1"
+    value={formData.caducidad1}
+    onChange={handleChange}
+  />
 
-                        <th>Producto</th>
-                        <th>Caducidad</th>
-                        <th>Producto</th>
-                        <th>Caducidad</th>
+  <InputField
+    label="Producto"
+    name="producto2"
+    value={formData.producto2}
+    onChange={handleChange}
+  />
 
-                    </tr>
+  <InputField
+    label="Caducidad"
+    type="date"
+    name="caducidad2"
+    value={formData.caducidad2}
+    onChange={handleChange}
+  />
 
-                </thead>
+  <InputField
+    label="Producto"
+    name="producto3"
+    value={formData.producto3}
+    onChange={handleChange}
+  />
 
-                <tbody>
+  <InputField
+    label="Caducidad"
+    type="date"
+    name="caducidad3"
+    value={formData.caducidad3}
+    onChange={handleChange}
+  />
 
-                    <tr>
+  <InputField
+    label="Producto"
+    name="producto4"
+    value={formData.producto4}
+    onChange={handleChange}
+  />
 
-                        <td>
+  <InputField
+    label="Caducidad"
+    type="date"
+    name="caducidad4"
+    value={formData.caducidad4}
+    onChange={handleChange}
+  />
 
-                            <InputField
-                                name="producto1"
-                                value={formData.producto1}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                        <td>
-
-                            <InputField
-                                type="date"
-                                name="caducidad1"
-                                value={formData.caducidad1}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                        <td>
-
-                            <InputField
-                                name="producto2"
-                                value={formData.producto2}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                        <td>
-
-                            <InputField
-                                type="date"
-                                name="caducidad2"
-                                value={formData.caducidad2}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>
-
-                            <InputField
-                                name="producto3"
-                                value={formData.producto3}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                        <td>
-
-                            <InputField
-                                type="date"
-                                name="caducidad3"
-                                value={formData.caducidad3}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                        <td>
-
-                            <InputField
-                                name="producto4"
-                                value={formData.producto4}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                        <td>
-
-                            <InputField
-                                type="date"
-                                name="caducidad4"
-                                value={formData.caducidad4}
-                                onChange={handleChange}
-                            />
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+</div>
 
         </CardSection>
 

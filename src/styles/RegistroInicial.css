@@ -2109,3 +2109,9 @@ border-radius:8px;
     font-size:14px;
 
 }
+
+.caducidad-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
