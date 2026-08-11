@@ -30,15 +30,15 @@ function App() {
 
   };
 
-  if (!usuario) {
-
-    return (
-      <Login
-        onLogin={handleLogin}
-      />
-    );
-
-  }
+  /*
+if (!usuario) {
+  return (
+    <Login
+      onLogin={handleLogin}
+    />
+  );
+}
+*/
 
   return (
     <RegistroInicial

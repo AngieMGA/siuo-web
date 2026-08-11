@@ -1,46 +1,48 @@
 function StatusButton({
   active,
-  onClick
+  onClick,
+  disabled = false
 }) {
 
   return (
 
     <button
-      type="button"
-      onClick={onClick}
-      style={{
+  type="button"
+  onClick={onClick}
+  disabled={disabled}
+  style={{
+    width: "34px",
+    height: "34px",
+    borderRadius: "10px",
 
-        width: "34px",
+    border: active
+      ? "2px solid #2e7d32"
+      : "2px solid #cfcfcf",
 
-        height: "34px",
+    backgroundColor: active
+      ? "#2e7d32"
+      : "#f5f5f5",
 
-        borderRadius: "10px",
+    color: active
+      ? "white"
+      : "transparent",
 
-        border: active
-          ? "2px solid #2e7d32"
-          : "2px solid #cfcfcf",
+    fontWeight: "bold",
+    fontSize: "16px",
 
-        backgroundColor: active
-          ? "#2e7d32"
-          : "#f5f5f5",
+    cursor: disabled
+      ? "not-allowed"
+      : "pointer",
 
-        color: active
-          ? "white"
-          : "transparent",
+    opacity: disabled
+      ? 0.6
+      : 1,
 
-        fontWeight: "bold",
-
-        fontSize: "16px",
-
-        cursor: "pointer",
-
-        transition: "0.2s"
-      }}
-    >
-
-      ✔
-
-    </button>
+    transition: "0.2s"
+  }}
+>
+  ✔
+</button>
 
   );
 }

@@ -4,13 +4,14 @@ import { checklistTransporte } from "../data/checklistTransporte";
 
 function DocumentacionSection({
   formData,
-  handleChange
+  handleChange,
+  puedeEditar
 }) {
 
   const preguntasDocumentacion =
-  checklistTransporte.secciones.find(
-    (s) => s.id === "DOC"
-  ).preguntas;
+    checklistTransporte.secciones.find(
+      (s) => s.id === "DOC"
+    ).preguntas;
 
   return (
 
@@ -19,70 +20,78 @@ function DocumentacionSection({
       <table className="check-table">
 
         <thead>
-
           <tr>
-
             <th></th>
-
             <th>Rem 1</th>
-
             <th>Rem 2</th>
-
           </tr>
-
         </thead>
 
         <tbody>
 
-  {preguntasDocumentacion.map((pregunta) => (
+          {preguntasDocumentacion.map((pregunta) => (
 
-    <tr key={pregunta.id}>
+            <tr key={pregunta.id}>
 
-  <td>
-    <strong>{pregunta.texto}</strong>
-  </td>
+              <td>
+                <strong>{pregunta.texto}</strong>
+              </td>
 
-  <td>
+              <td>
 
-    <StatusButton
-      active={formData[`${pregunta.id}-REM1`] || false}
-      onClick={() =>
-        handleChange({
-          target: {
-            name: `${pregunta.id}-REM1`,
-            type: "checkbox",
-            checked:
-              !formData[`${pregunta.id}-REM1`]
-          }
-        })
-      }
-    />
+                <StatusButton
+                  active={
+                    formData[`${pregunta.id}-REM1`] || false
+                  }
 
-  </td>
+                  disabled={!puedeEditar}
 
-  <td>
+                  onClick={() =>
+                    handleChange({
+                      target: {
+                        name: `${pregunta.id}-REM1`,
+                        type: "checkbox",
+                        checked:
+                          !formData[
+                            `${pregunta.id}-REM1`
+                          ]
+                      }
+                    })
+                  }
+                />
 
-    <StatusButton
-      active={formData[`${pregunta.id}-REM2`] || false}
-      onClick={() =>
-        handleChange({
-          target: {
-            name: `${pregunta.id}-REM2`,
-            type: "checkbox",
-            checked:
-              !formData[`${pregunta.id}-REM2`]
-          }
-        })
-      }
-    />
+              </td>
 
-  </td>
+              <td>
 
-</tr>
+                <StatusButton
+                  active={
+                    formData[`${pregunta.id}-REM2`] || false
+                  }
 
-  ))}
+                  disabled={!puedeEditar}
 
-</tbody>
+                  onClick={() =>
+                    handleChange({
+                      target: {
+                        name: `${pregunta.id}-REM2`,
+                        type: "checkbox",
+                        checked:
+                          !formData[
+                            `${pregunta.id}-REM2`
+                          ]
+                      }
+                    })
+                  }
+                />
+
+              </td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
 
       </table>
 

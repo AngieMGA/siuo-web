@@ -5,7 +5,9 @@ function InputField({
   onChange,
   type = "text",
   error = "",
-  options = []
+  options = [],
+  disabled = false,
+  readOnly = false
 }) {
 
   return (
@@ -20,6 +22,7 @@ function InputField({
           name={name}
           value={value}
           onChange={onChange}
+          disabled={disabled}
           className={error ? "input-error" : ""}
         >
 
@@ -47,6 +50,8 @@ function InputField({
           name={name}
           value={value}
           onChange={onChange}
+          disabled={disabled}
+          readOnly={readOnly}
           className={error ? "input-error" : ""}
         />
 

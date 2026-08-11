@@ -5,84 +5,85 @@ import { checklistTransporte } from "../data/checklistTransporte";
 
 function RemolqueSection({
   formData,
-  handleChange
+  handleChange,
+  puedeEditar
 }) {
-const preguntasRemolque =
-  checklistTransporte.secciones.find(
-    (s) => s.id === "REM"
-  ).preguntas;
+
+  const preguntasRemolque =
+    checklistTransporte.secciones.find(
+      (s) => s.id === "REM"
+    ).preguntas;
 
   return (
-
     <CardSection title="REMOLQUE">
 
       <table className="check-table">
 
         <thead>
-
           <tr>
-
             <th></th>
-
             <th>Rem 1</th>
-
             <th>Rem 2</th>
-
           </tr>
-
         </thead>
 
         <tbody>
 
-  {preguntasRemolque.map((pregunta) => (
+          {preguntasRemolque.map((pregunta) => (
 
-    <tr key={pregunta.id}>
+            <tr key={pregunta.id}>
 
-      <td>
-        <strong>{pregunta.texto}</strong>
-      </td>
+              <td>
+                <strong>{pregunta.texto}</strong>
+              </td>
 
-      <td>
+              <td>
+                <StatusButton
+                  active={
+                    formData[`${pregunta.id}-REM1`] || false
+                  }
+                  disabled={!puedeEditar}
+                  onClick={() =>
+                    handleChange({
+                      target: {
+                        name: `${pregunta.id}-REM1`,
+                        type: "checkbox",
+                        checked:
+                          !formData[
+                            `${pregunta.id}-REM1`
+                          ]
+                      }
+                    })
+                  }
+                />
+              </td>
 
-        <StatusButton
-          active={formData[`${pregunta.id}-REM1`] || false}
-          onClick={() =>
-            handleChange({
-              target: {
-                name: `${pregunta.id}-REM1`,
-                type: "checkbox",
-                checked:
-                  !formData[`${pregunta.id}-REM1`]
-              }
-            })
-          }
-        />
+              <td>
+                <StatusButton
+                  active={
+                    formData[`${pregunta.id}-REM2`] || false
+                  }
+                  disabled={!puedeEditar}
+                  onClick={() =>
+                    handleChange({
+                      target: {
+                        name: `${pregunta.id}-REM2`,
+                        type: "checkbox",
+                        checked:
+                          !formData[
+                            `${pregunta.id}-REM2`
+                          ]
+                      }
+                    })
+                  }
+                />
+              </td>
 
-      </td>
+            </tr>
 
-      <td>
+          ))}
 
-        <StatusButton
-          active={formData[`${pregunta.id}-REM2`] || false}
-          onClick={() =>
-            handleChange({
-              target: {
-                name: `${pregunta.id}-REM2`,
-                type: "checkbox",
-                checked:
-                  !formData[`${pregunta.id}-REM2`]
-              }
-            })
-          }
-        />
-
-      </td>
-
-    </tr>
-
-  ))}
-
-</tbody>
+        </tbody>
 
       </table>
 
@@ -91,6 +92,7 @@ const preguntasRemolque =
         name="suspension"
         value={formData.suspension}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
     </CardSection>

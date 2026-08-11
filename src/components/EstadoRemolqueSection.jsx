@@ -1,6 +1,6 @@
 import CardSection from "./CardSection";
 import StatusButton from "./StatusButton";
-import TruckDiagram from "./TruckDiagram"; 
+import TruckDiagram from "./TruckDiagram";
 import EstadoResumen from "./EstadoResumen";
 import { ESTADOS } from "../data/truckDiagramData";
 
@@ -47,160 +47,217 @@ function EstadoRemolqueSection({
   formData,
   handleChange,
   actualizarLlanta,
-  mostrarFull
+  mostrarFull,
+  puedeEditarEstado,
+  puedeEditarLlantas
 }) {
 
-    const llantas = mostrarFull
+  const llantas = mostrarFull
     ? formData.llantasFull
     : formData.llantasSencillo;
 
-    const totalBien = llantas.filter(l => l.estado === ESTADOS.BIEN).length;
+  const totalBien =
+    llantas.filter(
+      l => l.estado === ESTADOS.BIEN
+    ).length;
 
-    const totalDanada = llantas.filter(l => l.estado === ESTADOS.DANADA).length;
+  const totalDanada =
+    llantas.filter(
+      l => l.estado === ESTADOS.DANADA
+    ).length;
 
-    const totalObservacion = llantas.filter(l => l.estado === ESTADOS.OBSERVACION).length;
+  const totalObservacion =
+    llantas.filter(
+      l => l.estado === ESTADOS.OBSERVACION
+    ).length;
 
-    const total = llantas.length;
+  const total = llantas.length;
 
   return (
 
-      <>
+    <>
 
-    <CardSection title="ESTADO DEL REMOLQUE">
+      {/* =========================================
+          ESTADO DEL REMOLQUE
+          APT PUEDE EDITAR
+         ========================================= */}
 
-      <table className="check-table">
+      <CardSection title="ESTADO DEL REMOLQUE">
 
-        <thead>
+        <table className="check-table">
 
-          <tr>
+          <thead>
 
-            <th>Concepto</th>
-
-            <th>REM 1</th>
-
-            <th>REM 2</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          {preguntasEstadoRemolque.map((pregunta) => (
-
-            <tr key={pregunta.id}>
-
-              <td>
-                <strong>{pregunta.texto}</strong>
-              </td>
-
-              <td>
-
-                <StatusButton
-                  active={
-                    formData[
-                      `${pregunta.id}-REM1`
-                    ] || false
-                  }
-                  onClick={() =>
-                    handleChange({
-                      target: {
-                        name:
-                          `${pregunta.id}-REM1`,
-                        type: "checkbox",
-                        checked:
-                          !formData[
-                            `${pregunta.id}-REM1`
-                          ]
-                      }
-                    })
-                  }
-                />
-
-              </td>
-
-              <td>
-
-                <StatusButton
-                  active={
-                    formData[
-                      `${pregunta.id}-REM2`
-                    ] || false
-                  }
-                  onClick={() =>
-                    handleChange({
-                      target: {
-                        name:
-                          `${pregunta.id}-REM2`,
-                        type: "checkbox",
-                        checked:
-                          !formData[
-                            `${pregunta.id}-REM2`
-                          ]
-                      }
-                    })
-                  }
-                />
-
-              </td>
-
+            <tr>
+              <th>Concepto</th>
+              <th>REM 1</th>
+              <th>REM 2</th>
             </tr>
 
-          ))}
+          </thead>
 
-        </tbody>
+          <tbody>
 
-      </table>
+            {preguntasEstadoRemolque.map(
+              (pregunta) => (
 
-    </CardSection>
+                <tr key={pregunta.id}>
 
-    <CardSection title="DIAGRAMA DE LA UNIDAD">
-    <p style={{ marginBottom: "10px" }}>
-    <strong>Seleccione la llanta a inspeccionar.</strong>
-</p>
+                  <td>
+                    <strong>
+                      {pregunta.texto}
+                    </strong>
+                  </td>
 
-<div
-    style={{
-        display: "flex",
-        gap: "25px",
-        marginBottom: "15px",
-        flexWrap: "wrap",
-        fontSize: "14px"
-    }}
->
-    <span>🟢 <strong>Bien</strong></span>
-    <span>🔴 <strong>Dañada</strong></span>
-    <span>🟡 <strong>Observación</strong></span>
-</div>
+                  <td>
 
-<p
-    style={{
-        fontSize: "13px",
-        color: "#666",
-        marginBottom: "20px"
-    }}
->
-    Al hacer clic sobre una llanta podrá registrar un daño o una observación.
-</p>
+                    <StatusButton
+                      active={
+                        formData[
+                          `${pregunta.id}-REM1`
+                        ] || false
+                      }
 
-<EstadoResumen
-    bien={totalBien}
-    observacion={totalObservacion}
-    danada={totalDanada}
-    total={total}
-/>
+                      disabled={
+                        !puedeEditarEstado
+                      }
 
-<TruckDiagram
-    tipo={mostrarFull ? "FULL" : "SENCILLO"}
-    llantas={mostrarFull ? formData.llantasFull : formData.llantasSencillo}
-    actualizarLlanta={actualizarLlanta}
-    mostrarFull={mostrarFull}
-/>
-</CardSection>
+                      onClick={() =>
+                        handleChange({
+                          target: {
+                            name:
+                              `${pregunta.id}-REM1`,
 
-  </>
+                            type: "checkbox",
+
+                            checked:
+                              !formData[
+                                `${pregunta.id}-REM1`
+                              ]
+                          }
+                        })
+                      }
+                    />
+
+                  </td>
+
+                  <td>
+
+                    <StatusButton
+                      active={
+                        formData[
+                          `${pregunta.id}-REM2`
+                        ] || false
+                      }
+
+                      disabled={
+                        !puedeEditarEstado
+                      }
+
+                      onClick={() =>
+                        handleChange({
+                          target: {
+                            name:
+                              `${pregunta.id}-REM2`,
+
+                            type: "checkbox",
+
+                            checked:
+                              !formData[
+                                `${pregunta.id}-REM2`
+                              ]
+                          }
+                        })
+                      }
+                    />
+
+                  </td>
+
+                </tr>
+
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </CardSection>
+
+
+      {/* =========================================
+          DIAGRAMA DE LA UNIDAD / LLANTAS
+          VIGILANCIA PUEDE EDITAR
+         ========================================= */}
+
+      <CardSection title="DIAGRAMA DE LA UNIDAD">
+
+        <p style={{ marginBottom: "10px" }}>
+          <strong>
+            Seleccione la llanta a inspeccionar.
+          </strong>
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "25px",
+            marginBottom: "15px",
+            flexWrap: "wrap",
+            fontSize: "14px"
+          }}
+        >
+
+          <span>
+            🟢 <strong>Bien</strong>
+          </span>
+
+          <span>
+            🔴 <strong>Dañada</strong>
+          </span>
+
+          <span>
+            🟡 <strong>Observación</strong>
+          </span>
+
+        </div>
+
+        <p
+          style={{
+            fontSize: "13px",
+            color: "#666",
+            marginBottom: "20px"
+          }}
+        >
+          Al hacer clic sobre una llanta podrá
+          registrar un daño o una observación.
+        </p>
+
+
+        <EstadoResumen
+          bien={totalBien}
+          observacion={totalObservacion}
+          danada={totalDanada}
+          total={total}
+        />
+
+        <TruckDiagram
+          tipo={mostrarFull ? "FULL" : "SENCILLO"}
+          llantas={
+            mostrarFull
+              ? formData.llantasFull
+              : formData.llantasSencillo
+          }
+          actualizarLlanta={actualizarLlanta}
+          mostrarFull={mostrarFull}
+          puedeEditar={puedeEditarLlantas}
+        />
+      </CardSection>
+
+    </>
 
   );
+
 }
 
 export default EstadoRemolqueSection;

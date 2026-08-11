@@ -4,11 +4,11 @@ import InputField from "./InputField";
 function DatosGeneralesTransporte({
   formData,
   handleChange,
-  errors
+  errors,
+  puedeEditar
 }) {
 
   return (
-
     <CardSection title="DATOS GENERALES">
 
       <InputField
@@ -16,6 +16,7 @@ function DatosGeneralesTransporte({
         name="inspector"
         value={formData.inspector}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -24,6 +25,7 @@ function DatosGeneralesTransporte({
         value={formData.nombreOperador}
         onChange={handleChange}
         error={errors.nombreOperador}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -31,6 +33,7 @@ function DatosGeneralesTransporte({
         name="telefonoOperador"
         value={formData.telefonoOperador}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -39,6 +42,7 @@ function DatosGeneralesTransporte({
         value={formData.lineaTransporte}
         onChange={handleChange}
         error={errors.lineaTransporte}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -46,6 +50,7 @@ function DatosGeneralesTransporte({
         name="placasytarjetacirculacion"
         value={formData.placasytarjetacirculacion}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -53,6 +58,7 @@ function DatosGeneralesTransporte({
         name="remolque1"
         value={formData.remolque1}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -60,6 +66,7 @@ function DatosGeneralesTransporte({
         name="remolque2"
         value={formData.remolque2}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -67,6 +74,7 @@ function DatosGeneralesTransporte({
         name="engomadoVerificacion"
         value={formData.engomadoVerificacion}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
       <InputField
@@ -74,10 +82,10 @@ function DatosGeneralesTransporte({
         name="engomadoFisico"
         value={formData.engomadoFisico}
         onChange={handleChange}
+        disabled={!puedeEditar}
       />
 
     </CardSection>
-
   );
 }
 

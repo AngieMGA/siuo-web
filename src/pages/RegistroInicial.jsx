@@ -55,7 +55,43 @@ import {
     LLANTAS_FULL
 } from "../data/truckDiagramData";
 
-function RegistroInicial() {
+import {
+  obtenerWorkflow,
+  obtenerEtapaPorArea,
+  puedeEditarSeccion,
+  puedeEnviar,
+  puedeFinalizar
+} from "../services/checklistWorkflowService";
+
+import { checklistWorkflow } from "../config/checklistWorkflow";
+
+import { ENTORNO_DESARROLLO } from "../config/entornoDesarrollo";
+
+function RegistroInicial({ usuario, onLogout }) {
+
+  const areaUsuario =
+  usuario?.area ||
+  (ENTORNO_DESARROLLO.usarAreaPrueba
+    ? ENTORNO_DESARROLLO.areaPrueba
+    : null);
+
+    const puedeEditar = (seccion) => {
+  return puedeEditarSeccion(
+    "SG-F-24-06",
+    areaUsuario,
+    seccion
+  );
+};
+
+console.log("USUARIO:", usuario);
+console.log("ÁREA ACTUAL:", areaUsuario);
+
+  console.log("REGISTRO INICIAL CARGADO");
+
+  console.log(
+    "WORKFLOW SG-F-24-06:",
+    checklistWorkflow["SG-F-24-06"]
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -378,6 +414,54 @@ return formulario;
       ? checked
       : value
   };
+
+  console.log(
+  "WORKFLOW:",
+  obtenerWorkflow("SG-F-24-06")
+);
+
+console.log(
+  "VIGILANCIA - DOC:",
+  puedeEditarSeccion(
+    "SG-F-24-06",
+    "VIGILANCIA",
+    "DOC"
+  )
+);
+
+console.log(
+  "APT - DOC:",
+  puedeEditarSeccion(
+    "SG-F-24-06",
+    "APT",
+    "DOC"
+  )
+);
+
+console.log(
+  "APT - EST:",
+  puedeEditarSeccion(
+    "SG-F-24-06",
+    "APT",
+    "EST"
+  )
+);
+
+console.log(
+  "VIGILANCIA puede enviar:",
+  puedeEnviar(
+    "SG-F-24-06",
+    "VIGILANCIA"
+  )
+);
+
+console.log(
+  "APT puede finalizar:",
+  puedeFinalizar(
+    "SG-F-24-06",
+    "APT"
+  )
+);
 
   const sacos = [
     "saco1Kg",
@@ -1067,6 +1151,7 @@ console.log("Seleccionado RH");
               formData={formData}
               handleChange={handleChange}
               errors={errors}
+              puedeEditar={puedeEditar("DATOS_GENERALES")}
             />
             </>
 )}
@@ -1076,28 +1161,34 @@ console.log("Seleccionado RH");
           <DocumentacionSection
             formData={formData}
             handleChange={handleChange}
+            puedeEditar={puedeEditar("DOC")}
           />
 
           <OperadorSection
             formData={formData}
             handleChange={handleChange}
+            puedeEditar={puedeEditar("OPE")}
           />
 
           <RemolqueSection
             formData={formData}
             handleChange={handleChange}
+            puedeEditar={puedeEditar("REM")}
           />
 
           <EnrampadoSection
             formData={formData}
             handleChange={handleChange}
+            puedeEditar={puedeEditar("ENRAMPADO")}
           />
 
           <EstadoRemolqueSection
-              formData={formData}
-              handleChange={handleChange}
-              actualizarLlanta={actualizarLlanta}
-              mostrarFull={mostrarFull}
+            formData={formData}
+            handleChange={handleChange}
+            actualizarLlanta={actualizarLlanta}
+            mostrarFull={mostrarFull}
+            puedeEditarEstado={puedeEditar("EST")}
+            puedeEditarLlantas={puedeEditar("LLANTAS")}
           />
         </>
 )}
