@@ -77,107 +77,155 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
     return y + 4;
 
 }
-
 function dibujarTablaOpciones(
     doc,
     titulo,
     preguntas,
     prefijo,
     formData,
-    y
-){
+    y,
+    mostrarObservaciones = true
+) {
 
-    autoTable(doc,{
+    const anchoPagina = doc.internal.pageSize.getWidth();
+    const margen = 10;
+    const anchoTabla = anchoPagina - (margen * 2);
 
-        startY:y,
-
-        theme:"grid",
-
-        head:[[
-
-    titulo,
-
-    "Cumple",
-
-    "No cumple",
-
-    "N/A",
-
-    "Observaciones"
-
-]],
-
-body: preguntas.map((texto,index)=>{
-
-    const valor = formData[`${prefijo}${index}`];
-
-    const observacion =
-        formData[`${prefijo}Obs${index}`] || "";
-
-    return [
-
-        texto,
-
-        valor==="cumple" || valor==="si"
-            ? "X"
-            : "",
-
-        valor==="nocumple" ||
-        valor==="noCumple" ||
-        valor==="no"
-            ? "X"
-            : "",
-
-        valor==="na"
-            ? "X"
-            : "",
-
-        observacion
-
+    let encabezados = [
+        titulo,
+        "Cumple",
+        "No cumple",
+        "N/A"
     ];
 
-}),
-
-        styles:{
-            fontSize:8,
-            cellPadding:2
-        },
-
-        headStyles:{
-            fillColor:[220,220,220],
-            textColor:0
-        },
-columnStyles:{
-
-    0:{
-        cellWidth:90
-    },
-
-    1:{
-        cellWidth:15,
-        halign:"center"
-    },
-
-    2:{
-        cellWidth:18,
-        halign:"center"
-    },
-
-    3:{
-        cellWidth:15,
-        halign:"center"
-    },
-
-    4:{
-        cellWidth:57
+    if (mostrarObservaciones) {
+        encabezados.push("Observaciones");
     }
 
-}
+    const body = preguntas.map((texto, index) => {
+
+        const valor = formData[`${prefijo}${index}`];
+
+        const fila = [
+
+            texto,
+
+            valor === "cumple" || valor === "si"
+                ? "X"
+                : "",
+
+            valor === "nocumple" ||
+            valor === "noCumple" ||
+            valor === "no"
+                ? "X"
+                : "",
+
+            valor === "na"
+                ? "X"
+                : ""
+
+        ];
+
+        if (mostrarObservaciones) {
+
+            fila.push(
+                formData[`${prefijo}Obs${index}`] || ""
+            );
+
+        }
+
+        return fila;
+
+    });
+
+    let columnStyles;
+
+    if (mostrarObservaciones) {
+
+        columnStyles = {
+
+            0: {
+                cellWidth: 90
+            },
+
+            1: {
+                cellWidth: 15,
+                halign: "center"
+            },
+
+            2: {
+                cellWidth: 18,
+                halign: "center"
+            },
+
+            3: {
+                cellWidth: 15,
+                halign: "center"
+            },
+
+            4: {
+                cellWidth: 57
+            }
+
+        };
+
+    } else {
+
+        columnStyles = {
+
+            0: {
+                cellWidth: anchoTabla - 65
+            },
+
+            1: {
+                cellWidth: 20,
+                halign: "center"
+            },
+
+            2: {
+                cellWidth: 25,
+                halign: "center"
+            },
+
+            3: {
+                cellWidth: 20,
+                halign: "center"
+            }
+
+        };
+
+    }
+
+    autoTable(doc, {
+
+        startY: y,
+
+        theme: "grid",
+
+        margin: {
+            left: margen,
+            right: margen
+        },
+
+        head: [encabezados],
+
+        body: body,
+
+        styles: {
+            fontSize: 8,
+            cellPadding: 2
+        },
+
+        headStyles: {
+            fillColor: [220, 220, 220],
+            textColor: 0
+        },
+
+        columnStyles: columnStyles
 
     });
 
     return doc.lastAutoTable.finalY + 8;
-
 }
 
 export function generarPDFSGF2433(formData) {
@@ -441,7 +489,8 @@ y = dibujarTablaOpciones(
     transporte2433,
     "transporte",
     formData,
-    y
+    y,
+    true
 );
 
 y = dibujarTablaOpciones(
@@ -450,7 +499,8 @@ y = dibujarTablaOpciones(
     epp2433,
     "epp",
     formData,
-    y
+    y,
+    false
 );
 
 const riesgosSeleccionados = [];
@@ -519,7 +569,8 @@ y = dibujarTablaOpciones(
     trasvase2433.antes,
     "antes",
     formData,
-    y
+    y,
+    false
 );
 
 y = dibujarTablaOpciones(
@@ -528,7 +579,8 @@ y = dibujarTablaOpciones(
     trasvase2433.durante,
     "durante",
     formData,
-    y
+    y,
+    false
 );
 
 y = dibujarTablaOpciones(
@@ -537,6 +589,53 @@ y = dibujarTablaOpciones(
     trasvase2433.despues,
     "despues",
     formData,
+    y,
+    false
+);
+
+// ==============================
+// OBSERVACIONES GENERALES
+// ==============================
+
+const datosObservaciones = [
+
+    [
+        "Observaciones",
+        formData.comentarios2433 || ""
+    ]
+
+];
+
+y = dibujarSeccion(
+    doc,
+    "OBSERVACIONES",
+    datosObservaciones,
+    y
+);
+
+
+// ==============================
+// FIRMAS
+// ==============================
+
+const datosFirmas = [
+
+    [
+        "Nombre de quien realiza la actividad",
+        formData.nombreRecibe2433 || ""
+    ],
+
+    [
+        "Nombre del Supervisor",
+        formData.nombreSupervisor2433 || ""
+    ]
+
+];
+
+y = dibujarSeccion(
+    doc,
+    "FIRMAS",
+    datosFirmas,
     y
 );
 
@@ -547,19 +646,6 @@ if (y + 40 > 255) {
     y = 20;
 
 }
-
-const observaciones = [
-
-    ["Observaciones", formData.comentarios]
-
-];
-
-y = dibujarSeccion(
-    doc,
-    "OBSERVACIONES",
-    observaciones,
-    y
-);
 
 doc.save(`${formData.folio}.pdf`);
 

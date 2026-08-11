@@ -9,22 +9,62 @@ function Login({ onLogin }) {
 
   const [password, setPassword] =
     useState("");
+const iniciarSesion = async () => {
 
-  const iniciarSesion = () => {
+    try {
 
-    if (
-      usuario === "admin"
-      &&
-      password === "1234"
-    ) {
+        const respuesta = await fetch(
+            "http://localhost:5029/api/auth/login",
+            {
+                method: "POST",
 
-      onLogin();
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-    } else {
+                body: JSON.stringify({
+                    usuario,
+                    password
+                })
+            }
+        );
 
-      alert("Usuario o contraseña incorrectos");
+        const data = await respuesta.json();
+
+        if (!respuesta.ok) {
+
+            alert(
+                data.mensaje ||
+                "Usuario o contraseña incorrectos"
+            );
+
+            return;
+        }
+
+        // Guardamos la sesión
+        sessionStorage.setItem(
+            "usuario",
+            JSON.stringify(data.usuario)
+        );
+
+        sessionStorage.setItem(
+            "token",
+            data.token
+        );
+
+        onLogin(data.usuario);
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "No se pudo conectar con el servidor."
+        );
+
     }
-  };
+
+};
 
   return (
 

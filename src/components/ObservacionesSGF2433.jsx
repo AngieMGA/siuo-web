@@ -30,14 +30,14 @@ function ObservacionesSGF2433({
             <CardSection title="FIRMAS">
 
                 <InputField
-                    label="Nombre quien recibe"
+                    label="Nombre de quien realiza la actividad"
                     name="nombreRecibe2433"
                     value={formData.nombreRecibe2433}
                     onChange={handleChange}
                 />
 
                 <InputField
-                    label="Supervisor / Verificó"
+                    label="Nombre del Supervisor"
                     name="nombreSupervisor2433"
                     value={formData.nombreSupervisor2433}
                     onChange={handleChange}
