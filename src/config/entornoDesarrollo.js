@@ -5,5 +5,5 @@
 export const ENTORNO_DESARROLLO = {
   usarAreaPrueba: true,
 
-  areaPrueba: "VIGILANCIA"
+  areaPrueba: "APT"
 };

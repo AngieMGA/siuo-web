@@ -28,7 +28,9 @@ export const checklistWorkflow = {
           "OPE",
           "REM",
           "ENRAMPADO",
-          "LLANTAS"
+          "LLANTAS",
+          "STATUS"
+
         ],
 
         puedeEditar: true,

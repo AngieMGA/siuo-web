@@ -56,6 +56,10 @@ import {
 } from "../data/truckDiagramData";
 
 import {
+  guardarChecklistDev
+} from "../services/checklistDevStore";
+
+import {
   obtenerWorkflow,
   obtenerEtapaPorArea,
   puedeEditarSeccion,
@@ -67,6 +71,8 @@ import { checklistWorkflow } from "../config/checklistWorkflow";
 
 import { ENTORNO_DESARROLLO } from "../config/entornoDesarrollo";
 
+import NuevosChecklists from "../components/NuevosChecklists";
+
 function RegistroInicial({ usuario, onLogout }) {
 
   const areaUsuario =
@@ -75,13 +81,19 @@ function RegistroInicial({ usuario, onLogout }) {
     ? ENTORNO_DESARROLLO.areaPrueba
     : null);
 
+    const nombreUsuarioActual =
+    usuario?.nombre ||
+    (ENTORNO_DESARROLLO.usarAreaPrueba
+      ? "Usuario de prueba"
+      : "");
+
     const puedeEditar = (seccion) => {
-  return puedeEditarSeccion(
-    "SG-F-24-06",
-    areaUsuario,
-    seccion
-  );
-};
+    return puedeEditarSeccion(
+      "SG-F-24-06",
+      areaUsuario,
+      seccion
+    );
+  };
 
 console.log("USUARIO:", usuario);
 console.log("ÁREA ACTUAL:", areaUsuario);
@@ -207,6 +219,19 @@ function aumentarConsecutivo(prefijo = "RT") {
       new Date().toLocaleTimeString(),
 
     status: "Pendiente",
+
+    areaActual:
+  tipoChecklist === "CHK-TRANSPORTE"
+    ? "VIGILANCIA"
+    : "",
+
+estadoFlujo:
+  tipoChecklist === "CHK-TRANSPORTE"
+    ? "PENDIENTE"
+    : "",
+
+nombreRegistroVigilancia: "",
+nombreRegistroAPT: "",
 
     nombreOperador: "",
     telefonoOperador: "",
@@ -718,16 +743,41 @@ if (Object.keys(nuevosErrores).length > 0) {
       setLoading(true);
 
       const ahora = new Date();
+const datosAGuardar = {
 
-      const datosAGuardar = {
+  ...formData,
 
-        ...formData,
+  hora: ahora.toLocaleTimeString(),
 
-        hora: ahora.toLocaleTimeString(),
+  fecha: ahora.toLocaleDateString(),
 
-        fecha: ahora.toLocaleDateString()
+  areaActual:
+  areaUsuario === "VIGILANCIA" &&
+  formData.tipoChecklist === "CHK-TRANSPORTE"
+    ? "APT"
+    : areaUsuario,
 
-      };
+  estadoFlujo:
+  areaUsuario === "VIGILANCIA" &&
+  formData.tipoChecklist === "CHK-TRANSPORTE"
+    ? "ENVIADO_A_APT"
+    : formData.estadoFlujo || "PENDIENTE",
+
+  ...(areaUsuario === "VIGILANCIA"
+    ? {
+        nombreRegistroVigilancia:
+          nombreUsuarioActual
+      }
+    : {}),
+
+  ...(areaUsuario === "APT"
+    ? {
+        nombreRegistroAPT:
+          nombreUsuarioActual
+      }
+    : {})
+
+};
 
       const response = await fetch(
         "https://localhost:7030/api/checklist",
@@ -747,26 +797,50 @@ if (Object.keys(nuevosErrores).length > 0) {
 
       console.log("DATA:", data);
 
-      
-    switch (datosAGuardar.tipoChecklist) {
+      if (
+  datosAGuardar.tipoChecklist === "CHK-TRANSPORTE"
+) {
 
-  case "CHK-TRANSPORTE":
-    generarPDFCHKTransporte(datosAGuardar);
-    break;
+  if (areaUsuario === "VIGILANCIA") {
 
-  case "SG-F-24-01":
-    generarPDFSGF2401(datosAGuardar);
-    break;
+  guardarChecklistDev(datosAGuardar);
 
-  case "RH-F-01-21":
-    generarPDFRHF0121(datosAGuardar);
-    break;
+  toast.success(
+    "Checklist enviado a APT correctamente"
+  );
 
-  case "SG-F-24-33":
-    generarPDFSGF2433(datosAGuardar);
-    break;
+  return;
+}
 
-}     
+  if (areaUsuario === "APT") {
+
+    toast.success(
+      "Checklist finalizado correctamente"
+    );
+
+  }
+}
+
+  switch (datosAGuardar.tipoChecklist) {
+
+    case "CHK-TRANSPORTE":
+      generarPDFCHKTransporte(datosAGuardar);
+      break;
+
+    case "SG-F-24-01":
+      generarPDFSGF2401(datosAGuardar);
+      break;
+
+    case "RH-F-01-21":
+      generarPDFRHF0121(datosAGuardar);
+      break;
+
+    case "SG-F-24-33":
+      generarPDFSGF2433(datosAGuardar);
+      break;
+
+  }
+
 
       let prefijo = "RT";
 
@@ -897,10 +971,22 @@ setFormData(nuevoFormulario);
 </div>
 
 )}
-
 {!checklistSeleccionado && (
 
-  <div className="tarjetas-checklist">
+  <>
+    {areaUsuario === "APT" && (
+      <NuevosChecklists
+        area="APT"
+        onAbrirChecklist={(checklist) => {
+          console.log(
+            "CHECKLIST A ABRIR:",
+            checklist
+          );
+        }}
+      />
+    )}
+
+    <div className="tarjetas-checklist">
 
     <div
       className="tarjeta-checklist"
@@ -996,6 +1082,7 @@ console.log("Seleccionado RH");
 
   </div>
 
+  </>
 
 )}
 
@@ -1070,6 +1157,7 @@ console.log("Seleccionado RH");
           name="status"
           value={formData.status}
           onChange={handleChange}
+          disabled={!puedeEditar("STATUS")}
         >
           <option>Pendiente</option>
           <option>En revisión</option>
@@ -1129,7 +1217,9 @@ console.log("Seleccionado RH");
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
+                disabled={!puedeEditar("STATUS")}
               >
+
                 <option>Pendiente</option>
                 <option>En revisión</option>
                 <option>Aprobado</option>
@@ -1307,8 +1397,12 @@ console.log("Seleccionado RH");
       disabled={loading}
     >
       {loading
-        ? "Guardando..."
-        : "Guardar Checklist"}
+  ? "Guardando..."
+  : checklistSeleccionado === "CHK-TRANSPORTE"
+    ? areaUsuario === "VIGILANCIA"
+      ? "Enviar a APT"
+      : "Finalizar Checklist"
+    : "Guardar Checklist"}
     </button>
 
   </>
