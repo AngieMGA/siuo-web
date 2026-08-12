@@ -5,5 +5,5 @@
 export const ENTORNO_DESARROLLO = {
   usarAreaPrueba: true,
 
-  areaPrueba: "APT"
+  areaPrueba: "APT" // Cambiar a "APT" para probar el flujo de APT
 };

@@ -128,6 +128,11 @@ console.log("ÁREA ACTUAL:", areaUsuario);
   const [detalleChecklist, setDetalleChecklist] =
     useState(null); 
 
+    const [
+    checklistAPTSeleccionado,
+    setChecklistAPTSeleccionado
+  ] = useState(null);
+
   useEffect(() => {
 
     localStorage.setItem(
@@ -136,6 +141,27 @@ console.log("ÁREA ACTUAL:", areaUsuario);
     );
 
   }, [historial]);
+
+  useEffect(() => {
+
+  if (!checklistAPTSeleccionado) {
+    return;
+  }
+
+  console.log(
+    "CARGANDO CHECKLIST DE APT:",
+    checklistAPTSeleccionado
+  );
+
+  setFormData(
+    checklistAPTSeleccionado
+  );
+
+  setChecklistSeleccionado(
+    checklistAPTSeleccionado.tipoChecklist
+  );
+
+}, [checklistAPTSeleccionado]);
 
   const respuestasIniciales = {};
 
@@ -607,14 +633,119 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
       break;
 
     case "SG-F-24-33":
-      generarPDFSGF2433(datosAGuardar);
-      break;
+    generarPDFSGF2433(formData);
+    break;
 
     default:
       toast.error("Checklist no soportado.");
       break;
   }
 
+};
+
+const finalizarChecklist = async () => {
+
+  const ahora = new Date();
+
+  const datosFinalizados = {
+
+    ...formData,
+
+    hora: ahora.toLocaleTimeString(),
+
+    fecha: ahora.toLocaleDateString(),
+
+    areaActual: "APT",
+
+    estadoFlujo: "FINALIZADO",
+
+    nombreRegistroAPT:
+      nombreUsuarioActual
+
+  };
+
+  try {
+
+    const response = await fetch(
+      "https://localhost:7030/api/checklist",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(datosFinalizados)
+      }
+    );
+
+    console.log(
+      "STATUS FINALIZAR:",
+      response.status
+    );
+
+    const data = await response.json();
+
+    console.log(
+      "DATA FINALIZAR:",
+      data
+    );
+
+    guardarChecklistDev(
+      datosFinalizados
+    );
+
+    toast.success(
+      "Checklist finalizado correctamente"
+    );
+
+    switch (
+      datosFinalizados.tipoChecklist
+    ) {
+
+      case "CHK-TRANSPORTE":
+        generarPDFCHKTransporte(
+          datosFinalizados
+        );
+        break;
+
+      case "SG-F-24-01":
+        generarPDFSGF2401(
+          datosFinalizados
+        );
+        break;
+
+      case "RH-F-01-21":
+        generarPDFRHF0121(
+          datosFinalizados
+        );
+        break;
+
+      case "SG-F-24-33":
+        generarPDFSGF2433(
+          datosFinalizados
+        );
+        break;
+
+      default:
+        toast.error(
+          "Checklist no soportado."
+        );
+        break;
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Error al finalizar checklist:",
+      error
+    );
+
+    toast.error(
+      "No se pudo finalizar el checklist."
+    );
+
+  }
 };
 
   const guardarChecklist = async () => {
@@ -811,36 +942,17 @@ const datosAGuardar = {
 
   return;
 }
+if (areaUsuario === "APT") {
 
-  if (areaUsuario === "APT") {
+  guardarChecklistDev(datosAGuardar);
 
-    toast.success(
-      "Checklist finalizado correctamente"
-    );
+  toast.success(
+    "Cambios guardados correctamente"
+  );
 
-  }
+  return;
 }
-
-  switch (datosAGuardar.tipoChecklist) {
-
-    case "CHK-TRANSPORTE":
-      generarPDFCHKTransporte(datosAGuardar);
-      break;
-
-    case "SG-F-24-01":
-      generarPDFSGF2401(datosAGuardar);
-      break;
-
-    case "RH-F-01-21":
-      generarPDFRHF0121(datosAGuardar);
-      break;
-
-    case "SG-F-24-33":
-      generarPDFSGF2433(datosAGuardar);
-      break;
-
-  }
-
+}
 
       let prefijo = "RT";
 
@@ -982,7 +1094,11 @@ setFormData(nuevoFormulario);
             "CHECKLIST A ABRIR:",
             checklist
           );
-        }}
+          setChecklistAPTSeleccionado(
+            checklist
+    );
+
+  }}
       />
     )}
 
@@ -1386,8 +1502,7 @@ console.log("Seleccionado RH");
     />
   </>
 )}
-  
-    {checklistSeleccionado && (
+  {checklistSeleccionado && (
   <>
     <EvidenciasSection />
 
@@ -1397,14 +1512,17 @@ console.log("Seleccionado RH");
       disabled={loading}
     >
       {loading
-  ? "Guardando..."
-  : checklistSeleccionado === "CHK-TRANSPORTE"
-    ? areaUsuario === "VIGILANCIA"
-      ? "Enviar a APT"
-      : "Finalizar Checklist"
-    : "Guardar Checklist"}
+        ? "Guardando..."
+        : "Guardar Checklist"}
     </button>
 
+    <button
+      className="boton"
+      onClick={generarPDF}
+      disabled={loading}
+    >
+      Generar PDF
+    </button>
   </>
 )}
         </div>
