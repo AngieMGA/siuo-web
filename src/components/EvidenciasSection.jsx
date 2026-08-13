@@ -1,18 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardSection from "./CardSection";
 
-function EvidenciasSection() {
+function EvidenciasSection({ onEvidenciasChange }) {
 
-  const [imagen, setImagen] = useState(null);
+  const [evidencias, setEvidencias] = useState([]);
 
   const handleImagen = (e) => {
 
     const archivo = e.target.files[0];
 
-    if (archivo) {
-      setImagen(URL.createObjectURL(archivo));
+    if (!archivo) {
+      return;
     }
+
+    const nuevaEvidencia = {
+      archivo: archivo,
+      preview: URL.createObjectURL(archivo)
+    };
+setEvidencias((anteriores) => {
+
+  const actualizadas = [
+    ...anteriores,
+    nuevaEvidencia
+  ];
+
+  if (onEvidenciasChange) {
+    onEvidenciasChange(
+      actualizadas.map(
+        (evidencia) => evidencia.archivo
+      )
+    );
+  }
+
+  return actualizadas;
+});
+
+    // Permite volver a abrir la cámara
+    e.target.value = "";
   };
+
+  useEffect(() => {
+
+    return () => {
+
+      evidencias.forEach((evidencia) => {
+        URL.revokeObjectURL(evidencia.preview);
+      });
+
+    };
+
+  }, [evidencias]);
 
   return (
 
@@ -20,7 +57,7 @@ function EvidenciasSection() {
 
       <div className="grupo">
 
-        <label>Subir evidencia fotográfica</label>
+        <label>Tomar evidencia fotográfica</label>
 
         <input
           type="file"
@@ -31,15 +68,30 @@ function EvidenciasSection() {
 
       </div>
 
-      {imagen && (
+      {evidencias.length > 0 && (
 
         <div className="preview-container">
 
-          <img
-            src={imagen}
-            alt="Evidencia"
-            className="preview-img"
-          />
+          {evidencias.map((evidencia, indice) => (
+
+            <div
+              key={indice}
+              className="evidencia-item"
+            >
+
+              <img
+                src={evidencia.preview}
+                alt={`Evidencia ${indice + 1}`}
+                className="preview-img"
+              />
+
+              <div>
+                Evidencia {indice + 1}
+              </div>
+
+            </div>
+
+          ))}
 
         </div>
 

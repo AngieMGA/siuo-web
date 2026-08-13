@@ -471,6 +471,6 @@ y = dibujarIncidencias(
 
 console.log(formData);
 
-doc.save(`${formData.folio}.pdf`);
+return doc.output("blob");
 
 }

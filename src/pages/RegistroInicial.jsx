@@ -107,6 +107,10 @@ console.log("ÁREA ACTUAL:", areaUsuario);
 
   const [loading, setLoading] = useState(false);
 
+  const [evidencias, setEvidencias] = useState([]);
+
+  console.log("EVIDENCIAS ACTUALES:", evidencias);
+
   const [errors, setErrors] = useState({});
 
   const [checklistSeleccionado, setChecklistSeleccionado] = useState("");
@@ -613,34 +617,113 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
     setDetalleChecklist(item);
   };
 
-  const generarPDF = () => {
+  const generarPDF = async () => {
 
-    console.log("Entró a generarPDF");
-    console.log(formData.tipoChecklist);
+  console.log("Entró a generarPDF");
+  console.log("Tipo checklist:", formData.tipoChecklist);
 
-  switch (formData.tipoChecklist) {
+  try {
 
-    case "SG-F-24-01":
-      generarPDFSGF2401(formData);
-      break;
+    let pdfBlob = null;
 
-    case "CHK-TRANSPORTE":
-      generarPDFCHKTransporte(formData);
-      break;
+    switch (formData.tipoChecklist) {
 
-    case "RH-F-01-21":
-      toast.info("PDF de RH-F-01-21 en desarrollo.");
-      break;
+      case "SG-F-24-01":
+        pdfBlob = generarPDFSGF2401(formData);
+        break;
 
-    case "SG-F-24-33":
-    generarPDFSGF2433(formData);
-    break;
+      case "CHK-TRANSPORTE":
+        pdfBlob = generarPDFCHKTransporte(formData);
+        break;
 
-    default:
-      toast.error("Checklist no soportado.");
-      break;
+      case "RH-F-01-21":
+        toast.info("PDF de RH-F-01-21 en desarrollo.");
+        return;
+
+      case "SG-F-24-33":
+        pdfBlob = generarPDFSGF2433(formData);
+        break;
+
+      default:
+        toast.error("Checklist no soportado.");
+        return;
+    }
+
+    if (!pdfBlob) {
+      toast.error("No se pudo generar el PDF.");
+      return;
+    }
+
+    console.log("PDF generado correctamente.");
+    console.log("Tamaño PDF:", pdfBlob.size, "bytes");
+
+    // Crear FormData para enviar el PDF a la API
+    const datosPDF = new FormData();
+
+    datosPDF.append(
+      "folio",
+      formData.folio
+    );
+
+    datosPDF.append(
+      "pdf",
+      pdfBlob,
+      `${formData.folio}.pdf`
+    );
+
+    console.log("Enviando PDF a la API...");
+
+    const response = await fetch(
+      "http://localhost:5029/api/checklist/pdf",
+      {
+        method: "POST",
+        body: datosPDF
+      }
+    );
+
+    console.log(
+      "STATUS PDF:",
+      response.status
+    );
+
+    if (!response.ok) {
+
+      const errorTexto =
+        await response.text();
+
+      console.error(
+        "ERROR API PDF:",
+        errorTexto
+      );
+
+      throw new Error(
+        "La API no pudo guardar el PDF."
+      );
+    }
+
+    const resultado =
+      await response.json();
+
+    console.log(
+      "RESPUESTA API PDF:",
+      resultado
+    );
+
+    toast.success(
+      "PDF guardado correctamente"
+    );
+
+  } catch (error) {
+
+    console.error(
+      "ERROR AL GENERAR/GUARDAR PDF:",
+      error
+    );
+
+    toast.error(
+      "No se pudo guardar el PDF."
+    );
   }
-
 };
 
 const finalizarChecklist = async () => {
@@ -667,7 +750,7 @@ const finalizarChecklist = async () => {
   try {
 
     const response = await fetch(
-      "https://localhost:7030/api/checklist",
+      "http://localhost:5029/api/checklist",
       {
         method: "POST",
 
@@ -910,16 +993,27 @@ const datosAGuardar = {
 
 };
 
-      const response = await fetch(
-        "https://localhost:7030/api/checklist",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(datosAGuardar)
-        }
-      );
+      const datosFormulario = new FormData();
+
+datosFormulario.append(
+  "checklist",
+  JSON.stringify(datosAGuardar)
+);
+
+evidencias.forEach((archivo) => {
+  datosFormulario.append(
+    "evidencias",
+    archivo
+  );
+});
+
+const response = await fetch(
+  "http://localhost:5029/api/checklist",
+  {
+    method: "POST",
+    body: datosFormulario
+  }
+);
 
       console.log("STATUS:", response.status);
       console.log("RESPUESTA:", response);
@@ -1504,7 +1598,9 @@ console.log("Seleccionado RH");
 )}
   {checklistSeleccionado && (
   <>
-    <EvidenciasSection />
+    <EvidenciasSection
+      onEvidenciasChange={setEvidencias}
+    />
 
     <button
       className="boton"
