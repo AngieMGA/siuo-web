@@ -299,6 +299,7 @@ nombreRegistroAPT: "",
 
     // SG-F-24-01
 
+    areaMateriaPrima: "",
     proveedor: "",
     material: "",
     operador: "",
@@ -469,6 +470,14 @@ return formulario;
       ? checked
       : value
   };
+
+  if (name === "areaMateriaPrima") {
+
+  nuevoFormData.material =
+    value === "Cuarto Monster"
+      ? formData.material
+      : "";
+}
 
   console.log(
   "WORKFLOW:",
@@ -860,38 +869,61 @@ if (checklistSeleccionado === "CHK-TRANSPORTE") {
 }
 
 }
-
 if (checklistSeleccionado === "SG-F-24-01") {
 
-  if (!formData.proveedor) {
-  nuevosErrores.proveedor =
-    "Ingrese el proveedor";
+  // ÁREA
+  if (!formData.areaMateriaPrima) {
+    nuevosErrores.areaMateriaPrima =
+      "Seleccione el área";
 
-  document
-    .querySelector('[name="proveedor"]')
-    ?.focus();
-  
-}
-
-  if (!formData.material) {
-  nuevosErrores.material =
-    "Ingrese el material";
-
-  if (!primerError) {
-    primerError = "material";
+    if (!primerError) {
+      primerError = "areaMateriaPrima";
+    }
   }
 
-}
+  // MATERIAL
+  // Solo es obligatorio para Cuarto Monster
+  if (
+    formData.areaMateriaPrima === "Cuarto Monster" &&
+    !formData.material
+  ) {
+    nuevosErrores.material =
+      "Seleccione el material";
+
+    if (!primerError) {
+      primerError = "material";
+    }
+  }
+
+  // PROVEEDOR
+  if (!formData.proveedor) {
+    nuevosErrores.proveedor =
+      "Ingrese el proveedor";
+
+    if (!primerError) {
+      primerError = "proveedor";
+    }
+  }
+
+  // OPERADOR
   if (!formData.operador) {
     nuevosErrores.operador =
       "Ingrese el operador";
+
+    if (!primerError) {
+      primerError = "operador";
+    }
   }
 
+  // TURNO
   if (!formData.turno) {
     nuevosErrores.turno =
       "Ingrese el turno";
-  }
 
+    if (!primerError) {
+      primerError = "turno";
+    }
+  }
 }
 
 console.log("CHECKLIST SELECCIONADO:", checklistSeleccionado);
@@ -1517,7 +1549,9 @@ console.log("Seleccionado RH");
       formData={formData}
       handleChange={handleChange}
     />
-  
+  {formData.areaMateriaPrima === "Cuarto Monster" &&
+ formData.material === "Azúcar" && (
+  <>
     <MermaAzucarSection
       formData={formData}
       handleChange={handleChange}
@@ -1527,6 +1561,8 @@ console.log("Seleccionado RH");
       formData={formData}
       handleChange={handleChange}
     />
+  </>
+)}
 
     <ObservacionesSGF2401
       formData={formData}

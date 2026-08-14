@@ -28,20 +28,6 @@ function SGF2401InformacionGeneral({ formData, handleChange }) {
         onChange={handleChange}
       />
 
-      <div className="grupo">
-        <label>Status</label>
-
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          <option>Pendiente</option>
-          <option>En revisión</option>
-          <option>Aprobado</option>
-          <option>Rechazado</option>
-        </select>
-      </div>
     </CardSection>
   );
 }

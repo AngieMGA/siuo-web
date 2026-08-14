@@ -1,98 +1,159 @@
 import CardSection from "./CardSection";
 import { checklistSGF2401 } from "../data/checklistSGF2401";
-import InputField from "./InputField";
+import { configuracionSGF2401 } from "../data/configuracionSGF2401";
 import React from "react";
-import TruckDiagram from "../components/TruckDiagram";
 
 function SGF2401Section({
   formData,
   handleChange
 }) {
 
+  const area = formData.areaMateriaPrima;
+  const material = formData.material;
+
+  let configuracion = null;
+
+  // Lata Vacía
+  if (area === "Lata Vacía") {
+    configuracion =
+      configuracionSGF2401["Lata Vacía"];
+  }
+
+  // Cuarto Monster + Material
+  if (
+    area === "Cuarto Monster" &&
+    material
+  ) {
+    configuracion =
+      configuracionSGF2401["Cuarto Monster"]?.[material];
+  }
+
+  // Si no hay configuración,
+  // no mostrar preguntas.
+  if (!configuracion) {
+    return null;
+  }
+
   return (
-  
     <CardSection title="SG-F-24-01">
 
       {checklistSGF2401.secciones
-      .filter((seccion) => seccion.preguntas.length > 0)
-      .map((seccion) => (
 
-        <div
-          key={seccion.id}
-          style={{ marginBottom: "30px" }}
-        >
+        .map((seccion) => {
 
-          <h3>{seccion.nombre}</h3>
+          // Obtener los IDs permitidos
+          // para esta sección.
+          const idsPermitidos =
+            configuracion.preguntas?.[seccion.id] || [];
 
-          <table className="sgf-table">
+          // Filtrar las preguntas según
+          // la configuración.
+          const preguntasFiltradas =
+            seccion.preguntas.filter(
+              (pregunta) =>
+                idsPermitidos.includes(
+                  pregunta.id
+                )
+            );
 
-            <thead>
+          // Si no hay preguntas para esta sección,
+          // no mostrarla.
+          if (
+            preguntasFiltradas.length === 0
+          ) {
+            return null;
+          }
 
-              <tr>
-                <th>Pregunta</th>
-                <th>Cumple</th>
-                <th>No Cumple</th>
-              </tr>
+          return (
+            <div
+              key={seccion.id}
+              style={{
+                marginBottom: "30px"
+              }}
+            >
 
-            </thead>
+              <h3>
+                {seccion.nombre}
+              </h3>
 
-            <tbody>
+              <table className="sgf-table">
 
-  {seccion.preguntas.map((pregunta) => (
+                <thead>
+                  <tr>
+                    <th>Pregunta</th>
+                    <th>Cumple</th>
+                    <th>No Cumple</th>
+                  </tr>
+                </thead>
 
-    <React.Fragment key={pregunta.id}>
+                <tbody>
 
-      <tr>
+                  {preguntasFiltradas.map(
+                    (pregunta) => (
 
-        <td className="pregunta">
-          {pregunta.texto}
-        </td>
+                      <React.Fragment
+                        key={pregunta.id}
+                      >
 
-        <td className="radio-cell">
+                        <tr>
 
-          <input
-            type="radio"
-            name={pregunta.id}
-            value="cumple"
-            checked={
-              formData[pregunta.id] === "cumple"
-            }
-            onChange={handleChange}
-          />
+                          <td className="pregunta">
+                            {pregunta.texto}
+                          </td>
 
-        </td>
+                          <td className="radio-cell">
 
-        <td className="radio-cell">
+                            <input
+                              type="radio"
+                              name={pregunta.id}
+                              value="cumple"
+                              checked={
+                                formData[
+                                  pregunta.id
+                                ] === "cumple"
+                              }
+                              onChange={
+                                handleChange
+                              }
+                            />
 
-          <input
-            type="radio"
-            name={pregunta.id}
-            value="noCumple"
-            checked={
-              formData[pregunta.id] === "noCumple"
-            }
-            onChange={handleChange}
-          />
+                          </td>
 
-        </td>
+                          <td className="radio-cell">
 
-      </tr>
+                            <input
+                              type="radio"
+                              name={pregunta.id}
+                              value="noCumple"
+                              checked={
+                                formData[
+                                  pregunta.id
+                                ] === "noCumple"
+                              }
+                              onChange={
+                                handleChange
+                              }
+                            />
 
+                          </td>
 
-    </React.Fragment>
+                        </tr>
 
-  ))}
+                      </React.Fragment>
 
-</tbody>
+                    )
+                  )}
 
-          </table>
+                </tbody>
 
-        </div>
+              </table>
 
-      ))}
+            </div>
+          );
+
+        })}
 
     </CardSection>
-
   );
 }
 
