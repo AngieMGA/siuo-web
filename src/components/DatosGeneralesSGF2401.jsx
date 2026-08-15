@@ -75,6 +75,15 @@ function DatosGeneralesSGF2401({
           onChange={handleChange}
         />
 
+        {formData.areaMateriaPrima === "Cuarto Monster" && (
+          <InputField
+            label="Lote"
+            name="lote"
+            value={formData.lote || ""}
+            onChange={handleChange}
+          />
+        )}
+
         <InputField
           label="Turno"
           name="turno"
@@ -111,6 +120,15 @@ function DatosGeneralesSGF2401({
           onChange={handleChange}
         />
 
+        {formData.areaMateriaPrima === "Cuarto Monster" && (
+          <InputField
+            label="Orden de Compra IEQSA"
+            name="ordenCompra"
+            value={formData.ordenCompra || ""}
+            onChange={handleChange}
+          />
+        )}
+
         {errors?.placasNumero && (
           <p style={{ color: "red" }}>
             {errors.placasNumero}
@@ -123,6 +141,40 @@ function DatosGeneralesSGF2401({
           value={formData.facturaRemision}
           onChange={handleChange}
         />
+
+        {formData.areaMateriaPrima === "Cuarto Monster" && (
+  <div className="grupo">
+
+    <label>Alérgeno y/o Micro Sensitivo</label>
+
+    <div>
+
+      <label>
+        <input
+          type="radio"
+          name="alergeno"
+          value="SI"
+          checked={formData.alergeno === "SI"}
+          onChange={handleChange}
+        />
+        {" "}Sí
+      </label>
+
+      <label style={{ marginLeft: "20px" }}>
+        <input
+          type="radio"
+          name="alergeno"
+          value="NO"
+          checked={formData.alergeno === "NO"}
+          onChange={handleChange}
+        />
+        {" "}No
+      </label>
+
+    </div>
+
+  </div>
+)}
 
         {errors?.facturaRemision && (
           <p style={{ color: "red" }}>
