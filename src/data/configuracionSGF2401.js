@@ -2,7 +2,7 @@ export const configuracionSGF2401 = {
 
   "Lata Vacía": {
 
-    materialRequerido: false,
+    materialRequerido: true,
 
     merma: false,
 
@@ -11,7 +11,7 @@ export const configuracionSGF2401 = {
     secciones: {
       TRANSPORTE: true,
       MATERIAL: true,
-      TARIMA: true,
+      TARIMA: false,
       SERVICIO: true,
       SACO: false
     },
@@ -25,35 +25,23 @@ export const configuracionSGF2401 = {
         "TR-004",
         "TR-005",
         "TR-006",
-        "TR-007",
         "TR-008",
-        "TR-009",
-        "TR-010",
         "TR-011"
       ],
 
       MATERIAL: [
-        "MAT-001",
         "MAT-002",
         "MAT-003",
         "MAT-004",
         "MAT-005",
         "MAT-006",
-        "MAT-007",
-        "MAT-008",
         "MAT-009",
         "MAT-010",
-        "MAT-011",
         "MAT-012",
         "MAT-013"
       ],
 
-      TARIMA: [
-        "TAR-001",
-        "TAR-002",
-        "TAR-003",
-        "TAR-004"
-      ],
+      TARIMA: [],
 
       SERVICIO: [
         "SER-001",
@@ -79,9 +67,9 @@ export const configuracionSGF2401 = {
       secciones: {
         TRANSPORTE: true,
         MATERIAL: true,
-        TARIMA: true,
+        TARIMA: false,
         SERVICIO: true,
-        SACO: true
+        SACO: false
       },
 
       preguntas: {
@@ -93,9 +81,7 @@ export const configuracionSGF2401 = {
           "TR-004",
           "TR-005",
           "TR-006",
-          "TR-007",
           "TR-008",
-          "TR-009",
           "TR-010",
           "TR-011"
         ],
@@ -111,17 +97,12 @@ export const configuracionSGF2401 = {
           "MAT-008",
           "MAT-009",
           "MAT-010",
-          "MAT-011",
+
           "MAT-012",
           "MAT-013"
         ],
 
-        TARIMA: [
-          "TAR-001",
-          "TAR-002",
-          "TAR-003",
-          "TAR-004"
-        ],
+        TARIMA: [],
 
         SERVICIO: [
           "SER-001",
@@ -153,7 +134,7 @@ export const configuracionSGF2401 = {
       secciones: {
         TRANSPORTE: true,
         MATERIAL: true,
-        TARIMA: true,
+        TARIMA: false,
         SERVICIO: true,
         SACO: false
       },
@@ -167,9 +148,7 @@ export const configuracionSGF2401 = {
           "TR-004",
           "TR-005",
           "TR-006",
-          "TR-007",
           "TR-008",
-          "TR-009",
           "TR-010",
           "TR-011"
         ],
@@ -181,7 +160,7 @@ export const configuracionSGF2401 = {
           "MAT-004",
           "MAT-005",
           "MAT-006",
-          "MAT-007",
+  
           "MAT-008",
           "MAT-009",
           "MAT-010",
@@ -190,12 +169,7 @@ export const configuracionSGF2401 = {
           "MAT-013"
         ],
 
-        TARIMA: [
-          "TAR-001",
-          "TAR-002",
-          "TAR-003",
-          "TAR-004"
-        ],
+        TARIMA: [],
 
         SERVICIO: [
           "SER-001",

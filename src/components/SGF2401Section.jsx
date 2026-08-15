@@ -41,13 +41,9 @@ function SGF2401Section({
 
         .map((seccion) => {
 
-          // Obtener los IDs permitidos
-          // para esta sección.
           const idsPermitidos =
             configuracion.preguntas?.[seccion.id] || [];
 
-          // Filtrar las preguntas según
-          // la configuración.
           const preguntasFiltradas =
             seccion.preguntas.filter(
               (pregunta) =>
@@ -56,8 +52,6 @@ function SGF2401Section({
                 )
             );
 
-          // Si no hay preguntas para esta sección,
-          // no mostrarla.
           if (
             preguntasFiltradas.length === 0
           ) {
@@ -138,6 +132,40 @@ function SGF2401Section({
                           </td>
 
                         </tr>
+
+                        {/* Número de sello de transporte */}
+                        {pregunta.id === "TR-011" && (
+                          <tr>
+
+                            <td
+                              colSpan="3"
+                              style={{
+                                padding: "10px 15px"
+                              }}
+                            >
+
+                              <label>
+                                Número:
+                              </label>
+
+                              <input
+                                type="text"
+                                name="numeroSello"
+                                value={
+                                  formData.numeroSello || ""
+                                }
+                                onChange={handleChange}
+                                placeholder="________________"
+                                style={{
+                                  marginLeft: "10px",
+                                  width: "250px"
+                                }}
+                              />
+
+                            </td>
+
+                          </tr>
+                        )}
 
                       </React.Fragment>
 

@@ -126,20 +126,33 @@ function dibujarChecklist(
 
       body: seccion.preguntas.map((pregunta)=>{
 
-        let resultado="N/A";
+  let resultado="N/A";
 
-        if(formData[pregunta.id]==="cumple")
-          resultado="Cumple";
+  if(formData[pregunta.id]==="cumple")
+    resultado="Cumple";
 
-        if(formData[pregunta.id]==="noCumple")
-          resultado="No cumple";
+  if(formData[pregunta.id]==="noCumple")
+    resultado="No cumple";
 
-        return[
-          pregunta.texto,
-          resultado
-        ];
+  let textoPregunta = pregunta.texto;
 
-      }),
+  // Agregar número de sello de transporte
+  if (
+    pregunta.id === "TR-011" &&
+    formData.numeroSello
+  ) {
+
+    textoPregunta +=
+      `\nNúmero: ${formData.numeroSello}`;
+
+  }
+
+  return[
+    textoPregunta,
+    resultado
+  ];
+
+}),
 
       styles:{
         fontSize:9,
