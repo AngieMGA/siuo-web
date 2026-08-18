@@ -2,6 +2,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import logo from "../assets/logoIeqsa.png";
 import { checklistSGF2401 } from "../data/checklistSGF2401";
+import { configuracionSGF2401 } from "../data/configuracionSGF2401";
 
 function dibujarSeccion(doc, titulo, datos, yInicial) {
 
@@ -184,6 +185,21 @@ export function generarPDFSGF2401(formData) {
 
 console.log(formData);
 
+const area = formData.areaMateriaPrima;
+const material = formData.material;
+
+let configuracion = null;
+
+if (area === "Lata Vacía") {
+  configuracion =
+    configuracionSGF2401["Lata Vacía"];
+}
+
+if (area === "Cuarto Monster" && material) {
+  configuracion =
+    configuracionSGF2401["Cuarto Monster"]?.[material];
+}
+
 const doc = new jsPDF("p", "mm", "letter");
 
 doc.addImage(
@@ -246,7 +262,6 @@ doc.line(
 
   doc.text("Fecha:", 15, 53);
   doc.text("Hora:", 75, 53);
-  doc.text("Status:", 135, 53);
   doc.text("Folio:", 15, 60);
   doc.text(formData.folio, 30, 60);
 
@@ -254,24 +269,69 @@ doc.line(
 
   doc.text(formData.fecha, 30, 53);
   doc.text(formData.hora, 90, 53);
-  doc.text(formData.status, 155, 53);
 
-  const informacionGeneral = [
+  let informacionGeneral = [];
 
-  ["Proveedor", formData.proveedor],
-  ["Material", formData.material],
+if (area === "Lata Vacía") {
 
-  ["Operador", formData.operador],
+  informacionGeneral = [
 
-  ["Turno", formData.turno],
-  ["Diseño", formData.diseno],
+    ["Proveedor", formData.proveedor],
+    ["Material", formData.material],
+    ["Operador", formData.operador],
+    ["Turno", formData.turno],
+    ["Diseño", formData.diseno],
+    ["Tripulación", formData.tripulacion],
+    ["Placas / Número", formData.placasNumero],
+    ["Factura / Remisión", formData.facturaRemision]
 
-  ["Tripulación", formData.tripulacion],
-  ["Placas / Número", formData.placasNumero],
+  ];
 
-  ["Factura / Remisión", formData.facturaRemision],
+}
 
-];
+if (
+  area === "Cuarto Monster" &&
+  material === "Azúcar"
+) {
+
+  informacionGeneral = [
+
+    ["Proveedor", formData.proveedor],
+    ["Material", formData.material],
+    ["Operador", formData.operador],
+    ["Lote", formData.lote],
+    ["Turno", formData.turno],
+    ["Tripulación", formData.tripulacion],
+    ["Placas / Número", formData.placasNumero],
+    ["Orden de Compra", formData.ordenCompra],
+    ["Factura / Remisión", formData.facturaRemision],
+    ["Alérgeno / Micro Sensitivo", formData.alergenoMicroSensitivo]
+
+  ];
+
+}
+
+if (
+  area === "Cuarto Monster" &&
+  material === "Fructosa 55"
+) {
+
+  informacionGeneral = [
+
+    ["Proveedor", formData.proveedor],
+    ["Material", formData.material],
+    ["Operador", formData.operador],
+    ["Lote", formData.lote],
+    ["Turno", formData.turno],
+    ["Tripulación", formData.tripulacion],
+    ["Placas / Número", formData.placasNumero],
+    ["Orden de Compra", formData.ordenCompra],
+    ["Factura / Remisión", formData.facturaRemision],
+    ["Alérgeno / Micro Sensitivo", formData.alergenoMicroSensitivo]
+
+  ];
+
+}
 
 let y = 60;
 
@@ -321,11 +381,35 @@ const datosPesaje = [
   }
   */
 
+  const seccionesFiltradas =
+  checklistSGF2401.secciones
+    .map((seccion) => {
+
+      const idsPermitidos =
+        configuracion?.preguntas?.[seccion.id] || [];
+
+      const preguntasFiltradas =
+        seccion.preguntas.filter(
+          (pregunta) =>
+            idsPermitidos.includes(pregunta.id)
+        );
+
+      return {
+        ...seccion,
+        preguntas: preguntasFiltradas
+      };
+
+    })
+    .filter(
+      (seccion) =>
+        seccion.preguntas.length > 0
+    );
+
   let inicioTabla = y + 12;
 
 inicioTabla = dibujarChecklist(
   doc,
-  checklistSGF2401.secciones,
+  seccionesFiltradas,
   formData,
   inicioTabla
 );
@@ -354,12 +438,16 @@ y = inicioTabla;
 
   ];
 
+  if (configuracion?.merma) {
+
   y = dibujarSeccion(
     doc,
     "AZÚCAR - CÁLCULO DE MERMA",
     datosMerma,
     y
   );
+
+}
 
   const datosSupersaco = [];
 
@@ -372,6 +460,8 @@ y = inicioTabla;
 
   }
 
+  if (configuracion?.supersaco) {
+
   y = dibujarSeccion(
     doc,
     "ESTADO DEL SUPERSACO",
@@ -379,6 +469,7 @@ y = inicioTabla;
     y
   );
 
+}
   console.log(formData.observacionesSGF2401);
 console.log(formData.nombreRecibe);
 console.log(formData.nombreSupervisor);
@@ -454,6 +545,6 @@ doc.text(
 );
   
 
-doc.save(`${formData.folio}.pdf`);
+return doc.output("blob");
 
 }

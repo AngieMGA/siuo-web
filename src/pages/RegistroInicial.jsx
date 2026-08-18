@@ -109,6 +109,8 @@ console.log("ÁREA ACTUAL:", areaUsuario);
 
   const [evidencias, setEvidencias] = useState([]);
 
+  const [resetEvidencias, setResetEvidencias] = useState(0);
+
   console.log("EVIDENCIAS ACTUALES:", evidencias);
 
   const [errors, setErrors] = useState({});
@@ -722,6 +724,44 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
       "PDF guardado correctamente"
     );
 
+    // Obtener prefijo según el tipo de checklist
+let prefijo = "";
+
+switch (formData.tipoChecklist) {
+
+  case "SG-F-24-01":
+    prefijo = "RMP";
+    break;
+
+  case "CHK-TRANSPORTE":
+    prefijo = "RT";
+    break;
+
+  case "RH-F-01-21":
+    prefijo = "RH";
+    break;
+
+  case "SG-F-24-33":
+    prefijo = "RPQ";
+    break;
+
+}
+
+// Aumentar consecutivo
+aumentarConsecutivo(prefijo);
+
+// Crear nuevo formulario con el siguiente folio
+const nuevoFormulario = crearFormularioInicial(
+  prefijo,
+  formData.tipoChecklist
+);
+
+// Limpiar formulario
+setFormData(nuevoFormulario);
+
+setEvidencias([]);
+setResetEvidencias((valor) => valor + 1);
+
   } catch (error) {
 
     console.error(
@@ -1111,8 +1151,6 @@ const nuevoFormulario = crearFormularioInicial(
     prefijo,
     datosAGuardar.tipoChecklist
 );
-
-setFormData(nuevoFormulario);
 
 setFormData(nuevoFormulario);
 
@@ -1635,6 +1673,7 @@ console.log("Seleccionado RH");
   {checklistSeleccionado && (
   <>
     <EvidenciasSection
+      key={resetEvidencias}
       onEvidenciasChange={setEvidencias}
     />
 
