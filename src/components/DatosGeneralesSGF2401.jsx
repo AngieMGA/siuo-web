@@ -56,9 +56,31 @@ function DatosGeneralesSGF2401({
               <option value="Fructosa 55">
                 Fructosa 55
               </option>
+
+              <option value="Otro">
+                Otro
+              </option>
+              {formData.material === "Otro" && (
+                <InputField
+                  label="Especificar material"
+                  name="materialEspecificado"
+                  value={formData.materialEspecificado || ""}
+                  onChange={handleChange}
+                />
+              )}
             </select>
 
           </div>
+        )}
+
+        {formData.areaMateriaPrima === "Cuarto Monster" &&
+          formData.material === "Otro" && (
+            <InputField
+              label="Especificar material"
+              name="materialEspecificado"
+              value={formData.materialEspecificado || ""}
+              onChange={handleChange}
+            />
         )}
 
         <InputField

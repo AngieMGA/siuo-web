@@ -28,8 +28,6 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
   doc.setFont("helvetica","normal");
   doc.setFontSize(10);
 
-  let y = yInicial + 16;
-
   const alturaNecesaria =
   Math.ceil(datos.length / 2) * 8 + 20;
 
@@ -40,6 +38,8 @@ if (yInicial + alturaNecesaria > 255) {
   yInicial = 20;
 
 }
+
+ let y = yInicial + 16;
 
   datos.forEach((campo,index)=>{
 
@@ -276,6 +276,7 @@ if (area === "Lata Vacía") {
 
   informacionGeneral = [
 
+    ["Área", area],
     ["Proveedor", formData.proveedor],
     ["Material", formData.material],
     ["Operador", formData.operador],
@@ -291,13 +292,17 @@ if (area === "Lata Vacía") {
 
 if (
   area === "Cuarto Monster" &&
-  material === "Azúcar"
+  (
+    material === "Azúcar" ||
+    material === "Fructosa 55"
+  )
 ) {
 
   informacionGeneral = [
 
+    ["Área", area],
     ["Proveedor", formData.proveedor],
-    ["Material", formData.material],
+    ["Material", material],
     ["Operador", formData.operador],
     ["Lote", formData.lote],
     ["Turno", formData.turno],
@@ -305,7 +310,7 @@ if (
     ["Placas / Número", formData.placasNumero],
     ["Orden de Compra", formData.ordenCompra],
     ["Factura / Remisión", formData.facturaRemision],
-    ["Alérgeno / Micro Sensitivo", formData.alergenoMicroSensitivo]
+    ["Alérgeno / Micro Sensitivo", formData.alergeno]
 
   ];
 
@@ -313,13 +318,18 @@ if (
 
 if (
   area === "Cuarto Monster" &&
-  material === "Fructosa 55"
+  material === "Otro"
 ) {
 
   informacionGeneral = [
 
+    ["Área", area],
+    [
+      "Material",
+      formData.materialEspecificado ||
+      "Sin especificar"
+    ],
     ["Proveedor", formData.proveedor],
-    ["Material", formData.material],
     ["Operador", formData.operador],
     ["Lote", formData.lote],
     ["Turno", formData.turno],
@@ -327,7 +337,7 @@ if (
     ["Placas / Número", formData.placasNumero],
     ["Orden de Compra", formData.ordenCompra],
     ["Factura / Remisión", formData.facturaRemision],
-    ["Alérgeno / Micro Sensitivo", formData.alergenoMicroSensitivo]
+    ["Alérgeno / Micro Sensitivo", formData.alergeno]
 
   ];
 
@@ -364,12 +374,14 @@ const datosPesaje = [
 
 ];
 
-  /*
-  const hayDatosPesaje = datosPesaje.some(
-    ([, valor]) => valor && String(valor).trim() !== ""
+  const mostrarPesaje =
+  area === "Cuarto Monster" &&
+  (
+    material === "Azúcar" ||
+    material === "Otro"
   );
 
-  if (hayDatosPesaje) {
+if (mostrarPesaje) {
 
   y = dibujarSeccion(
     doc,
@@ -378,8 +390,7 @@ const datosPesaje = [
     y
   );
 
-  }
-  */
+}
 
   const seccionesFiltradas =
   checklistSGF2401.secciones
@@ -389,10 +400,12 @@ const datosPesaje = [
         configuracion?.preguntas?.[seccion.id] || [];
 
       const preguntasFiltradas =
-        seccion.preguntas.filter(
-          (pregunta) =>
-            idsPermitidos.includes(pregunta.id)
-        );
+        idsPermitidos === "TODAS"
+          ? seccion.preguntas
+          : seccion.preguntas.filter(
+              (pregunta) =>
+                idsPermitidos.includes(pregunta.id)
+            );
 
       return {
         ...seccion,
@@ -545,6 +558,26 @@ doc.text(
 );
   
 
-return doc.output("blob");
+const pdfBlob = doc.output("blob");
+
+// Descargar el PDF en la computadora
+const url = URL.createObjectURL(pdfBlob);
+
+const enlace = document.createElement("a");
+
+enlace.href = url;
+enlace.download = `${formData.folio}.pdf`;
+
+document.body.appendChild(enlace);
+
+enlace.click();
+
+document.body.removeChild(enlace);
+
+URL.revokeObjectURL(url);
+
+// Devolver el Blob para que RegistroInicial.jsx
+// también pueda enviarlo a la API
+return pdfBlob;
 
 }

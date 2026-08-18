@@ -97,7 +97,6 @@ export const configuracionSGF2401 = {
           "MAT-008",
           "MAT-009",
           "MAT-010",
-
           "MAT-012",
           "MAT-013"
         ],
@@ -160,7 +159,6 @@ export const configuracionSGF2401 = {
           "MAT-004",
           "MAT-005",
           "MAT-006",
-  
           "MAT-008",
           "MAT-009",
           "MAT-010",
@@ -179,6 +177,31 @@ export const configuracionSGF2401 = {
         ],
 
         SACO: []
+      }
+
+    },
+
+
+    "Otro": {
+
+      merma: true,
+
+      supersaco: true,
+
+      secciones: {
+        TRANSPORTE: true,
+        MATERIAL: true,
+        TARIMA: true,
+        SERVICIO: true,
+        SACO: true
+      },
+
+      preguntas: {
+        TRANSPORTE: "TODAS",
+        MATERIAL: "TODAS",
+        TARIMA: "TODAS",
+        SERVICIO: "TODAS",
+        SACO: "TODAS"
       }
 
     }

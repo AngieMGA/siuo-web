@@ -188,8 +188,7 @@ console.log("ÁREA ACTUAL:", areaUsuario);
     respuestasIniciales[pregunta.id] = "";
   });
 });
-
-function obtenerFolio(prefijo = "RT") {
+function obtenerFolio(prefijo = "RMP") {
 
     const hoy = new Date();
 
@@ -205,7 +204,7 @@ function obtenerFolio(prefijo = "RT") {
     return `${prefijo}-${anio}${mes}${dia}-${String(consecutivo).padStart(3, "0")}`;
 }
 
-function aumentarConsecutivo(prefijo = "RT") {
+function aumentarConsecutivo(prefijo = "RMP") {
 
     const hoy = new Date();
 
@@ -225,7 +224,7 @@ function aumentarConsecutivo(prefijo = "RT") {
 }
 
   function crearFormularioInicial(
-    prefijo = "RT",
+    prefijo = "RMP",
     tipoChecklist = "CHK-TRANSPORTE"
 ) {
 
@@ -304,6 +303,7 @@ nombreRegistroAPT: "",
     areaMateriaPrima: "",
     proveedor: "",
     material: "",
+    materialEspecificado: "",
     operador: "",
     turno: "",
     diseno: "",
@@ -479,6 +479,25 @@ return formulario;
     value === "Cuarto Monster"
       ? formData.material
       : "";
+
+  // =====================================================
+  // FOLIO SEGÚN EL ÁREA
+  // =====================================================
+
+  if (value === "Lata Vacía") {
+
+    nuevoFormData.folio =
+      obtenerFolio("RMP-LV");
+
+  }
+
+  if (value === "Cuarto Monster") {
+
+    nuevoFormData.folio =
+      obtenerFolio("RMP-CM");
+
+  }
+
 }
 
   console.log(
@@ -671,18 +690,30 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
     // Crear FormData para enviar el PDF a la API
     const datosPDF = new FormData();
 
-    datosPDF.append(
-      "folio",
-      formData.folio
-    );
+datosPDF.append(
+  "folio",
+  formData.folio
+);
 
-    datosPDF.append(
-      "pdf",
-      pdfBlob,
-      `${formData.folio}.pdf`
-    );
+datosPDF.append(
+  "areaMateriaPrima",
+  formData.areaMateriaPrima || ""
+);
 
-    console.log("Enviando PDF a la API...");
+datosPDF.append(
+  "pdf",
+  pdfBlob,
+  `${formData.folio}.pdf`
+);
+
+console.log(
+  "Área PDF:",
+  formData.areaMateriaPrima
+);
+
+console.log(
+  "Enviando PDF a la API..."
+);
 
     const response = await fetch(
       "http://localhost:5029/api/checklist/pdf",
@@ -748,7 +779,14 @@ switch (formData.tipoChecklist) {
 }
 
 // Aumentar consecutivo
-aumentarConsecutivo(prefijo);
+const prefijoArea =
+  datosAGuardar.areaMateriaPrima === "Lata Vacía"
+    ? "RMP-LV"
+    : datosAGuardar.areaMateriaPrima === "Cuarto Monster"
+      ? "RMP-CM"
+      : "RMP";
+
+aumentarConsecutivo(prefijoArea);
 
 // Crear nuevo formulario con el siguiente folio
 const nuevoFormulario = crearFormularioInicial(
@@ -927,6 +965,20 @@ if (checklistSeleccionado === "SG-F-24-01") {
     formData.areaMateriaPrima === "Cuarto Monster" &&
     !formData.material
   ) {
+
+    if (
+  formData.areaMateriaPrima === "Cuarto Monster" &&
+  formData.material === "Otro" &&
+  !formData.materialEspecificado?.trim()
+) {
+  nuevosErrores.materialEspecificado =
+    "Especifique el material";
+
+  if (!primerError) {
+    primerError = "materialEspecificado";
+  }
+}
+
     nuevosErrores.material =
       "Seleccione el material";
 
@@ -1122,7 +1174,10 @@ if (areaUsuario === "APT") {
 
       let prefijo = "RT";
 
-      console.log("TIPO A GUARDAR:", datosAGuardar.tipoChecklist);
+console.log(
+  "TIPO A GUARDAR:",
+  datosAGuardar.tipoChecklist
+);
 
 switch (datosAGuardar.tipoChecklist) {
 
@@ -1131,7 +1186,14 @@ switch (datosAGuardar.tipoChecklist) {
     break;
 
   case "SG-F-24-01":
-    prefijo = "RMP";
+
+    prefijo =
+      datosAGuardar.areaMateriaPrima === "Lata Vacía"
+        ? "RMP-LV"
+        : datosAGuardar.areaMateriaPrima === "Cuarto Monster"
+          ? "RMP-CM"
+          : "RMP";
+
     break;
 
   case "RH-F-01-21":
@@ -1143,18 +1205,29 @@ switch (datosAGuardar.tipoChecklist) {
     break;
 }
 
+
+// =====================================================
+// AUMENTAR CONSECUTIVO
+// =====================================================
+
 aumentarConsecutivo(prefijo);
 
-toast.success("Checklist enviado correctamente");
-
-const nuevoFormulario = crearFormularioInicial(
-    prefijo,
-    datosAGuardar.tipoChecklist
+toast.success(
+  "Checklist enviado correctamente"
 );
 
-setFormData(nuevoFormulario);
 
-      console.log(crearFormularioInicial("RT"));
+// =====================================================
+// CREAR NUEVO FORMULARIO CON EL SIGUIENTE FOLIO
+// =====================================================
+
+const nuevoFormulario =
+  crearFormularioInicial(
+    prefijo,
+    datosAGuardar.tipoChecklist
+  );
+
+setFormData(nuevoFormulario);
 
     } 
     
@@ -1584,11 +1657,29 @@ console.log("Seleccionado RH");
     />
 
     <SGF2401Section
+  formData={formData}
+  handleChange={handleChange}
+/>
+
+{/* DATOS DE PESAJE */}
+{formData.areaMateriaPrima === "Cuarto Monster" &&
+  (
+    formData.material === "Azúcar" ||
+    formData.material === "Otro"
+  ) && (
+    <DatosPesajeSection
       formData={formData}
       handleChange={handleChange}
     />
-  {formData.areaMateriaPrima === "Cuarto Monster" &&
- formData.material === "Azúcar" && (
+)}
+
+
+{/* MERMA Y SUPERSACO */}
+{formData.areaMateriaPrima === "Cuarto Monster" &&
+  (
+    formData.material === "Azúcar" ||
+    formData.material === "Otro"
+  ) && (
   <>
     <MermaAzucarSection
       formData={formData}
@@ -1672,10 +1763,12 @@ console.log("Seleccionado RH");
 )}
   {checklistSeleccionado && (
   <>
-    <EvidenciasSection
-      key={resetEvidencias}
-      onEvidenciasChange={setEvidencias}
-    />
+    {formData.areaMateriaPrima === "Cuarto Monster" && (
+      <EvidenciasSection
+        key={resetEvidencias}
+        onEvidenciasChange={setEvidencias}
+      />
+    )}
 
     <button
       className="boton"

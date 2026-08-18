@@ -41,16 +41,18 @@ function SGF2401Section({
 
         .map((seccion) => {
 
-          const idsPermitidos =
-            configuracion.preguntas?.[seccion.id] || [];
+         const idsPermitidos =
+          configuracion.preguntas?.[seccion.id] || [];
 
           const preguntasFiltradas =
-            seccion.preguntas.filter(
-              (pregunta) =>
-                idsPermitidos.includes(
-                  pregunta.id
-                )
-            );
+            idsPermitidos === "TODAS"
+              ? seccion.preguntas
+              : seccion.preguntas.filter(
+                  (pregunta) =>
+                    idsPermitidos.includes(
+                      pregunta.id
+                    )
+                );
 
           if (
             preguntasFiltradas.length === 0
