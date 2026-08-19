@@ -755,50 +755,47 @@ console.log(
       "PDF guardado correctamente"
     );
 
-    // Obtener prefijo según el tipo de checklist
-let prefijo = "";
+    // =====================================================
+// CREAR NUEVO FORMULARIO DESPUÉS DE GUARDAR EL PDF
+// =====================================================
 
-switch (formData.tipoChecklist) {
+let prefijoNuevo = "RMP";
 
-  case "SG-F-24-01":
-    prefijo = "RMP";
-    break;
+if (formData.tipoChecklist === "SG-F-24-01") {
 
-  case "CHK-TRANSPORTE":
-    prefijo = "RT";
-    break;
+  prefijoNuevo =
+    formData.areaMateriaPrima === "Lata Vacía"
+      ? "RMP-LV"
+      : formData.areaMateriaPrima === "Cuarto Monster"
+        ? "RMP-CM"
+        : "RMP";
 
-  case "RH-F-01-21":
-    prefijo = "RH";
-    break;
+} else if (formData.tipoChecklist === "CHK-TRANSPORTE") {
 
-  case "SG-F-24-33":
-    prefijo = "RPQ";
-    break;
+  prefijoNuevo = "RT";
 
+} else if (formData.tipoChecklist === "RH-F-01-21") {
+
+  prefijoNuevo = "RH";
+
+} else if (formData.tipoChecklist === "SG-F-24-33") {
+
+  prefijoNuevo = "RPQ";
 }
 
-// Aumentar consecutivo
-const prefijoArea =
-  datosAGuardar.areaMateriaPrima === "Lata Vacía"
-    ? "RMP-LV"
-    : datosAGuardar.areaMateriaPrima === "Cuarto Monster"
-      ? "RMP-CM"
-      : "RMP";
-
-aumentarConsecutivo(prefijoArea);
-
-// Crear nuevo formulario con el siguiente folio
 const nuevoFormulario = crearFormularioInicial(
-  prefijo,
+  prefijoNuevo,
   formData.tipoChecklist
 );
 
-// Limpiar formulario
 setFormData(nuevoFormulario);
 
+   
 setEvidencias([]);
-setResetEvidencias((valor) => valor + 1);
+
+setResetEvidencias(
+  (valor) => valor + 1
+);
 
   } catch (error) {
 
@@ -1215,19 +1212,6 @@ aumentarConsecutivo(prefijo);
 toast.success(
   "Checklist enviado correctamente"
 );
-
-
-// =====================================================
-// CREAR NUEVO FORMULARIO CON EL SIGUIENTE FOLIO
-// =====================================================
-
-const nuevoFormulario =
-  crearFormularioInicial(
-    prefijo,
-    datosAGuardar.tipoChecklist
-  );
-
-setFormData(nuevoFormulario);
 
     } 
     
