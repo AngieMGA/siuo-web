@@ -647,7 +647,27 @@ if (y + 40 > 255) {
 
 }
 
-doc.save(`${formData.folio}.pdf`);
+const pdfBlob = doc.output("blob");
+
+// Descargar el PDF
+const url = URL.createObjectURL(pdfBlob);
+
+const enlace = document.createElement("a");
+
+enlace.href = url;
+enlace.download = `${formData.folio}.pdf`;
+
+document.body.appendChild(enlace);
+
+enlace.click();
+
+document.body.removeChild(enlace);
+
+URL.revokeObjectURL(url);
+
+// Regresar el Blob para que RegistroInicial.jsx
+// pueda enviarlo a la API
+return pdfBlob;
 
 }
 

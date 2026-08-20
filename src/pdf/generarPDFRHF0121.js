@@ -716,6 +716,26 @@ y = dibujarIncidencias(
 */
 console.log(formData);
 
-doc.save(`${formData.folio}.pdf`);
+const pdfBlob = doc.output("blob");
+
+// Descargar el PDF en la computadora
+const url = URL.createObjectURL(pdfBlob);
+
+const enlace = document.createElement("a");
+
+enlace.href = url;
+enlace.download = `${formData.folio}.pdf`;
+
+document.body.appendChild(enlace);
+
+enlace.click();
+
+document.body.removeChild(enlace);
+
+URL.revokeObjectURL(url);
+
+// Devolver el Blob para que RegistroInicial.jsx
+// pueda enviarlo a la API
+return pdfBlob;
 
 }

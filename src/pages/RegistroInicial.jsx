@@ -667,8 +667,8 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
         break;
 
       case "RH-F-01-21":
-        toast.info("PDF de RH-F-01-21 en desarrollo.");
-        return;
+        pdfBlob = generarPDFRHF0121(formData);
+        break;
 
       case "SG-F-24-33":
         pdfBlob = generarPDFSGF2433(formData);
@@ -678,6 +678,21 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
         toast.error("Checklist no soportado.");
         return;
     }
+
+    console.log(
+  "PDF BLOBB RH:",
+  pdfBlob
+);
+
+console.log(
+  "TAMAÑO PDF:",
+  pdfBlob?.size
+);
+
+console.log(
+  "TIPO PDF:",
+  pdfBlob?.type
+);
 
     if (!pdfBlob) {
       toast.error("No se pudo generar el PDF.");
@@ -696,6 +711,11 @@ datosPDF.append(
 );
 
 datosPDF.append(
+  "tipoChecklist",
+  formData.tipoChecklist
+);
+
+datosPDF.append(
   "areaMateriaPrima",
   formData.areaMateriaPrima || ""
 );
@@ -704,6 +724,11 @@ datosPDF.append(
   "pdf",
   pdfBlob,
   `${formData.folio}.pdf`
+);
+
+console.log(
+  "Tipo checklist PDF:",
+  formData.tipoChecklist
 );
 
 console.log(
