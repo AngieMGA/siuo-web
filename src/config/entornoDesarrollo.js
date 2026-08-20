@@ -5,5 +5,5 @@
 export const ENTORNO_DESARROLLO = {
   usarAreaPrueba: true,
 
-  areaPrueba: "VIGILANCIA" // Cambiar a "APT" para probar el flujo de APT
+  areaPrueba: "APT" // Cambiar a "APT" para probar el flujo de APT
 };
