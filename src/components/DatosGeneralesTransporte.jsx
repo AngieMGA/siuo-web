@@ -5,7 +5,8 @@ function DatosGeneralesTransporte({
   formData,
   handleChange,
   errors,
-  puedeEditar
+  puedeEditar,
+  puedeEditarDelivery
 }) {
 
   return (
@@ -43,6 +44,14 @@ function DatosGeneralesTransporte({
         onChange={handleChange}
         error={errors.lineaTransporte}
         disabled={!puedeEditar}
+      />
+
+      <InputField
+        label="Delivery"
+        name="delivery"
+        value={formData.delivery}
+        onChange={handleChange}
+        disabled={!puedeEditarDelivery}
       />
 
       <InputField

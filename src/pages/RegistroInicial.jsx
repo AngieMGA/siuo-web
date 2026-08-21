@@ -267,6 +267,7 @@ nombreRegistroAPT: "",
     nombreOperador: "",
     telefonoOperador: "",
     lineaTransporte: "",
+    delivery: "",
     placasytarjetacirculacion: "",
     inspector: "",
     engomadoVerificacion: "",
@@ -1604,6 +1605,7 @@ console.log("Seleccionado RH");
               handleChange={handleChange}
               errors={errors}
               puedeEditar={puedeEditar("DATOS_GENERALES")}
+              puedeEditarDelivery={puedeEditar("DELIVERY")}
             />
             </>
 )}

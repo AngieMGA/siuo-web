@@ -29,7 +29,8 @@ export const checklistWorkflow = {
           "REM",
           "ENRAMPADO",
           "LLANTAS",
-          "STATUS"
+          "STATUS",
+          "DELIVERY"
 
         ],
 
@@ -55,7 +56,8 @@ export const checklistWorkflow = {
         // Las secciones de Vigilancia serán visibles
         // pero no editables.
         seccionesEditables: [
-          "EST"
+          "EST",
+          "DELIVERY"
         ],
 
         puedeEditar: true,
