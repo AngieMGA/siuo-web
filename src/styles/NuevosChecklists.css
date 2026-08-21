@@ -1,0 +1,241 @@
+﻿/* =========================================
+   NUEVOS CHECKLISTS
+   Dise├▒o responsive
+   ========================================= */
+
+.nuevos-checklists {
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px auto 25px;
+  padding: 0 12px;
+}
+
+
+/* =========================================
+   T├ìTULO
+   ========================================= */
+
+.nuevos-checklists-titulo {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 15px;
+  padding: 0 2px 10px;
+
+  border-bottom: 2px solid #e5e5e5;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #333;
+}
+
+
+/* =========================================
+   CONTENEDOR DE TARJETAS
+   ========================================= */
+
+.nuevos-checklists {
+  display: grid;
+
+  grid-template-columns: 1fr;
+
+  gap: 14px;
+}
+
+
+/*
+   El t├¡tulo debe ocupar todo el ancho
+*/
+.nuevos-checklists-titulo {
+  grid-column: 1 / -1;
+}
+
+
+/* =========================================
+   TARJETA
+   ========================================= */
+
+.checklist-notificacion {
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e2e2;
+  border-radius: 12px;
+
+  padding: 17px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* =========================================
+   T├ìTULO DEL CHECKLIST
+   ========================================= */
+
+.checklist-notificacion h3 {
+  margin: 0 0 12px;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #222;
+}
+
+
+/* =========================================
+   INFORMACI├ôN
+   ========================================= */
+
+.checklist-notificacion p {
+  margin: 6px 0;
+
+  font-size: 14px;
+  line-height: 1.45;
+
+  color: #555;
+}
+
+.checklist-notificacion p strong {
+  color: #333;
+}
+
+
+/* =========================================
+   BOT├ôN
+   ========================================= */
+
+.checklist-notificacion .boton {
+  width: 100%;
+
+  min-height: 44px;
+
+  margin-top: 14px;
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: #d62828;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (min-width: 600px) {
+
+  .nuevos-checklists {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+  }
+
+}
+
+
+/* =========================================
+   LAPTOP / ESCRITORIO
+   ========================================= */
+
+@media (min-width: 900px) {
+
+  .nuevos-checklists {
+    max-width: 1000px;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+  }
+
+}
+
+
+/* =========================================
+   CELULAR PEQUE├æO
+   ========================================= */
+
+@media (max-width: 380px) {
+
+  .nuevos-checklists {
+    padding: 0 8px;
+
+    gap: 12px;
+  }
+
+  .nuevos-checklists-titulo {
+    font-size: 17px;
+  }
+
+  .checklist-notificacion {
+    padding: 15px;
+  }
+
+  .checklist-notificacion h3 {
+    font-size: 16px;
+  }
+
+  .checklist-notificacion p {
+    font-size: 13px;
+  }
+
+  .checklist-notificacion .boton {
+    min-height: 44px;
+
+    font-size: 13px;
+  }
+
+}
+
+
+/* =========================================
+   PANTALLAS T├üCTILES
+   ========================================= */
+
+@media (hover: hover) {
+
+  .checklist-notificacion:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 5px 14px rgba(0, 0, 0, 0.12);
+  }
+
+  .checklist-notificacion .boton:hover {
+    background-color: #b91f1f;
+
+    transform: translateY(-1px);
+  }
+
+}
+
+
+/* =========================================
+   CELULAR / TABLET
+   ========================================= */
+
+@media (max-width: 899px) {
+
+  .checklist-notificacion .boton {
+    cursor: pointer;
+  }
+
+}

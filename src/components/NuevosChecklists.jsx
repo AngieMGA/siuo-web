@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   obtenerChecklistsPendientesDev
 } from "../services/checklistDevStore";
+import "../styles/NuevosChecklists.css";
 
 function NuevosChecklists({
   area,
