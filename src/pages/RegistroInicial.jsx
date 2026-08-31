@@ -1154,6 +1154,20 @@ evidencias.forEach((archivo) => {
   );
 });
 
+console.log(
+  "EVIDENCIAS ANTES DE ENVIAR:",
+  evidencias
+);
+
+evidencias.forEach((archivo, index) => {
+  console.log(
+    `EVIDENCIA ${index + 1}:`,
+    archivo.name,
+    archivo.size,
+    archivo.type
+  );
+});
+  
 const response = await fetch(
   "http://localhost:5029/api/checklist",
   {
@@ -1774,12 +1788,12 @@ console.log("Seleccionado RH");
 )}
   {checklistSeleccionado && (
   <>
-    {formData.areaMateriaPrima === "Cuarto Monster" && (
-      <EvidenciasSection
-        key={resetEvidencias}
-        onEvidenciasChange={setEvidencias}
-      />
-    )}
+    {formData.tipoChecklist === "CHK-TRANSPORTE" && (
+    <EvidenciasSection
+      key={resetEvidencias}
+      onEvidenciasChange={setEvidencias}
+    />
+  )}
 
     <button
       className="boton"
