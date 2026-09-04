@@ -722,6 +722,11 @@ datosPDF.append(
 );
 
 datosPDF.append(
+  "delivery",
+  formData.delivery || ""
+);
+
+datosPDF.append(
   "pdf",
   pdfBlob,
   `${formData.folio}.pdf`
@@ -1124,23 +1129,22 @@ const datosAGuardar = {
     ? "ENVIADO_A_APT"
     : formData.estadoFlujo || "PENDIENTE",
 
-  ...(areaUsuario === "VIGILANCIA"
-    ? {
-        nombreRegistroVigilancia:
-          nombreUsuarioActual
-      }
-    : {}),
-
   ...(areaUsuario === "APT"
-    ? {
-        nombreRegistroAPT:
-          nombreUsuarioActual
-      }
-    : {})
+  ? {
+      nombreRegistroAPT:
+        nombreUsuarioActual
+    }
+  : {}),
 
+identificadorDispositivo:
+  localStorage.getItem("identificadorDispositivo") ||
+  "SIN-DISPOSITIVO"
 };
 
-      const datosFormulario = new FormData();
+const identificadorDispositivo =
+  localStorage.getItem("identificadorDispositivo") || "";
+
+const datosFormulario = new FormData();
 
 datosFormulario.append(
   "checklist",
@@ -1167,7 +1171,9 @@ evidencias.forEach((archivo, index) => {
     archivo.type
   );
 });
-  
+
+
+
 const response = await fetch(
   "http://localhost:5029/api/checklist",
   {
