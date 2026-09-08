@@ -2115,3 +2115,289 @@ border-radius:8px;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
+
+/* =====================================================
+   ADAPTACIÓN PARA CELULARES
+   Android / iPhone
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+  /* Contenedor general */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Encabezado */
+  .header-app {
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+
+  .logo-ieqsa {
+    width: 180px;
+    max-width: 80%;
+  }
+
+  .titulo-container {
+    margin-top: 0;
+    width: 100%;
+  }
+
+  .titulo-principal {
+    font-size: 1.35rem;
+  }
+
+  .titulo-secundario {
+    font-size: 1rem;
+    margin-top: 0;
+  }
+
+  .folio-box {
+    width: 100%;
+  }
+
+  .folio-box input {
+    width: 100%;
+  }
+
+  /* Barra superior */
+  .topbar-checklist {
+    height: auto;
+    min-height: 70px;
+    padding: 10px 15px;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .logo-topbar {
+    height: 55px;
+    max-width: 120px;
+    object-fit: contain;
+  }
+
+  .titulo-topbar {
+    margin-left: 5px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .btn-back {
+    font-size: 14px;
+  }
+
+  /* Tarjetas de selección */
+  .tarjetas-checklist {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+    padding: 0 10px;
+  }
+
+  .tarjeta-checklist {
+    width: 100%;
+    min-height: 130px;
+  }
+
+  /* Grids de formularios */
+  .grid-sgf2401,
+  .grid-check2433 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .grid-sgf2433,
+  .grid-riesgos2433,
+  .grid-peligros {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-riesgos2433 label,
+  .grid-peligros label {
+    width: 100%;
+  }
+
+  /* Selector */
+  .selector-checklist {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .selector-checklist select {
+    height: 48px;
+    font-size: 16px;
+  }
+
+  /* Buscador */
+  .contenedor-buscador {
+    width: 100%;
+    padding: 0 10px;
+    margin: 20px auto 30px;
+  }
+
+  .input-buscador {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  /* Selecciones */
+  .selection-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .selection-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 100px;
+  }
+
+  /* Resultados */
+  .resultado-cards {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .resultado-card {
+    width: 100%;
+  }
+
+  /* Tanques */
+  .tanques-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .tanque-card,
+  .fuel-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Grado de riesgo */
+  .riesgos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .riesgo-card {
+    min-height: 100px;
+    padding: 10px;
+  }
+
+  .riesgo-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Llantas */
+  .eje {
+    gap: 15px;
+    margin: 15px 0;
+  }
+
+  .eje::before {
+    width: 150px;
+  }
+
+  .tire {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .dual-tire {
+    gap: 4px;
+  }
+
+  .dual-tire .tire {
+    width: 24px !important;
+    height: 48px !important;
+  }
+
+  .numero-llanta {
+    font-size: 12px;
+  }
+
+  /* Header RHF */
+  .rhf-header {
+    padding: 18px 12px;
+    margin-bottom: 15px;
+  }
+
+  .rhf-titulo {
+    font-size: 22px;
+  }
+
+  .rhf-subtitulo {
+    font-size: 14px;
+  }
+
+  .rhf-top {
+    gap: 8px;
+  }
+
+  .rhf-back {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  /* Espaciado general */
+  #center {
+    padding: 15px 10px;
+    gap: 15px;
+  }
+
+  #next-steps > div {
+    padding: 20px 15px;
+  }
+
+}
+
+
+/* =====================================================
+   CELULARES MUY PEQUEÑOS
+   ===================================================== */
+
+@media (max-width: 480px) {
+
+  .titulo-principal {
+    font-size: 1.15rem;
+  }
+
+  .titulo-secundario {
+    font-size: 0.9rem;
+  }
+
+  .logo-ieqsa {
+    width: 150px;
+  }
+
+  .titulo-topbar {
+    font-size: 17px;
+  }
+
+  .topbar-checklist {
+    padding: 8px 10px;
+  }
+
+  .riesgos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .selection-card {
+    min-height: 90px;
+  }
+
+  .selection-icon {
+    font-size: 26px;
+  }
+
+  .selection-title {
+    font-size: 14px;
+  }
+
+}
