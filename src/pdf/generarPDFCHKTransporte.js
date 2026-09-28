@@ -4,6 +4,7 @@ import logo from "../assets/logoIeqsa.png";
 import { checklistTransporte } from "../data/checklistTransporte";
 import { ESTADOS, INCIDENCIAS } from "../data/truckDiagramData";
 
+
 function dibujarSeccion(doc, titulo, datos, yInicial) {
 
     doc.setFillColor(220,220,220);
@@ -64,6 +65,7 @@ function dibujarSeccion(doc, titulo, datos, yInicial) {
 
 }
 
+
 function dibujarTablaChecklist(doc, idSeccion, formData, startY) {
 
     const seccion = checklistTransporte.secciones.find(
@@ -72,13 +74,13 @@ function dibujarTablaChecklist(doc, idSeccion, formData, startY) {
 
     console.log("SECCIÓN:", idSeccion);
 
-console.table(
-    seccion.preguntas.map((pregunta) => ({
-        pregunta: pregunta.texto,
-        rem1: formData[`${pregunta.id}-REM1`],
-        rem2: formData[`${pregunta.id}-REM2`]
-    }))
-);
+    console.table(
+        seccion.preguntas.map((pregunta) => ({
+            pregunta: pregunta.texto,
+            rem1: formData[`${pregunta.id}-REM1`],
+            rem2: formData[`${pregunta.id}-REM2`]
+        }))
+    );
 
     autoTable(doc, {
 
@@ -137,10 +139,27 @@ console.table(
 
 }
 
+
 function dibujarResumenLlantas(doc, formData, y) {
 
-    const llantas =
-        formData.llantasFull || formData.llantasSencillo || [];
+    const llantasSencillo =
+        Array.isArray(formData.llantasSencillo)
+            ? formData.llantasSencillo
+            : [];
+
+    const tieneSegundoRemolque =
+        !!formData.remolque2?.trim();
+
+    const llantasFull =
+        tieneSegundoRemolque &&
+        Array.isArray(formData.llantasFull)
+            ? formData.llantasFull
+            : [];
+
+    const llantas = [
+        ...llantasSencillo,
+        ...llantasFull
+    ];
 
     const bien =
         llantas.filter(
@@ -164,83 +183,137 @@ function dibujarResumenLlantas(doc, formData, y) {
         theme: "grid",
 
         head: [[
+            "REMOLQUE",
             "BIEN",
             "OBSERVACIÓN",
             "DAÑADAS",
             "TOTAL"
         ]],
 
-        body: [[
+        body: [
 
-            bien,
+            [
+                "Remolque 1",
 
-            observacion,
+                llantasSencillo.filter(
+                    l => l.estado === ESTADOS.BIEN
+                ).length,
 
-            danada,
+                llantasSencillo.filter(
+                    l => l.estado === ESTADOS.OBSERVACION
+                ).length,
 
-            llantas.length
+                llantasSencillo.filter(
+                    l => l.estado === ESTADOS.DANADA
+                ).length,
 
-        ]],
+                llantasSencillo.length
+            ],
+
+            ...(tieneSegundoRemolque
+                ? [[
+                    "Remolque 2",
+
+                    llantasFull.filter(
+                        l => l.estado === ESTADOS.BIEN
+                    ).length,
+
+                    llantasFull.filter(
+                        l => l.estado === ESTADOS.OBSERVACION
+                    ).length,
+
+                    llantasFull.filter(
+                        l => l.estado === ESTADOS.DANADA
+                    ).length,
+
+                    llantasFull.length
+                ]]
+                : []),
+
+            [
+                "TOTAL",
+                bien,
+                observacion,
+                danada,
+                llantas.length
+            ]
+
+        ],
 
         headStyles: {
-
             fillColor: [220,220,220],
-
             textColor: 0
-
         },
 
         styles: {
-
-            halign: "center",
-
-            fontSize: 10
-
+            fontSize: 9,
+            halign: "center"
         }
 
     });
 
     return doc.lastAutoTable.finalY + 8;
-
 }
+
+
 function dibujarIncidencias(doc, formData, y) {
 
-    const llantas =
-        formData.llantasFull || formData.llantasSencillo || [];
+    const llantasSencillo =
+        Array.isArray(formData.llantasSencillo)
+            ? formData.llantasSencillo
+            : [];
 
-    const incidencias = llantas.filter(
-        l => l.estado !== ESTADOS.BIEN
-    );
+    const tieneSegundoRemolque =
+        !!formData.remolque2?.trim();
+
+    const llantasFull =
+        tieneSegundoRemolque &&
+        Array.isArray(formData.llantasFull)
+            ? formData.llantasFull
+            : [];
+
+    const llantas = [
+        ...llantasSencillo.map(llanta => ({
+            ...llanta,
+            remolque: "Remolque 1"
+        })),
+
+        ...llantasFull.map(llanta => ({
+            ...llanta,
+            remolque: "Remolque 2"
+        }))
+    ];
+
+    const incidencias =
+        llantas.filter(
+            llanta =>
+                llanta.estado !== ESTADOS.BIEN
+        );
 
     if (incidencias.length === 0) {
 
         return dibujarSeccion(
             doc,
             "INCIDENCIAS",
-            [["Resultado", "Sin incidencias registradas"]],
+            [
+                [
+                    "Resultado",
+                    "Sin incidencias registradas"
+                ]
+            ],
             y
         );
-
     }
 
-    const datos = [];
+    const filas = [];
 
     incidencias.forEach((llanta) => {
 
-        datos.push([
-    `Llanta ${llanta.numero}`,
-    llanta.estado === ESTADOS.DANADA
-        ? "Dañada"
-        : "Observación"
-]);
+        const incidenciasTexto =
+            Array.isArray(llanta.incidencias) &&
+            llanta.incidencias.length > 0
 
-        if (llanta.incidencias.length > 0) {
-
-            datos.push([
-
-                "Incidencias",
-
-                llanta.incidencias
+                ? llanta.incidencias
                     .map(id => {
 
                         const encontrada =
@@ -255,29 +328,78 @@ function dibujarIncidencias(doc, formData, y) {
                     })
                     .join(", ")
 
-            ]);
+                : "";
 
-        }
+        filas.push([
+            llanta.remolque,
+            `Llanta ${llanta.numero}`,
 
-        if (llanta.comentario) {
+            llanta.estado === ESTADOS.DANADA
+                ? "Dañada"
+                : "Observación",
 
-            datos.push([
-                "Comentario",
-                llanta.comentario
-            ]);
+            incidenciasTexto,
+
+            llanta.comentario || ""
+        ]);
+    });
+
+    autoTable(doc, {
+
+        startY: y,
+
+        theme: "grid",
+
+        head: [[
+            "REMOLQUE",
+            "LLANTA",
+            "ESTADO",
+            "INCIDENCIAS",
+            "COMENTARIO"
+        ]],
+
+        body: filas,
+
+        headStyles: {
+            fillColor: [220,220,220],
+            textColor: 0
+        },
+
+        styles: {
+            fontSize: 8,
+            cellPadding: 2,
+            valign: "middle"
+        },
+
+        columnStyles: {
+
+            0: {
+                cellWidth: 27
+            },
+
+            1: {
+                cellWidth: 20
+            },
+
+            2: {
+                cellWidth: 25
+            },
+
+            3: {
+                cellWidth: 58
+            },
+
+            4: {
+                cellWidth: 65
+            }
 
         }
 
     });
 
-    return dibujarSeccion(
-        doc,
-        "INCIDENCIAS",
-        datos,
-        y
-    );
-
+    return doc.lastAutoTable.finalY + 8;
 }
+
 
 function validarSaltoPagina(doc, y, alturaNecesaria = 0) {
 
@@ -292,6 +414,7 @@ function validarSaltoPagina(doc, y, alturaNecesaria = 0) {
     return y;
 
 }
+
 
 export function generarPDFCHKTransporte(formData){
 
@@ -353,128 +476,128 @@ export function generarPDFCHKTransporte(formData){
 
     doc.setFont("helvetica","bold");
 
-doc.text("Fecha:",15,53);
-doc.text("Hora:",75,53);
-doc.text("Status:",135,53);
-doc.text("Folio:",15,60);
-doc.text("Delivery:",75,60);
+    doc.text("Fecha:",15,53);
+    doc.text("Hora:",75,53);
+    doc.text("Status:",135,53);
+    doc.text("Folio:",15,60);
+    doc.text("Delivery:",75,60);
 
-doc.setFont("helvetica","normal");
+    doc.setFont("helvetica","normal");
 
-doc.text(formData.fecha || "",30,53);
-doc.text(formData.hora || "",90,53);
-doc.text(formData.status || "",155,53);
-doc.text(formData.folio || "",30,60);
-doc.text(formData.delivery || "",100,60);
+    doc.text(formData.fecha || "",30,53);
+    doc.text(formData.hora || "",90,53);
+    doc.text(formData.status || "",155,53);
+    doc.text(formData.folio || "",30,60);
+    doc.text(formData.delivery || "",100,60);
 
-let y = 68;
+    let y = 68;
 
-const datosGenerales = [
+    const datosGenerales = [
 
-    ["Inspector", formData.inspector],
+        ["Inspector", formData.inspector],
 
-    ["Operador", formData.nombreOperador],
+        ["Operador", formData.nombreOperador],
 
-    ["Teléfono", formData.telefonoOperador],
+        ["Teléfono", formData.telefonoOperador],
 
-    ["Línea", formData.lineaTransporte],
+        ["Línea", formData.lineaTransporte],
 
-    ["Delivery", formData.delivery],
+        ["Delivery", formData.delivery],
 
-    ["Placas y Tarjeta de Circulación", formData.placasytarjetacirculacion],
+        ["Placas y Tarjeta de Circulación", formData.placasytarjetacirculacion],
 
-    ["Remolque 1", formData.remolque1],
+        ["Remolque 1", formData.remolque1],
 
-    ["Remolque 2", formData.remolque2],
+        ["Remolque 2", formData.remolque2],
 
-    ["Tipo de suspensión", formData.suspension],
+        ["Tipo de suspensión", formData.suspension],
 
-    ["Engomado Federal", formData.engomadoVerificacion],
+        ["Engomado Federal", formData.engomadoVerificacion],
 
-    ["Engomado Físico", formData.engomadoFisico]
+        ["Engomado Físico", formData.engomadoFisico]
 
-];
+    ];
 
-y = dibujarSeccion(
-    doc,
-    "DATOS GENERALES",
-    datosGenerales,
-    y
-);
+    y = dibujarSeccion(
+        doc,
+        "DATOS GENERALES",
+        datosGenerales,
+        y
+    );
 
-y = validarSaltoPagina(doc, y, 40);
+    y = validarSaltoPagina(doc, y, 40);
 
-y = dibujarTablaChecklist(
-    doc,
-    "DOC",
-    formData,
-    y
-);
+    y = dibujarTablaChecklist(
+        doc,
+        "DOC",
+        formData,
+        y
+    );
 
-y = validarSaltoPagina(doc, y, 40);
+    y = validarSaltoPagina(doc, y, 40);
 
-y = dibujarTablaChecklist(
-    doc,
-    "OPE",
-    formData,
-    y
-);
+    y = dibujarTablaChecklist(
+        doc,
+        "OPE",
+        formData,
+        y
+    );
 
-y = validarSaltoPagina(doc, y, 50);
+    y = validarSaltoPagina(doc, y, 50);
 
-y = dibujarTablaChecklist(
-    doc,
-    "REM",
-    formData,
-    y
-);
+    y = dibujarTablaChecklist(
+        doc,
+        "REM",
+        formData,
+        y
+    );
 
-const datosEnrampado = [
+    const datosEnrampado = [
 
-    ["Rampa", formData.rampa],
+        ["Rampa", formData.rampa],
 
-    ["Lateral", formData.lateral],
+        ["Lateral", formData.lateral],
 
-    ["Observaciones", formData.observacionesEnrampado]
+        ["Observaciones", formData.observacionesEnrampado]
 
-];
+    ];
 
-y = validarSaltoPagina(doc, y, 30);
+    y = validarSaltoPagina(doc, y, 30);
 
-y = dibujarSeccion(
-    doc,
-    "ENRAMPADO",
-    datosEnrampado,
-    y
-);
+    y = dibujarSeccion(
+        doc,
+        "ENRAMPADO",
+        datosEnrampado,
+        y
+    );
 
-y = validarSaltoPagina(doc, y, 55);
+    y = validarSaltoPagina(doc, y, 55);
 
-y = dibujarTablaChecklist(
-    doc,
-    "EST",
-    formData,
-    y
-);
+    y = dibujarTablaChecklist(
+        doc,
+        "EST",
+        formData,
+        y
+    );
 
-y = validarSaltoPagina(doc, y, 25);
+    y = validarSaltoPagina(doc, y, 25);
 
-y = dibujarResumenLlantas(
-    doc,
-    formData,
-    y
-);
+    y = dibujarResumenLlantas(
+        doc,
+        formData,
+        y
+    );
 
-y = validarSaltoPagina(doc, y, 45);
+    y = validarSaltoPagina(doc, y, 45);
 
-y = dibujarIncidencias(
-    doc,
-    formData,
-    y
-);
+    y = dibujarIncidencias(
+        doc,
+        formData,
+        y
+    );
 
-console.log(formData);
+    console.log(formData);
 
-return doc.output("blob");
+    return doc.output("blob");
 
 }

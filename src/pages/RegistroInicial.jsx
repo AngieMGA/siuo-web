@@ -1172,6 +1172,28 @@ evidencias.forEach((archivo, index) => {
   );
 });
 
+console.log("========== FORMDATA ==========");
+
+for (const [clave, valor] of datosFormulario.entries()) {
+  if (valor instanceof File) {
+    console.log(
+      "FORMDATA ARCHIVO:",
+      clave,
+      valor.name,
+      valor.size,
+      valor.type
+    );
+  } else {
+    console.log(
+      "FORMDATA:",
+      clave,
+      valor
+    );
+  }
+}
+
+console.log("==============================");
+
 
 
 const response = await fetch(
@@ -1532,7 +1554,7 @@ console.log("Seleccionado RH");
         onChange={handleChange}
       />
 
-      <div className="grupo">
+      {/* <div className="grupo">
 
         <label>Status</label>
 
@@ -1548,7 +1570,7 @@ console.log("Seleccionado RH");
           <option>Rechazado</option>
         </select>
 
-      </div>
+      </div>*/}
 
       <InputField
         label="Folio"

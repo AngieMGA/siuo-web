@@ -280,14 +280,14 @@ doc.text(
 
     doc.text("Fecha:",15,53);
     doc.text("Hora:",75,53);
-    doc.text("Status:",135,53);
+    /*doc.text("Status:",135,53);*/
     doc.text("Folio:",15,60);
 
     doc.setFont("helvetica","normal");
 
     doc.text(formData.fecha || "",30,53);
     doc.text(formData.hora || "",90,53);
-    doc.text(formData.status || "",155,53);
+    /*doc.text(formData.status || "",155,53);*/
     doc.text(formData.folio || "",30,60);
 
         let y = 68;
