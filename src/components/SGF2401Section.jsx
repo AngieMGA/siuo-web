@@ -19,13 +19,13 @@ function SGF2401Section({
       configuracionSGF2401["Lata Vacía"];
   }
 
-  // Cuarto Monster + Material
+  // Materias Primas + Material
   if (
-    area === "Cuarto Monster" &&
+    area === "Materias Primas" &&
     material
   ) {
     configuracion =
-      configuracionSGF2401["Cuarto Monster"]?.[material];
+      configuracionSGF2401["Materias Primas"]?.[material];
   }
 
   // Si no hay configuración,
@@ -136,38 +136,66 @@ function SGF2401Section({
                         </tr>
 
                         {/* Número de sello de transporte */}
-                        {pregunta.id === "TR-011" && (
-                          <tr>
+{pregunta.id === "TR-011" && (
+  <tr>
+    <td
+      colSpan="3"
+      style={{
+        padding: "10px 15px"
+      }}
+    >
+      <label>
+        Número:
+      </label>
 
-                            <td
-                              colSpan="3"
-                              style={{
-                                padding: "10px 15px"
-                              }}
-                            >
+      <input
+        type="text"
+        name="numeroSello"
+        value={formData.numeroSello || ""}
+        onChange={handleChange}
+        placeholder="________________"
+        style={{
+          marginLeft: "10px",
+          width: "250px"
+        }}
+      />
+    </td>
+  </tr>
+)}
 
-                              <label>
-                                Número:
-                              </label>
+{/* Temperatura de Concentrado */}
+{pregunta.id === "TR-009" &&
+  material === "Concentrado" && (
+    <tr>
+      <td
+        colSpan="3"
+        style={{
+          padding: "10px 15px"
+        }}
+      >
+        <label>
+          Temperatura:
+        </label>
 
-                              <input
-                                type="text"
-                                name="numeroSello"
-                                value={
-                                  formData.numeroSello || ""
-                                }
-                                onChange={handleChange}
-                                placeholder="________________"
-                                style={{
-                                  marginLeft: "10px",
-                                  width: "250px"
-                                }}
-                              />
+        <input
+          type="number"
+          name="temperaturaConcentrado"
+          value={formData.temperaturaConcentrado || ""}
+          onChange={handleChange}
+          placeholder="Ingrese temperatura"
+          step="0.1"
+          style={{
+            marginLeft: "10px",
+            width: "150px"
+          }}
+        />
 
-                            </td>
-
-                          </tr>
-                        )}
+        <span style={{ marginLeft: "8px" }}>
+          °C
+        </span>
+      </td>
+    </tr>
+)}
 
                       </React.Fragment>
 

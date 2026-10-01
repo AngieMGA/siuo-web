@@ -317,6 +317,7 @@ nombreRegistroAPT: "",
     tara: "",
 
     numeroCodigo: "",
+    temperaturaConcentrado: "",
 
     tq1Inicial: "",
     tq1Final: "",
@@ -477,7 +478,7 @@ return formulario;
   if (name === "areaMateriaPrima") {
 
   nuevoFormData.material =
-    value === "Cuarto Monster"
+    value === "Materias Primas"
       ? formData.material
       : "";
 
@@ -492,7 +493,7 @@ return formulario;
 
   }
 
-  if (value === "Cuarto Monster") {
+  if (value === "Materias Primas") {
 
     nuevoFormData.folio =
       obtenerFolio("RMP-CM");
@@ -797,7 +798,7 @@ if (formData.tipoChecklist === "SG-F-24-01") {
   prefijoNuevo =
     formData.areaMateriaPrima === "Lata Vacía"
       ? "RMP-LV"
-      : formData.areaMateriaPrima === "Cuarto Monster"
+      : formData.areaMateriaPrima === "Materias Primas"
         ? "RMP-CM"
         : "RMP";
 
@@ -988,14 +989,14 @@ if (checklistSeleccionado === "SG-F-24-01") {
   }
 
   // MATERIAL
-  // Solo es obligatorio para Cuarto Monster
+  // Solo es obligatorio para Materias Primas
   if (
-    formData.areaMateriaPrima === "Cuarto Monster" &&
+    formData.areaMateriaPrima === "Materias Primas" &&
     !formData.material
   ) {
 
     if (
-  formData.areaMateriaPrima === "Cuarto Monster" &&
+  formData.areaMateriaPrima === "Materias Primas" &&
   formData.material === "Otro" &&
   !formData.materialEspecificado?.trim()
 ) {
@@ -1255,7 +1256,7 @@ switch (datosAGuardar.tipoChecklist) {
     prefijo =
       datosAGuardar.areaMateriaPrima === "Lata Vacía"
         ? "RMP-LV"
-        : datosAGuardar.areaMateriaPrima === "Cuarto Monster"
+        : datosAGuardar.areaMateriaPrima === "Materias Primas"
           ? "RMP-CM"
           : "RMP";
 
@@ -1715,7 +1716,7 @@ console.log("Seleccionado RH");
 />
 
 {/* DATOS DE PESAJE */}
-{formData.areaMateriaPrima === "Cuarto Monster" &&
+{formData.areaMateriaPrima === "Materias Primas" &&
   (
     formData.material === "Azúcar" ||
     formData.material === "Otro"
@@ -1728,9 +1729,10 @@ console.log("Seleccionado RH");
 
 
 {/* MERMA Y SUPERSACO */}
-{formData.areaMateriaPrima === "Cuarto Monster" &&
+{formData.areaMateriaPrima === "Materias Primas" &&
   (
     formData.material === "Azúcar" ||
+    formData.material === "Concentrado" ||
     formData.material === "Otro"
   ) && (
   <>

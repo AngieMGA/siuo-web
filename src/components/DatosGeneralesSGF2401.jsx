@@ -28,14 +28,14 @@ function DatosGeneralesSGF2401({
               Lata Vacía
             </option>
 
-            <option value="Cuarto Monster">
-              Cuarto Monster
+            <option value="Materias Primas">
+              Materias Primas
             </option>
           </select>
         </div>
 
         {/* MATERIAL */}
-        {formData.areaMateriaPrima === "Cuarto Monster" && (
+        {formData.areaMateriaPrima === "Materias Primas" && (
           <div className="grupo">
 
             <label>Material</label>
@@ -57,23 +57,21 @@ function DatosGeneralesSGF2401({
                 Fructosa 55
               </option>
 
+              <option value="Concentrado">
+                Concentrado
+              </option>
+
               <option value="Otro">
                 Otro
               </option>
-              {formData.material === "Otro" && (
-                <InputField
-                  label="Especificar material"
-                  name="materialEspecificado"
-                  value={formData.materialEspecificado || ""}
-                  onChange={handleChange}
-                />
-              )}
+
+              
             </select>
 
           </div>
         )}
 
-        {formData.areaMateriaPrima === "Cuarto Monster" &&
+        {formData.areaMateriaPrima === "Materias Primas" &&
           formData.material === "Otro" && (
             <InputField
               label="Especificar material"
@@ -97,7 +95,7 @@ function DatosGeneralesSGF2401({
           onChange={handleChange}
         />
 
-        {formData.areaMateriaPrima === "Cuarto Monster" && (
+        {formData.areaMateriaPrima === "Materias Primas" && (
           <InputField
             label="Lote"
             name="lote"
@@ -142,7 +140,7 @@ function DatosGeneralesSGF2401({
           onChange={handleChange}
         />
 
-        {formData.areaMateriaPrima === "Cuarto Monster" && (
+        {formData.areaMateriaPrima === "Materias Primas" && (
           <InputField
             label="Orden de Compra IEQSA"
             name="ordenCompra"
@@ -164,7 +162,7 @@ function DatosGeneralesSGF2401({
           onChange={handleChange}
         />
 
-        {formData.areaMateriaPrima === "Cuarto Monster" && (
+        {formData.areaMateriaPrima === "Materias Primas" && (
   <div className="grupo">
 
     <label>Alérgeno y/o Micro Sensitivo</label>

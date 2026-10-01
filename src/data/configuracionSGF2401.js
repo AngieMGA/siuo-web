@@ -56,7 +56,7 @@ export const configuracionSGF2401 = {
   },
 
 
-  "Cuarto Monster": {
+  "Materias Primas": {
 
     "Azúcar": {
 
@@ -180,6 +180,63 @@ export const configuracionSGF2401 = {
       }
 
     },
+
+    "Concentrado": {
+
+  merma: true,
+
+  supersaco: true,
+
+  secciones: {
+    TRANSPORTE: true,
+    MATERIAL: true,
+    TARIMA: false,
+    SERVICIO: true,
+    SACO: false
+  },
+
+  preguntas: {
+
+    TRANSPORTE: [
+      "TR-001",
+      "TR-002",
+      "TR-003",
+      "TR-004",
+      "TR-005",
+      "TR-006",
+      "TR-008",
+      "TR-009",
+      "TR-010",
+      "TR-011"
+    ],
+
+    MATERIAL: [
+      "MAT-002",
+      "MAT-003",
+      "MAT-004",
+      "MAT-005",
+      "MAT-006",
+      "MAT-008",
+      "MAT-009",
+      "MAT-010",
+      "MAT-011",
+      "MAT-012",
+      "MAT-013"
+    ],
+
+    TARIMA: [],
+
+    SERVICIO: [
+      "SER-001",
+      "SER-002",
+      "SER-003",
+      "SER-004"
+    ],
+
+    SACO: []
+  }
+
+},
 
 
     "Otro": {
