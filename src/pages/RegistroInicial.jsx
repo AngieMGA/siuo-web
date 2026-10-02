@@ -154,6 +154,29 @@ console.log("ÁREA ACTUAL:", areaUsuario);
     return;
   }
 
+  useEffect(() => {
+
+  const parametros =
+    new URLSearchParams(window.location.search);
+
+  const dispositivo =
+    parametros.get("dispositivo");
+
+  if (dispositivo) {
+
+    localStorage.setItem(
+      "identificadorDispositivo",
+      dispositivo
+    );
+
+    console.log(
+      "DISPOSITIVO ASIGNADO:",
+      dispositivo
+    );
+  }
+
+}, []);
+
   console.log(
     "CARGANDO CHECKLIST DE APT:",
     checklistAPTSeleccionado
@@ -866,7 +889,7 @@ const finalizarChecklist = async () => {
   try {
 
     const response = await fetch(
-      "http://localhost:5029/api/checklist",
+  `http://${window.location.hostname}:5029/api/checklist`,
       {
         method: "POST",
 
@@ -1726,7 +1749,6 @@ console.log("Seleccionado RH");
       handleChange={handleChange}
     />
 )}
-
 
 {/* MERMA Y SUPERSACO */}
 {formData.areaMateriaPrima === "Materias Primas" &&
