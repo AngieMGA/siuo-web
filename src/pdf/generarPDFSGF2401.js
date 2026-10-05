@@ -181,7 +181,7 @@ function dibujarChecklist(
 
 }
 
-export function generarPDFSGF2401(formData) {
+export function generarPDFSGF2401(formData, descargar = true) {
 
 console.log(formData);
 
@@ -560,24 +560,27 @@ doc.text(
 
 const pdfBlob = doc.output("blob");
 
-// Descargar el PDF en la computadora
-const url = URL.createObjectURL(pdfBlob);
+// Descargar solamente cuando se solicite
+if (descargar) {
 
-const enlace = document.createElement("a");
+  const url = URL.createObjectURL(pdfBlob);
 
-enlace.href = url;
-enlace.download = `${formData.folio}.pdf`;
+  const enlace = document.createElement("a");
 
-document.body.appendChild(enlace);
+  enlace.href = url;
+  enlace.download = `${formData.folio}.pdf`;
 
-enlace.click();
+  document.body.appendChild(enlace);
 
-document.body.removeChild(enlace);
+  enlace.click();
 
-URL.revokeObjectURL(url);
+  document.body.removeChild(enlace);
 
-// Devolver el Blob para que RegistroInicial.jsx
-// también pueda enviarlo a la API
+  URL.revokeObjectURL(url);
+}
+
+// Devolver el Blob para enviarlo a la API
+return pdfBlob;
 return pdfBlob;
 
 }

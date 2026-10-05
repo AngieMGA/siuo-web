@@ -672,7 +672,11 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
     setDetalleChecklist(item);
   };
 
-  const generarPDF = async () => {
+  const generarPDF = async (
+  datosFormulario = formData,
+  limpiar = true,
+  mostrarToast = true
+) => {
 
   console.log("Entró a generarPDF");
   console.log("Tipo checklist:", formData.tipoChecklist);
@@ -681,11 +685,16 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
 
     let pdfBlob = null;
 
-    switch (formData.tipoChecklist) {
+    switch (datosFormulario.tipoChecklist) {
 
       case "SG-F-24-01":
-        pdfBlob = generarPDFSGF2401(formData);
-        break;
+
+      pdfBlob = generarPDFSGF2401(
+        datosFormulario,
+        limpiar
+      );
+
+      break;
 
       case "CHK-TRANSPORTE":
         pdfBlob = generarPDFCHKTransporte(formData);
@@ -748,6 +757,16 @@ datosPDF.append(
 datosPDF.append(
   "delivery",
   formData.delivery || ""
+);
+
+datosPDF.append(
+  "material",
+  formData.material || ""
+);
+
+datosPDF.append(
+  "facturaRemision",
+  formData.facturaRemision || ""
 );
 
 datosPDF.append(
@@ -1294,6 +1313,19 @@ switch (datosAGuardar.tipoChecklist) {
     break;
 }
 
+// =====================================================
+// GENERAR Y SUBIR PDF AUTOMÁTICAMENTE
+// =====================================================
+
+if (
+  datosAGuardar.tipoChecklist === "SG-F-24-01"
+) {
+  console.log(
+    "GENERANDO PDF AUTOMÁTICAMENTE PARA SG-F-24-01..."
+  );
+
+  await generarPDF();
+}
 
 // =====================================================
 // AUMENTAR CONSECUTIVO
