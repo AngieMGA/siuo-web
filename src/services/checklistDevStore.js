@@ -31,15 +31,20 @@ export function guardarChecklistDev(checklist) {
     (item) => item.folio === checklist.folio
   );
 
+  const checklistConFecha = {
+    ...checklist,
+    fechaActualizacion: new Date().toISOString()
+  };
+
   if (indice >= 0) {
-    checklists[indice] = checklist;
+    checklists[indice] = checklistConFecha;
   } else {
-    checklists.push(checklist);
+    checklists.push(checklistConFecha);
   }
 
   guardarTodos(checklists);
 
-  return checklist;
+  return checklistConFecha;
 }
 
 export function obtenerChecklistDev(folio) {
@@ -55,11 +60,23 @@ export function obtenerChecklistDev(folio) {
 export function obtenerChecklistsPendientesDev(area) {
   const checklists = obtenerTodos();
 
-  return checklists.filter(
-    (item) =>
-      item.areaActual === area &&
-      item.estadoFlujo !== "FINALIZADO"
-  );
+  return checklists
+    .filter(
+      (item) =>
+        item.areaActual === area &&
+        item.estadoFlujo !== "FINALIZADO"
+    )
+    .sort((a, b) => {
+      const fechaA = a.fechaActualizacion
+        ? new Date(a.fechaActualizacion).getTime()
+        : 0;
+
+      const fechaB = b.fechaActualizacion
+        ? new Date(b.fechaActualizacion).getTime()
+        : 0;
+
+      return fechaB - fechaA;
+    });
 }
 
 export function actualizarChecklistDev(
@@ -78,7 +95,8 @@ export function actualizarChecklistDev(
 
   checklists[indice] = {
     ...checklists[indice],
-    ...cambios
+    ...cambios,
+    fechaActualizacion: new Date().toISOString()
   };
 
   guardarTodos(checklists);

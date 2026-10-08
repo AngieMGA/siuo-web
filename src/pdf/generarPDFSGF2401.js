@@ -181,8 +181,7 @@ function dibujarChecklist(
 
 }
 
-export function generarPDFSGF2401(formData, descargar = true) {
-
+export function generarPDFSGF2401(formData, descargar = false) {
 console.log(formData);
 
 const area = formData.areaMateriaPrima;

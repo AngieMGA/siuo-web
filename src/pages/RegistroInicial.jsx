@@ -150,12 +150,6 @@ console.log("ÁREA ACTUAL:", areaUsuario);
 
   useEffect(() => {
 
-  if (!checklistAPTSeleccionado) {
-    return;
-  }
-
-  useEffect(() => {
-
   const parametros =
     new URLSearchParams(window.location.search);
 
@@ -173,9 +167,17 @@ console.log("ÁREA ACTUAL:", areaUsuario);
       "DISPOSITIVO ASIGNADO:",
       dispositivo
     );
+
   }
 
 }, []);
+
+
+useEffect(() => {
+
+  if (!checklistAPTSeleccionado) {
+    return;
+  }
 
   console.log(
     "CARGANDO CHECKLIST DE APT:",
@@ -192,7 +194,8 @@ console.log("ÁREA ACTUAL:", areaUsuario);
 
 }, [checklistAPTSeleccionado]);
 
-  const respuestasIniciales = {};
+
+const respuestasIniciales = {};
 
   checklistTransporte.secciones.forEach((seccion) => {
     seccion.preguntas.forEach((pregunta) => {
@@ -672,40 +675,48 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
     setDetalleChecklist(item);
   };
 
-  const generarPDF = async (
+const generarPDF = async (
   datosFormulario = formData,
   limpiar = true,
   mostrarToast = true
 ) => {
-
   console.log("Entró a generarPDF");
-  console.log("Tipo checklist:", formData.tipoChecklist);
+  console.log(
+    "Tipo checklist:",
+    datosFormulario.tipoChecklist
+  );
 
   try {
-
     let pdfBlob = null;
 
+    // =====================================================
+    // GENERAR PDF SEGÚN EL TIPO DE CHECKLIST
+    // =====================================================
+
     switch (datosFormulario.tipoChecklist) {
-
       case "SG-F-24-01":
-
-      pdfBlob = generarPDFSGF2401(
-        datosFormulario,
-        limpiar
-      );
-
-      break;
+        pdfBlob = generarPDFSGF2401(
+          datosFormulario,
+          false
+        );
+        break;
 
       case "CHK-TRANSPORTE":
-        pdfBlob = generarPDFCHKTransporte(formData);
+        pdfBlob = generarPDFCHKTransporte(
+          datosFormulario
+        );
         break;
 
       case "RH-F-01-21":
-        pdfBlob = generarPDFRHF0121(formData);
+        pdfBlob = generarPDFRHF0121(
+          datosFormulario
+        );
         break;
 
       case "SG-F-24-33":
-        pdfBlob = generarPDFSGF2433(formData);
+        pdfBlob = generarPDFSGF2433(
+          datosFormulario
+        );
         break;
 
       default:
@@ -713,20 +724,9 @@ const actualizarLlanta = (tipo, llantaActualizada) => {
         return;
     }
 
-    console.log(
-  "PDF BLOBB RH:",
-  pdfBlob
-);
-
-console.log(
-  "TAMAÑO PDF:",
-  pdfBlob?.size
-);
-
-console.log(
-  "TIPO PDF:",
-  pdfBlob?.type
-);
+    console.log("PDF BLOBB:", pdfBlob);
+    console.log("TAMAÑO PDF:", pdfBlob?.size);
+    console.log("TIPO PDF:", pdfBlob?.type);
 
     if (!pdfBlob) {
       toast.error("No se pudo generar el PDF.");
@@ -734,60 +734,71 @@ console.log(
     }
 
     console.log("PDF generado correctamente.");
-    console.log("Tamaño PDF:", pdfBlob.size, "bytes");
+    console.log(
+      "Tamaño PDF:",
+      pdfBlob.size,
+      "bytes"
+    );
 
-    // Crear FormData para enviar el PDF a la API
+    // =====================================================
+    // PREPARAR PDF PARA ENVIAR A LA API
+    // =====================================================
+
     const datosPDF = new FormData();
 
-datosPDF.append(
-  "folio",
-  formData.folio
-);
+    datosPDF.append(
+      "folio",
+      datosFormulario.folio || ""
+    );
 
-datosPDF.append(
-  "tipoChecklist",
-  formData.tipoChecklist
-);
+    datosPDF.append(
+      "tipoChecklist",
+      datosFormulario.tipoChecklist || ""
+    );
 
-datosPDF.append(
-  "areaMateriaPrima",
-  formData.areaMateriaPrima || ""
-);
+    datosPDF.append(
+      "areaMateriaPrima",
+      datosFormulario.areaMateriaPrima || ""
+    );
 
-datosPDF.append(
-  "delivery",
-  formData.delivery || ""
-);
+    datosPDF.append(
+      "delivery",
+      datosFormulario.delivery || ""
+    );
 
-datosPDF.append(
-  "material",
-  formData.material || ""
-);
+    datosPDF.append(
+      "material",
+      datosFormulario.material || ""
+    );
 
-datosPDF.append(
-  "facturaRemision",
-  formData.facturaRemision || ""
-);
+    datosPDF.append(
+      "facturaRemision",
+      datosFormulario.facturaRemision || ""
+    );
 
-datosPDF.append(
-  "pdf",
-  pdfBlob,
-  `${formData.folio}.pdf`
-);
+    datosPDF.append(
+      "pdf",
+      pdfBlob,
+      `${datosFormulario.folio}.pdf`
+    );
 
-console.log(
-  "Tipo checklist PDF:",
-  formData.tipoChecklist
-);
+    console.log(
+      "Tipo checklist PDF:",
+      datosFormulario.tipoChecklist
+    );
 
-console.log(
-  "Área PDF:",
-  formData.areaMateriaPrima
-);
+    console.log(
+      "Área PDF:",
+      datosFormulario.areaMateriaPrima
+    );
 
-console.log(
-  "Enviando PDF a la API..."
-);
+    console.log(
+      "Enviando PDF a la API..."
+    );
+
+    // =====================================================
+    // ENVIAR PDF A LA API
+    // =====================================================
 
     const response = await fetch(
       "http://localhost:5029/api/checklist/pdf",
@@ -803,7 +814,6 @@ console.log(
     );
 
     if (!response.ok) {
-
       const errorTexto =
         await response.text();
 
@@ -825,51 +835,75 @@ console.log(
       resultado
     );
 
-    toast.success(
-      "PDF guardado correctamente"
-    );
+    // =====================================================
+    // MOSTRAR TOAST SOLO SI SE SOLICITA
+    // =====================================================
+
+    if (mostrarToast) {
+      toast.success(
+        "PDF guardado correctamente"
+      );
+    }
 
     // =====================================================
-// CREAR NUEVO FORMULARIO DESPUÉS DE GUARDAR EL PDF
-// =====================================================
+    // LIMPIAR FORMULARIO SOLO SI SE SOLICITA
+    // =====================================================
 
-let prefijoNuevo = "RMP";
+    if (limpiar) {
 
-if (formData.tipoChecklist === "SG-F-24-01") {
+      let prefijoNuevo = "RMP";
 
-  prefijoNuevo =
-    formData.areaMateriaPrima === "Lata Vacía"
-      ? "RMP-LV"
-      : formData.areaMateriaPrima === "Materias Primas"
-        ? "RMP-CM"
-        : "RMP";
+      if (
+        datosFormulario.tipoChecklist ===
+        "CHK-TRANSPORTE"
+      ) {
+        prefijoNuevo = "RT";
 
-} else if (formData.tipoChecklist === "CHK-TRANSPORTE") {
+      } else if (
+        datosFormulario.tipoChecklist ===
+        "RH-F-01-21"
+      ) {
+        prefijoNuevo = "RH";
 
-  prefijoNuevo = "RT";
+      } else if (
+        datosFormulario.tipoChecklist ===
+        "SG-F-24-33"
+      ) {
+        prefijoNuevo = "RPQ";
 
-} else if (formData.tipoChecklist === "RH-F-01-21") {
+      } else if (
+        datosFormulario.tipoChecklist ===
+        "SG-F-24-01"
+      ) {
 
-  prefijoNuevo = "RH";
+        prefijoNuevo =
+          datosFormulario.areaMateriaPrima ===
+          "Lata Vacía"
+            ? "RMP-LV"
+            : datosFormulario.areaMateriaPrima ===
+              "Materias Primas"
+              ? "RMP-CM"
+              : "RMP";
+      }
 
-} else if (formData.tipoChecklist === "SG-F-24-33") {
+      const nuevoFormulario =
+        crearFormularioInicial(
+          prefijoNuevo,
+          datosFormulario.tipoChecklist
+        );
 
-  prefijoNuevo = "RPQ";
-}
+      setFormData(
+        nuevoFormulario
+      );
 
-const nuevoFormulario = crearFormularioInicial(
-  prefijoNuevo,
-  formData.tipoChecklist
-);
+      setEvidencias([]);
 
-setFormData(nuevoFormulario);
+      setResetEvidencias(
+        (prev) => prev + 1
+      );
+    }
 
-   
-setEvidencias([]);
-
-setResetEvidencias(
-  (valor) => valor + 1
-);
+    return resultado;
 
   } catch (error) {
 
@@ -881,6 +915,8 @@ setResetEvidencias(
     toast.error(
       "No se pudo guardar el PDF."
     );
+
+    throw error;
   }
 };
 
@@ -1254,26 +1290,55 @@ const response = await fetch(
 
       console.log("DATA:", data);
 
-      if (
-  datosAGuardar.tipoChecklist === "CHK-TRANSPORTE"
-) {
+      if (datosAGuardar.tipoChecklist === "CHK-TRANSPORTE") {
 
   if (areaUsuario === "VIGILANCIA") {
 
-  guardarChecklistDev(datosAGuardar);
+    guardarChecklistDev(datosAGuardar);
 
-  toast.success(
-    "Checklist enviado a APT correctamente"
+    await generarPDF(
+      datosAGuardar,
+      false,
+      false
+    );
+
+    aumentarConsecutivo("RT");
+    
+    toast.success(
+      "Checklist enviado a APT correctamente"
+    );
+
+    return;
+  }
+
+  if (areaUsuario === "APT") {
+  const datosCompletados = {
+    ...datosAGuardar,
+    estadoFlujo: "FINALIZADO"
+  };
+
+  guardarChecklistDev(datosCompletados);
+
+  await generarPDF(
+    datosCompletados,
+    false,
+    false
   );
 
-  return;
-}
-if (areaUsuario === "APT") {
-
-  guardarChecklistDev(datosAGuardar);
-
   toast.success(
-    "Cambios guardados correctamente"
+    "Checklist guardado correctamente"
+  );
+
+  // Regresar automáticamente al inicio
+  setChecklistSeleccionado("");
+  setChecklistAPTSeleccionado(null);
+
+  // Crear formulario limpio para el siguiente checklist
+  setFormData(
+    crearFormularioInicial(
+      "RT",
+      "CHK-TRANSPORTE"
+    )
   );
 
   return;
@@ -1317,15 +1382,16 @@ switch (datosAGuardar.tipoChecklist) {
 // GENERAR Y SUBIR PDF AUTOMÁTICAMENTE
 // =====================================================
 
-if (
-  datosAGuardar.tipoChecklist === "SG-F-24-01"
-) {
-  console.log(
-    "GENERANDO PDF AUTOMÁTICAMENTE PARA SG-F-24-01..."
-  );
+console.log(
+  "GENERANDO PDF AUTOMÁTICAMENTE:",
+  datosAGuardar.tipoChecklist
+);
 
-  await generarPDF();
-}
+await generarPDF(
+  datosAGuardar,
+  false,
+  false
+);
 
 // =====================================================
 // AUMENTAR CONSECUTIVO
@@ -1433,18 +1499,28 @@ toast.success(
   <>
     {areaUsuario === "APT" && (
       <NuevosChecklists
-        area="APT"
-        onAbrirChecklist={(checklist) => {
-          console.log(
-            "CHECKLIST A ABRIR:",
-            checklist
-          );
-          setChecklistAPTSeleccionado(
-            checklist
+  area="APT"
+  onAbrirChecklist={(checklist) => {
+
+    console.log(
+      "CHECKLIST A ABRIR:",
+      checklist
+    );
+
+    setChecklistAPTSeleccionado(
+      checklist
+    );
+
+    setFormData(
+      checklist
+    );
+
+    setChecklistSeleccionado(
+      checklist.tipoChecklist
     );
 
   }}
-      />
+/>
     )}
 
     <div className="tarjetas-checklist">
@@ -1889,6 +1965,7 @@ console.log("Seleccionado RH");
         : "Guardar Checklist"}
     </button>
 
+    {/*
     <button
       className="boton"
       onClick={generarPDF}
@@ -1896,6 +1973,7 @@ console.log("Seleccionado RH");
     >
       Generar PDF
     </button>
+    */}
   </>
 )}
         </div>
@@ -1940,6 +2018,5 @@ console.log("Seleccionado RH");
     </div>
   );
 }
-
 
 export default RegistroInicial;
