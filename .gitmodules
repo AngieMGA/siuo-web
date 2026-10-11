@@ -1,0 +1,4 @@
+[submodule "SIUO_API"]
+    path = SIUO_API
+    url = https://github.com/AngieMGA/SIUO_API.git
+    branch = main
