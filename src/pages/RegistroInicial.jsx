@@ -116,48 +116,71 @@ console.log("ÁREA ACTUAL:", areaUsuario);
   const [errors, setErrors] = useState({});
 
   const [checklistSeleccionado, setChecklistSeleccionado] = useState("");
+  
+  const [checklistAPTSeleccionado, setChecklistAPTSeleccionado] = useState(null);
+
 
   console.log("Checklist:", checklistSeleccionado);
 
-  const [historial, setHistorial] = useState(() => {
-
-  const historialGuardado =
-      localStorage.getItem("historial");
-
-    return historialGuardado
-      ? JSON.parse(historialGuardado)
-      : [];
-  });
-
+  
+  const [historial, setHistorial] = useState([]);
+  const [cargandoHistorial, setCargandoHistorial] = useState(true);
+  const [errorHistorial, setErrorHistorial] = useState("");
   const [busqueda, setBusqueda] = useState("");
+  const [detalleChecklist, setDetalleChecklist] = useState(null);
 
-  const [detalleChecklist, setDetalleChecklist] =
-    useState(null); 
+useEffect(() => {
+  const cargarHistorial = async () => {
+    try {
+      setCargandoHistorial(true);
+      setErrorHistorial("");
 
-    const [
-    checklistAPTSeleccionado,
-    setChecklistAPTSeleccionado
-  ] = useState(null);
+      const respuesta = await fetch(
+        `http://${window.location.hostname}:5029/api/checklist/historial`
+      );
 
-  useEffect(() => {
+      if (!respuesta.ok) {
+        throw new Error(
+          `Error al consultar el historial: ${respuesta.status}`
+        );
+      }
 
-    localStorage.setItem(
-      "historial",
-      JSON.stringify(historial)
-    );
+      const datos = await respuesta.json();
 
-  }, [historial]);
+      if (!Array.isArray(datos)) {
+        throw new Error(
+          "La API no devolvió una lista de inspecciones."
+        );
+      }
 
-  useEffect(() => {
+      setHistorial(datos);
 
-  const parametros =
-    new URLSearchParams(window.location.search);
+      console.log(
+        "HISTORIAL CARGADO DESDE SQL SERVER:",
+        datos
+      );
+    } catch (error) {
+      console.error("ERROR AL CARGAR HISTORIAL:", error);
+      setErrorHistorial(
+        "No se pudo cargar el historial desde el servidor."
+      );
+    } finally {
+      setCargandoHistorial(false);
+    }
+  };
 
-  const dispositivo =
-    parametros.get("dispositivo");
+  cargarHistorial();
+}, []);
+
+  
+useEffect(() => {
+  const parametros = new URLSearchParams(
+    window.location.search
+  );
+
+  const dispositivo = parametros.get("dispositivo");
 
   if (dispositivo) {
-
     localStorage.setItem(
       "identificadorDispositivo",
       dispositivo
@@ -167,11 +190,8 @@ console.log("ÁREA ACTUAL:", areaUsuario);
       "DISPOSITIVO ASIGNADO:",
       dispositivo
     );
-
   }
-
 }, []);
-
 
 useEffect(() => {
 
@@ -1430,7 +1450,7 @@ toast.success(
 
     item.nombreOperador?.toLowerCase().includes(texto) ||
 
-    item.placasytarjetacirculacion?.toLowerCase().includes(texto)
+    item.placasytarjetadecirculacion?.toLowerCase().includes(texto)
 
   );
 
@@ -1469,12 +1489,38 @@ toast.success(
       <input
         type="text"
         className="input-buscador"
-        placeholder="🔍 Escriba un folio, nombre del operador o placas para localizar un checklist registrado"
+        placeholder="🔍 Escriba un folio, nombre del operador o placas para localizar un check list registrado"
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
       />
 
     </div>
+
+    
+{busqueda.trim() !== "" && (
+  <div className="resultados-busqueda">
+    {cargandoHistorial ? (
+      <p>Buscando checklists...</p>
+    ) : errorHistorial ? (
+      <p>{errorHistorial}</p>
+    ) : resultadosBusqueda.length > 0 ? (
+      resultadosBusqueda.map((item) => (
+        <div
+          key={item.idInspeccion ?? item.folio}
+          className="resultado-busqueda"
+        >
+          <strong>{item.folio || "Sin folio"}</strong>
+          <p>Checklist: {item.tipoChecklist || "No especificado"}</p>
+          <p>Operador: {item.nombreOperador || "No registrado"}</p>
+          <p>Placas: {item.placasytarjetadecirculacion || "No registradas"}</p>
+        </div>
+      ))
+    ) : (
+      <p>No se encontraron checklists con ese folio, operador o placas.</p>
+    )}
+  </div>
+)}
+
 
   </>
 
@@ -2016,7 +2062,11 @@ console.log("Seleccionado RH");
       />
 
     </div>
+
   );
+
 }
 
+
 export default RegistroInicial;
+
