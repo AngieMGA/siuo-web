@@ -1438,23 +1438,29 @@ toast.success(
     }
   };
 
-  const resultadosBusqueda = historial.filter((item) => {
+  
 
-  if (!busqueda.trim()) return false;
 
-  const texto = busqueda.toLowerCase();
+const normalizarTexto = (valor) =>
+  String(valor ?? "").trim().toLowerCase();
 
-  return (
+const resultadosBusqueda = historial.filter((item) => {
+  const texto = normalizarTexto(busqueda);
 
-    item.folio?.toLowerCase().includes(texto) ||
+  if (!texto) return false;
 
-    item.nombreOperador?.toLowerCase().includes(texto) ||
-
-    item.placasytarjetadecirculacion?.toLowerCase().includes(texto)
-
-  );
-
+  return [
+    item.folio,
+    item.nombreOperador,
+    item.placasytarjetadecirculacion,
+    item.delivery,
+    item.facturaRemision,
+  ].some((valor) => normalizarTexto(valor).includes(texto));
 });
+
+console.log("BÚSQUEDA:", busqueda);
+console.log("RESULTADOS FILTRADOS:", resultadosBusqueda);
+
 
   return (
 
@@ -1489,7 +1495,7 @@ toast.success(
       <input
         type="text"
         className="input-buscador"
-        placeholder="🔍 Escriba un folio, nombre del operador o placas para localizar un check list registrado"
+        placeholder="🔍 Escriba un folio, nombre del operador, placas o delivery para localizar un check list registrado"
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
       />
@@ -1506,13 +1512,25 @@ toast.success(
     ) : resultadosBusqueda.length > 0 ? (
       resultadosBusqueda.map((item) => (
         <div
-          key={item.idInspeccion ?? item.folio}
+          key={item.id_inspeccion ?? item.folio}
           className="resultado-busqueda"
         >
           <strong>{item.folio || "Sin folio"}</strong>
           <p>Checklist: {item.tipoChecklist || "No especificado"}</p>
           <p>Operador: {item.nombreOperador || "No registrado"}</p>
           <p>Placas: {item.placasytarjetadecirculacion || "No registradas"}</p>
+          <p>Delivery: {item.delivery || "No registrado"}</p>
+          <p>Factura/remisión: {item.facturaRemision || "No registrada"}</p>
+        
+          <button
+            type="button"
+            className="boton-consultar-checklist"
+            onClick={() => verDetalle(item)}
+          >
+            Consultar checklist
+          </button>
+
+
         </div>
       ))
     ) : (

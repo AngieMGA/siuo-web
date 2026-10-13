@@ -1,68 +1,53 @@
-function ModalDetalle({
-  checklist,
-  cerrarModal
-}) {
 
+function ModalDetalle({ checklist, cerrarModal }) {
   if (!checklist) return null;
 
   return (
+    <div className="modal-overlay" onClick={cerrarModal}>
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2>Detalle del checklist</h2>
 
-    <div className="modal-overlay">
+        <p>
+          <strong>Folio:</strong>{" "}
+          {checklist.folio || "No registrado"}
+        </p>
 
-      <div className="modal-content">
+        <p>
+          <strong>Tipo de checklist:</strong>{" "}
+          {checklist.tipoChecklist || "No especificado"}
+        </p>
 
-        <h2>
-  Detalle Checklist
-</h2>
+        <p>
+          <strong>Operador:</strong>{" "}
+          {checklist.nombreOperador || "No registrado"}
+        </p>
 
-<p>
-  <strong>Folio:</strong>
-  {" "}
-  {checklist.folio}
-</p>
-
-<p>
-  <strong>Operador:</strong>
-  {" "}
-  {checklist.nombreOperador}
-</p>
-
-<p>
-  <strong>Línea:</strong>
-  {" "}
-  {checklist.lineaTransporte}
-</p>
         <p>
           <strong>Placas:</strong>{" "}
-          {checklist.placasTracto}
+          {checklist.placasytarjetadecirculacion || "No registradas"}
         </p>
 
         <p>
-          <strong>Teléfono:</strong>{" "}
-          {checklist.telefonoOperador}
-        </p>
-
-        <hr />
-
-        <p>
-          <strong>Remolque 1:</strong>{" "}
-          {checklist.remolque1}
+          <strong>Delivery:</strong>{" "}
+          {checklist.delivery || "No registrado"}
         </p>
 
         <p>
-          <strong>Remolque 2:</strong>{" "}
-          {checklist.remolque2}
+          <strong>Factura/remisión:</strong>{" "}
+          {checklist.facturaRemision || "No registrada"}
         </p>
 
         <button
+          type="button"
           className="boton"
           onClick={cerrarModal}
         >
           Cerrar
         </button>
-
       </div>
-
     </div>
   );
 }
