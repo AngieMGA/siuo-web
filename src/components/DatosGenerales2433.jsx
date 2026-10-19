@@ -20,6 +20,13 @@ function DatosGenerales2433({
         />
 
         <InputField
+          label="Lote del químico"
+          name="loteQuimico"
+          value={formData.loteQuimico || ""}
+          onChange={handleChange}
+        />
+
+        <InputField
           label="Fecha de recepción"
           name="fechaRecepcion"
           type="date"

@@ -709,9 +709,7 @@ const generarPDF = async (
   try {
     let pdfBlob = null;
 
-    // =====================================================
     // GENERAR PDF SEGÚN EL TIPO DE CHECKLIST
-    // =====================================================
 
     switch (datosFormulario.tipoChecklist) {
       case "SG-F-24-01":
@@ -760,9 +758,7 @@ const generarPDF = async (
       "bytes"
     );
 
-    // =====================================================
     // PREPARAR PDF PARA ENVIAR A LA API
-    // =====================================================
 
     const datosPDF = new FormData();
 
@@ -797,6 +793,11 @@ const generarPDF = async (
     );
 
     datosPDF.append(
+    "lote",
+    datosFormulario.lote || ""
+  );
+
+    datosPDF.append(
       "pdf",
       pdfBlob,
       `${datosFormulario.folio}.pdf`
@@ -816,9 +817,7 @@ const generarPDF = async (
       "Enviando PDF a la API..."
     );
 
-    // =====================================================
     // ENVIAR PDF A LA API
-    // =====================================================
 
     const response = await fetch(
       "http://localhost:5029/api/checklist/pdf",
@@ -855,9 +854,7 @@ const generarPDF = async (
       resultado
     );
 
-    // =====================================================
     // MOSTRAR TOAST SOLO SI SE SOLICITA
-    // =====================================================
 
     if (mostrarToast) {
       toast.success(
@@ -865,9 +862,7 @@ const generarPDF = async (
       );
     }
 
-    // =====================================================
     // LIMPIAR FORMULARIO SOLO SI SE SOLICITA
-    // =====================================================
 
     if (limpiar) {
 
@@ -1398,9 +1393,7 @@ switch (datosAGuardar.tipoChecklist) {
     break;
 }
 
-// =====================================================
 // GENERAR Y SUBIR PDF AUTOMÁTICAMENTE
-// =====================================================
 
 console.log(
   "GENERANDO PDF AUTOMÁTICAMENTE:",
@@ -1413,9 +1406,7 @@ await generarPDF(
   false
 );
 
-// =====================================================
 // AUMENTAR CONSECUTIVO
-// =====================================================
 
 aumentarConsecutivo(prefijo);
 
