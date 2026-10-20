@@ -292,30 +292,20 @@ doc.text(
 
         let y = 68;
 
+    
     const datosGenerales = [
-
         ["Producto", formData.nombreProducto],
-
+        ["Lote del químico", formData.loteQuimico],
         ["Fecha recepción", formData.fechaRecepcion],
-
         ["Hora recepción", formData.horaRecepcion],
-
         ["Operador", formData.operador2433],
-
         ["Placas", formData.placas2433],
-
         ["Fecha término", formData.fechaTerminoRecepcion],
-
         ["Hora término", formData.horaTerminoRecepcion],
-
         ["No. Sellos", formData.numeroSellos2433],
-
         ["No. Factura", formData.numeroFactura2433],
-
         ["Turno", formData.turno2433],
-
         ["Tripulación", formData.tripulacion2433]
-
     ];
 
     y = dibujarSeccion(

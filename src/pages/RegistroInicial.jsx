@@ -405,6 +405,7 @@ nombreRegistroAPT: "",
     // SG-F-24-33
 
     nombreProducto: "",
+    loteQuimico: "",
     fechaRecepcion: "",
     horaRecepcion: "",
     operador2433: "",
@@ -542,7 +543,7 @@ return formulario;
   if (value === "Materias Primas") {
 
     nuevoFormData.folio =
-      obtenerFolio("RMP-CM");
+      obtenerFolio("RMP-MP");
 
   }
 
@@ -783,9 +784,11 @@ const generarPDF = async (
     );
 
     datosPDF.append(
-      "material",
-      datosFormulario.material || ""
-    );
+    "material",
+    datosFormulario.tipoChecklist === "SG-F-24-33"
+      ? (datosFormulario.loteQuimico || "")
+      : (datosFormulario.material || "")
+  );
 
     datosPDF.append(
       "facturaRemision",
@@ -793,9 +796,11 @@ const generarPDF = async (
     );
 
     datosPDF.append(
-    "lote",
-    datosFormulario.lote || ""
-  );
+      "lote",
+      datosFormulario.tipoChecklist === "SG-F-24-33"
+        ? (datosFormulario.loteQuimico || "")
+        : (datosFormulario.lote || "")
+    );
 
     datosPDF.append(
       "pdf",
@@ -897,7 +902,7 @@ const generarPDF = async (
             ? "RMP-LV"
             : datosFormulario.areaMateriaPrima ===
               "Materias Primas"
-              ? "RMP-CM"
+              ? "RMP-MP"
               : "RMP";
       }
 
@@ -1379,7 +1384,7 @@ switch (datosAGuardar.tipoChecklist) {
       datosAGuardar.areaMateriaPrima === "Lata Vacía"
         ? "RMP-LV"
         : datosAGuardar.areaMateriaPrima === "Materias Primas"
-          ? "RMP-CM"
+          ? "RMP-MP"
           : "RMP";
 
     break;
@@ -1486,7 +1491,7 @@ console.log("RESULTADOS FILTRADOS:", resultadosBusqueda);
       <input
         type="text"
         className="input-buscador"
-        placeholder="🔍 Escriba un folio, nombre del operador, placas o delivery para localizar un check list registrado"
+        placeholder="🔍 Busque por folio, nombre operador, placas, delivery o lote para localizar un check list registrado"
         value={busqueda}
         onChange={(e) => setBusqueda(e.target.value)}
       />
@@ -1706,22 +1711,6 @@ console.log("Seleccionado RH");
       titulo="RECEPCIÓN DE PRODUCTOS QUÍMICOS, MATERIALES E INGREDIENTES"
       subtitulo="Recepción y Verificación"
     >
-
-      <button
-        className="btn-back"
-        onClick={() => {
-
-          setChecklistSeleccionado("");
-
-          setFormData({
-            ...formData,
-            tipoChecklist: ""
-          });
-
-        }}
-      >
-        ←
-      </button>
 
     </HeaderChecklist>
 
