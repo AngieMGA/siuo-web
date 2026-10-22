@@ -106,6 +106,26 @@ console.log("ÁREA ACTUAL:", areaUsuario);
   );
 
   const [loading, setLoading] = useState(false);
+  
+const obtenerFolioDesdeAPI = async (prefijo) => {
+  const response = await fetch(
+    `http://${window.location.hostname}:5029/api/checklist/folio?prefijo=${encodeURIComponent(prefijo)}`
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `No se pudo generar el folio ${prefijo}. HTTP ${response.status}`
+    );
+  }
+
+  const data = await response.json();
+
+  if (!data.folio) {
+    throw new Error("La API no devolvió un folio.");
+  }
+
+  return data.folio;
+};
 
   const [evidencias, setEvidencias] = useState([]);
 
@@ -234,6 +254,7 @@ const respuestasIniciales = {};
     respuestasIniciales[pregunta.id] = "";
   });
 });
+
 function obtenerFolio(prefijo = "RMP") {
 
     const hoy = new Date();
@@ -321,7 +342,7 @@ nombreRegistroAPT: "",
     rampa: "",
     lateral: "",
     observacionesEnrampado: "",
-    folio: obtenerFolio(prefijo),
+    folio: "",
     remolque1: "",
     remolque2: "",
 
@@ -483,6 +504,9 @@ nombreRegistroAPT: "",
     }))
 
     };
+
+ 
+
 
     // Reiniciar peligros
 for (let i = 0; i < 24; i++) {
