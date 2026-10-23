@@ -127,6 +127,39 @@ const obtenerFolioDesdeAPI = async (prefijo) => {
   return data.folio;
 };
 
+const abrirNuevoChecklist = async (prefijo, tipoChecklist) => {
+  const nuevoFormulario = crearFormularioInicial(
+    prefijo,
+    tipoChecklist
+  );
+
+  setChecklistSeleccionado(tipoChecklist);
+  setFormData(nuevoFormulario);
+
+  // Materia prima necesita esperar a que se seleccione el área.
+  if (prefijo === "RMP") {
+    return;
+  }
+
+  try {
+    const folio = await obtenerFolioDesdeAPI(prefijo);
+
+    setFormData((prev) => {
+      if (prev.tipoChecklist !== tipoChecklist) {
+        return prev;
+      }
+
+      return { ...prev, folio };
+    });
+  } catch (error) {
+    console.error("Error al obtener folio:", error);
+    toast.error(
+      "No se pudo generar el folio. Intenta seleccionar nuevamente el checklist."
+    );
+  }
+};
+
+
   const [evidencias, setEvidencias] = useState([]);
 
   const [resetEvidencias, setResetEvidencias] = useState(0);
@@ -553,25 +586,11 @@ return formulario;
       ? formData.material
       : "";
 
-  // =====================================================
-  // FOLIO SEGÚN EL ÁREA
-  // =====================================================
+  // FOLIO SEGÚN EL ÁREA DESDE LA API
 
-  if (value === "Lata Vacía") {
-
-    nuevoFormData.folio =
-      obtenerFolio("RMP-LV");
+  nuevoFormData.folio = "";
 
   }
-
-  if (value === "Materias Primas") {
-
-    nuevoFormData.folio =
-      obtenerFolio("RMP-MP");
-
-  }
-
-}
 
   console.log(
   "WORKFLOW:",
@@ -656,6 +675,39 @@ console.log(
   console.log(nuevoFormData.inspector);
 
   setFormData(nuevoFormData);
+
+  // Solicitar folio de SQL Server al seleccionar el área
+if (
+  name === "areaMateriaPrima" &&
+  (value === "Lata Vacía" || value === "Materias Primas")
+) {
+  const prefijo =
+    value === "Lata Vacía" ? "RMP-LV" : "RMP-MP";
+
+  obtenerFolioDesdeAPI(prefijo)
+    .then((folio) => {
+      setFormData((prev) => {
+        // Evitar asignar un folio a un área que ya cambió
+        if (
+          prev.tipoChecklist !== "SG-F-24-01" ||
+          prev.areaMateriaPrima !== value
+        ) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          folio,
+        };
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener folio:", error);
+      toast.error(
+        "No se pudo generar el folio. Vuelve a seleccionar el área."
+      );
+    });
+}
 
   setErrors({
     ...errors,
@@ -1072,13 +1124,20 @@ const finalizarChecklist = async () => {
   const guardarChecklist = async () => {
 
     console.log("FORMDATA AL ENTRAR:", formData);
-
     console.log("=== GUARDAR CHECKLIST ===");
     console.log("tipoChecklist:", formData.tipoChecklist);
     console.log("folio:", formData.folio);
 
     let nuevosErrores = {};
     let primerError = null;
+
+    // Validar que el checklist tenga un folio generado
+    if (!formData.folio?.trim()) {
+      toast.error(
+        "El checklist no tiene folio. Verifica la conexión con el servidor e inténtalo nuevamente."
+      );
+      return;
+    }
 
 if (checklistSeleccionado === "CHK-TRANSPORTE") {
 
@@ -1232,8 +1291,7 @@ if (Object.keys(nuevosErrores).length > 0) {
       setLoading(true);
 
       const ahora = new Date();
-const datosAGuardar = {
-
+      const datosAGuardar = {
   ...formData,
 
   hora: ahora.toLocaleTimeString(),
@@ -1613,14 +1671,7 @@ console.log("RESULTADOS FILTRADOS:", resultadosBusqueda);
       className="tarjeta-checklist"
 
       onClick={() => {
-  setChecklistSeleccionado("CHK-TRANSPORTE");
-
-  setFormData(
-  crearFormularioInicial(
-    "RT",
-    "CHK-TRANSPORTE"
-  )
-);
+ abrirNuevoChecklist("RT", "CHK-TRANSPORTE");
 }}
     >
       <h3>🚛 Revisión de transporte </h3>
@@ -1633,14 +1684,7 @@ console.log("RESULTADOS FILTRADOS:", resultadosBusqueda);
     <div
       className="tarjeta-checklist"
       onClick={() => {
-      setChecklistSeleccionado("SG-F-24-01");
-
-      setFormData(
-        crearFormularioInicial(
-          "RMP",
-          "SG-F-24-01"
-        )
-      );
+      abrirNuevoChecklist("RMP", "SG-F-24-01");
 }}
     >
       <h3>📦 Lista de Chequeo</h3>
@@ -1653,14 +1697,7 @@ console.log("RESULTADOS FILTRADOS:", resultadosBusqueda);
     <div
       className="tarjeta-checklist"
       onClick={() => {
-      setChecklistSeleccionado("RH-F-01-21");
-
-      const nuevoFormulario = crearFormularioInicial(
-  "RH",
-  "RH-F-01-21"
-);
-
-setFormData(nuevoFormulario);
+      abrirNuevoChecklist("RH", "RH-F-01-21");
 console.log(nuevoFormulario);
 
 console.log("Seleccionado RH");
@@ -1679,12 +1716,7 @@ console.log("Seleccionado RH");
 
   onClick={() => {
 
-    setChecklistSeleccionado("SG-F-24-33");
-
-    const nuevoFormulario = crearFormularioInicial(
-        "RPQ",
-        "SG-F-24-33"
-    );
+    abrirNuevoChecklist("RPQ", "SG-F-24-33");
 
     console.log("NUEVO FORMULARIO:", nuevoFormulario);
 
