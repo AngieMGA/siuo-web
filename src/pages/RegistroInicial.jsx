@@ -105,7 +105,7 @@ console.log("ÁREA ACTUAL:", areaUsuario);
     checklistWorkflow["SG-F-24-06"]
   );
 
-  const [loading, setLoading] = useState(false);
+const [loading, setLoading] = useState(false);
   
 const obtenerFolioDesdeAPI = async (prefijo) => {
   const response = await fetch(
@@ -287,41 +287,6 @@ const respuestasIniciales = {};
     respuestasIniciales[pregunta.id] = "";
   });
 });
-
-function obtenerFolio(prefijo = "RMP") {
-
-    const hoy = new Date();
-
-    const anio = String(hoy.getFullYear()).slice(-2);
-    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
-    const dia = String(hoy.getDate()).padStart(2, "0");
-
-    const llave = `folio-${prefijo}-${anio}${mes}${dia}`;
-
-    const consecutivo =
-        Number(localStorage.getItem(llave) || 0) + 1;
-
-    return `${prefijo}-${anio}${mes}${dia}-${String(consecutivo).padStart(3, "0")}`;
-}
-
-function aumentarConsecutivo(prefijo = "RMP") {
-
-    const hoy = new Date();
-
-    const anio = String(hoy.getFullYear()).slice(-2);
-    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
-    const dia = String(hoy.getDate()).padStart(2, "0");
-
-    const llave = `folio-${prefijo}-${anio}${mes}${dia}`;
-
-    const consecutivo =
-        Number(localStorage.getItem(llave) || 0);
-
-    localStorage.setItem(
-        llave,
-        consecutivo + 1
-    );
-}
 
   function crearFormularioInicial(
     prefijo = "RMP",
@@ -943,61 +908,16 @@ const generarPDF = async (
       );
     }
 
-    // LIMPIAR FORMULARIO SOLO SI SE SOLICITA
-
     if (limpiar) {
+  const nuevoFormulario = crearFormularioInicial(
+    "RMP",
+    datosFormulario.tipoChecklist
+  );
 
-      let prefijoNuevo = "RMP";
-
-      if (
-        datosFormulario.tipoChecklist ===
-        "CHK-TRANSPORTE"
-      ) {
-        prefijoNuevo = "RT";
-
-      } else if (
-        datosFormulario.tipoChecklist ===
-        "RH-F-01-21"
-      ) {
-        prefijoNuevo = "RH";
-
-      } else if (
-        datosFormulario.tipoChecklist ===
-        "SG-F-24-33"
-      ) {
-        prefijoNuevo = "RPQ";
-
-      } else if (
-        datosFormulario.tipoChecklist ===
-        "SG-F-24-01"
-      ) {
-
-        prefijoNuevo =
-          datosFormulario.areaMateriaPrima ===
-          "Lata Vacía"
-            ? "RMP-LV"
-            : datosFormulario.areaMateriaPrima ===
-              "Materias Primas"
-              ? "RMP-MP"
-              : "RMP";
-      }
-
-      const nuevoFormulario =
-        crearFormularioInicial(
-          prefijoNuevo,
-          datosFormulario.tipoChecklist
-        );
-
-      setFormData(
-        nuevoFormulario
-      );
-
-      setEvidencias([]);
-
-      setResetEvidencias(
-        (prev) => prev + 1
-      );
-    }
+  setFormData(nuevoFormulario);
+  setEvidencias([]);
+  setResetEvidencias((prev) => prev + 1);
+}
 
     return resultado;
 
@@ -1404,11 +1324,9 @@ const response = await fetch(
       false
     );
 
-    aumentarConsecutivo("RT");
-    
     toast.success(
-      "Checklist enviado a APT correctamente"
-    );
+    "Checklist enviado a APT correctamente"
+);
 
     return;
   }
@@ -1447,59 +1365,27 @@ const response = await fetch(
 }
 }
 
-      let prefijo = "RT";
-
-console.log(
-  "TIPO A GUARDAR:",
-  datosAGuardar.tipoChecklist
-);
-
-switch (datosAGuardar.tipoChecklist) {
-
-  case "CHK-TRANSPORTE":
-    prefijo = "RT";
-    break;
-
-  case "SG-F-24-01":
-
-    prefijo =
-      datosAGuardar.areaMateriaPrima === "Lata Vacía"
-        ? "RMP-LV"
-        : datosAGuardar.areaMateriaPrima === "Materias Primas"
-          ? "RMP-MP"
-          : "RMP";
-
-    break;
-
-  case "RH-F-01-21":
-    prefijo = "RH";
-    break;
-
-  case "SG-F-24-33":
-    prefijo = "RPQ";
-    break;
-}
-
-// GENERAR Y SUBIR PDF AUTOMÁTICAMENTE
-
-console.log(
-  "GENERANDO PDF AUTOMÁTICAMENTE:",
-  datosAGuardar.tipoChecklist
-);
-
-await generarPDF(
-  datosAGuardar,
-  false,
-  false
-);
-
-// AUMENTAR CONSECUTIVO
-
-aumentarConsecutivo(prefijo);
 
 toast.success(
   "Checklist enviado correctamente"
 );
+
+// Regresar al inicio después de guardar
+setChecklistSeleccionado("");
+setChecklistAPTSeleccionado(null);
+
+// Reiniciar el formulario con el folio vacío
+setFormData(
+  crearFormularioInicial(
+    "RMP",
+    datosAGuardar.tipoChecklist
+  )
+);
+
+// Limpiar las evidencias
+setEvidencias([]);
+setResetEvidencias((prev) => prev + 1);
+
 
     } 
     
@@ -1696,13 +1582,11 @@ console.log("RESULTADOS FILTRADOS:", resultadosBusqueda);
 
     <div
       className="tarjeta-checklist"
-      onClick={() => {
+     
+    onClick={() => {
       abrirNuevoChecklist("RH", "RH-F-01-21");
-console.log(nuevoFormulario);
+    }}
 
-console.log("Seleccionado RH");
-      console.log("Seleccionado RH");
-}}
     >
       <h3>🚚 Inspección de seguridad para ingreso y salida </h3>
       <p>RH-F-01-21</p>
@@ -1714,15 +1598,11 @@ console.log("Seleccionado RH");
     <div
   className="tarjeta-checklist"
 
-  onClick={() => {
-
-    abrirNuevoChecklist("RPQ", "SG-F-24-33");
-
-    console.log("NUEVO FORMULARIO:", nuevoFormulario);
-
-    setFormData(nuevoFormulario);
-
+  
+onClick={() => {
+  abrirNuevoChecklist("RPQ", "SG-F-24-33");
 }}
+
 >
   <h3>🧪 Recepción de Productos Químicos</h3>
 
