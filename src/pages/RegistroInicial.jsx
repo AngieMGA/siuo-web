@@ -1298,19 +1298,35 @@ console.log("==============================");
 
 
 const response = await fetch(
-  "http://localhost:5029/api/checklist",
+  `http://${window.location.hostname}:5029/api/checklist`,
   {
     method: "POST",
     body: datosFormulario
   }
 );
 
-      console.log("STATUS:", response.status);
-      console.log("RESPUESTA:", response);
+console.log("STATUS:", response.status);
 
-      const data = await response.json();
+const textoRespuesta = await response.text();
 
-      console.log("DATA:", data);
+let data = {};
+
+try {
+  data = textoRespuesta ? JSON.parse(textoRespuesta) : {};
+} catch {
+  data = { mensaje: textoRespuesta };
+}
+
+console.log("DATA:", data);
+
+if (!response.ok) {
+  throw new Error(
+    data.mensaje ||
+    data.message ||
+    `Error al guardar checklist. HTTP ${response.status}`
+  );
+}
+
 
       if (datosAGuardar.tipoChecklist === "CHK-TRANSPORTE") {
 
