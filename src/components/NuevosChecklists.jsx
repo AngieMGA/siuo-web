@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   obtenerChecklistsPendientesDev
@@ -8,20 +9,29 @@ function NuevosChecklists({
   area,
   onAbrirChecklist
 }) {
-
-  const [checklists, setChecklists] =
-    useState([]);
-
-  const cargarPendientes = () => {
-
-    const pendientes =
-      obtenerChecklistsPendientesDev(area);
-
-    setChecklists(pendientes);
-  };
+  const [checklists, setChecklists] = useState([]);
 
   useEffect(() => {
+    const cargarPendientes = () => {
+      const pendientes = obtenerChecklistsPendientesDev(area);
+      setChecklists(pendientes);
+    };
+
     cargarPendientes();
+
+    // Actualiza la lista cuando otra parte de la aplicación
+    // notifique que cambió el almacenamiento de checklists.
+    window.addEventListener(
+      "checklists-actualizados",
+      cargarPendientes
+    );
+
+    return () => {
+      window.removeEventListener(
+        "checklists-actualizados",
+        cargarPendientes
+      );
+    };
   }, [area]);
 
   if (checklists.length === 0) {
@@ -30,33 +40,33 @@ function NuevosChecklists({
 
   return (
     <div className="nuevos-checklists">
-
       <div className="nuevos-checklists-titulo">
-        🔔 Nuevos checklists
+        Nuevos checklists
       </div>
 
-      {checklists.map((checklist) => (
-
+      {checklists.map((checklist, index) => (
         <div
-          key={checklist.folio}
+          key={
+            checklist.id_inspeccion ??
+            checklist.idInspeccion ??
+            `${checklist.folio}-${index}`
+          }
           className="checklist-notificacion"
         >
-
           <h3>
-            {checklist.tipoChecklist ===
-            "CHK-TRANSPORTE"
+            {checklist.tipoChecklist === "CHK-TRANSPORTE"
               ? "SG-F-24-06"
               : checklist.tipoChecklist}
           </h3>
 
           <p>
             <strong>Folio:</strong>{" "}
-            {checklist.folio}
+            {checklist.folio || "Sin folio"}
           </p>
 
           <p>
             <strong>Estatus:</strong>{" "}
-            {checklist.status}
+            {checklist.status || checklist.estadoFlujo || "Pendiente"}
           </p>
 
           <p>
@@ -68,17 +78,12 @@ function NuevosChecklists({
           <button
             type="button"
             className="boton"
-            onClick={() =>
-              onAbrirChecklist(checklist)
-            }
+            onClick={() => onAbrirChecklist(checklist)}
           >
             ABRIR CHECKLIST
           </button>
-
         </div>
-
       ))}
-
     </div>
   );
 }
